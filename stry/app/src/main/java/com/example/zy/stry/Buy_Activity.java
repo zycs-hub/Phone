@@ -7,11 +7,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.example.zy.stry.lib.PullToZoomListViewEx;
 import com.example.zy.stry.util.MyBuyAdapter;
 
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -32,6 +38,26 @@ import java.util.List;
 import java.lang.String;
 import com.example.zy.stry.util.MyAdapter;
 import android.widget.AdapterView.OnItemClickListener;
+import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import com.example.zy.stry.lib.PullToZoomListViewEx;
+
 
 /**
  * Created by zy on 15/7/9.
@@ -42,8 +68,10 @@ public class Buy_Activity extends Activity {
     private RelativeLayout Bmain_body_lin = null;
     private ListView buy_page_list = null;
     private ListView sell_page_list = null;
+    private PullToZoomListViewEx listView = null;
     private View v = null;
     private View v1 = null;
+    private View v2 = null;
     private MyBuyAdapter ma = null;
     private MySellAdapter ma3=null;
     private MySellAdapter mb=null;
@@ -58,6 +86,7 @@ public class Buy_Activity extends Activity {
     private MySellAdapter m3 =null;
     private Button sell = null;
     private Button buy = null;
+    private Button self = null;
     private Button search_b = null;
     private Handler han = null;
     private Button sh_btn=null;
@@ -87,8 +116,39 @@ public class Buy_Activity extends Activity {
         Bmain_body_lin = (RelativeLayout) findViewById(R.id.Bmain_body_line);
         v = inflater.inflate(R.layout.activity_buy_page, null);
         v1 = inflater.inflate(R.layout.activity_sell_page, null);
+        v2 = inflater.inflate(R.layout.activity_pull_to_zoom_list_view, null);
+
         buy_page_list = (ListView) v.findViewById(R.id.buy_page_list);
         sell_page_list=(ListView)v1.findViewById(R.id.sell_page_list);
+        listView = (PullToZoomListViewEx) v2.findViewById(R.id.listview);
+
+        String[] adapterData = new String[]{"Activity", "Service", "Content Provider", "Intent", "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient",
+                "DDMS", "Android Studio", "Fragment", "Loader", "Activity", "Service", "Content Provider", "Intent",
+                "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient", "Activity", "Service", "Content Provider", "Intent",
+                "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient"};
+
+        listView.setAdapter(new ArrayAdapter<String>(Buy_Activity.this, android.R.layout.simple_list_item_1, adapterData));
+        listView.getPullRootView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("zhuwenwu", "position = " + position);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("zhuwenwu", "position = " + position);
+            }
+        });
+
+        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(localDisplayMetrics);
+        int mScreenHeight = localDisplayMetrics.heightPixels;
+        int mScreenWidth = localDisplayMetrics.widthPixels;
+        AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(mScreenWidth, (int) (9.0F * (mScreenWidth / 16.0F)));
+        listView.setHeaderLayoutParams(localObject);
+
         ma = new MyBuyAdapter(UserGlobla.lts, Buy_Activity.this);
         buy_page_list.setAdapter(ma);
 
@@ -98,6 +158,7 @@ public class Buy_Activity extends Activity {
 
         sell = (Button) findViewById(R.id.btn_sell);
         buy = (Button) findViewById(R.id.btn_buy);
+        self =(Button)findViewById(R.id.btn_s);
         search_b = (Button) findViewById(R.id.search_button);
         sell.setOnClickListener(new OnClickListener() {
             public void onClick(View v0) {
@@ -132,6 +193,17 @@ public class Buy_Activity extends Activity {
 
             }
         });
+
+        self.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //startActivity(new Intent(Buy_Activity.this, PullToZoomListActivity.class));
+                Bmain_body_lin.removeAllViews();
+                Bmain_body_lin.addView(v2);
+            }
+        });
+
+
         search_b.setOnClickListener(new OnClickListener() {
             public void onClick(View vs) {
                 Bmain_body_lin.removeAllViews();
@@ -219,4 +291,19 @@ public class Buy_Activity extends Activity {
 
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
+

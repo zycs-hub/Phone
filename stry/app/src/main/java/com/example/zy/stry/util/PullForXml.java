@@ -79,6 +79,7 @@ public class PullForXml {
                 ||str.subSequence(0, 2).equals("任选")
                 ||str.subSequence(0, 2).equals("正常")
                 ||str.subSequence(0, 2).equals("拟选")
+                ||str.subSequence(0, 2).equals("选中")
                 )
             return true;
         return false;

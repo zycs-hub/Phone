@@ -41,6 +41,9 @@
         <activity android:name=".ShowMessageActivity_"
             >
         </activity>
+        <activity android:name=".PullToZoomListActivity"
+            >
+        </activity>
 
 
     </application>

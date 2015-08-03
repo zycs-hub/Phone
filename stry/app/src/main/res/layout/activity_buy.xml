@@ -52,6 +52,13 @@
             android:layout_weight="1"
             android:text="货架"
             android:background="#00CD66"/>
+        <Button
+            android:id="@+id/btn_s"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="个人"
+            android:background="#EBEBEB"/>
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/Bmain_body_line"
