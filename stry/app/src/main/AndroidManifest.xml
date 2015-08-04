@@ -35,6 +35,9 @@
         <activity android:name=".RegisterActivity"
             >
         </activity>
+        <activity android:name=".ProfileActivity"
+            >
+        </activity>
         <activity android:name=".Buy_Activity"
             >
         </activity>
