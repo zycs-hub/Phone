@@ -12,4 +12,7 @@
     <string name="action_hide_head">Hide Head</string>
     <string name="action_disable_zoom">Disable Zoom</string>
     <string name="action_enable_zoom">Enable Zoom</string>
+    <string name="TLogErr1">你输入的证件号不存在，请您重新输入！</string>
+    <string name="TLogErr2">您的密码不正确，请您重新输入！</string>
+
 </resources>

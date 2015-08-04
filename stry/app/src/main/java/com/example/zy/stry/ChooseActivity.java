@@ -24,7 +24,7 @@ import com.example.zy.stry.util.GetInputStream;
 
 import com.example.zy.stry.R;
 import com.example.zy.stry.util.MyAdapter;
-import com.example.zy.stry.util.PullForXml;
+import com.example.zy.stry.util.XMLParser;
 import com.example.zy.stry.util.ThreadUsersMessage;
 import com.example.zy.stry.util.UserGlobla;
 
@@ -92,7 +92,7 @@ public class ChooseActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                txt=new String (PullForXml.getUserEntitys(GetInputStream.getInputStream("201347028","255016",1)).toString());
+               // txt=new String (PullForXml.getUserEntitys(GetInputStream.getInputStream("201347028","255016",1)).toString());
                 //name.setText("txt");
                 han1.sendEmptyMessage(3);
                 //  else

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PullForXml {
+public class XMLParser {
     public static List<UserEntity> getUserEntitys(String in){
         List<UserEntity> lt =new ArrayList<UserEntity>();
         List<String> ia=new ArrayList<>();
@@ -83,6 +83,31 @@ public class PullForXml {
                 )
             return true;
         return false;
+    }
+    public static String parserForTLog (String in){
+        try {
+            String patternErrString =
+                    "<td class=\"errorTop\"><strong><font color=\"#990000\">([^0-9]+)</font>";
+            Pattern patternErr = Pattern.compile(patternErrString,
+                    Pattern.CASE_INSENSITIVE  );  //  Pattern.MULTILINE
+            Matcher matcherErr = patternErr.matcher(in);
+            while (matcherErr.find()) {
+                return matcherErr.group(1);
+
+            }
+            String patternLogString =
+                    "<frame src=\"/menu/s_top.jsp\" name=\"topFrame\" scrolling=\"NO\" noresize frameborder=\"NO\" border=\"0\" framespacing=\"0\">";
+            Pattern patternLog = Pattern.compile(patternLogString,
+                    Pattern.CASE_INSENSITIVE  );  //  Pattern.MULTILINE
+            Matcher matcherLog = patternLog.matcher(in);
+            while (matcherLog.find()) {
+                return "log";
+
+            }
+        }
+        catch (Exception e){
+        }
+        return "err";
     }
 
 }
