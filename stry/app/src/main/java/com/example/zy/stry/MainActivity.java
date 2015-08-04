@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button bt=(Button)findViewById(R.id.login);
+        Button bt=(Button)findViewById(R.id.teachLogin);
         bt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,6 +38,19 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+        Button button = (Button)findViewById(R.id.Login);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent login = new Intent(getApplicationContext(), Login.class);
+                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(login);
+                // Closing dashboard screen
+                finish();
+            }
+        });
+
     }
 
     @Override

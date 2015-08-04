@@ -40,10 +40,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
         android:gravity="center"
-        android:text="登陆"
+        android:text="教务处登陆"
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:id="@+id/login"
+        android:id="@+id/teachLogin"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="登入"
+        android:id="@+id/Login"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/teachLogin"
+        android:layout_alignEnd="@+id/teachLogin" />
 
 </RelativeLayout>
