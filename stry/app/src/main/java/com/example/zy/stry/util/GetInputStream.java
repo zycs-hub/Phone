@@ -24,8 +24,8 @@ public class GetInputStream {
     static int logS=-1;
     public static int  logStatus(String name,String password) {
         try {
+            logS=-1;
             login(name, password);
-            return logS;
         } catch (Exception e) {
             // e.toString();
         }
@@ -37,7 +37,7 @@ public class GetInputStream {
             StringBuilder sbR = new StringBuilder();
             URL url = new URL(sURL + log);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(10000);
+            connection.setConnectTimeout(100);
             connection.setDoInput(true);
             connection.setDoOutput(true);//允许连接提交信息
             connection.setRequestMethod("POST");//网页默认“GET”提交方式

@@ -75,6 +75,7 @@ public class MainActivity extends Activity {
                                 Intent  intent=new Intent(MainActivity.this, LogActivity.class);
                                 intent.putExtras(data);
                                 startActivity(intent);
+                                finish();
                                 break;
                             default:break;
                         }
