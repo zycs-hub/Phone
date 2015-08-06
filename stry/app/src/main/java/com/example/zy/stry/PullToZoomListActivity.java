@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import com.example.zy.stry.lib.PullToZoomListViewEx;
 
 /**
- * Author:    ZhuWenWu
+ * Author:    ZhuWenWuw
  * Version    V1.0
  * Date:      2014/9/4  17:11.
  * Description:

@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * Created by zy on 15/7/10.
+ * Created by zy on 15/7/10. 
  */
 public class ShowMessageActivity_  extends Activity {
     public static final int SHOW_MESSAGE_CODE_ = 3000;
@@ -41,7 +41,7 @@ public class ShowMessageActivity_  extends Activity {
         sms=(Button)findViewById(R.id.sms);
         phone="18525425667";
 
-        Intent it1 = new Intent(ShowMessageActivity_.this, Buy_Activity.class);
+        Intent it1 = new Intent(ShowMessageActivity_.this, MainActivity.class);
         setResult(SHOW_MESSAGE_CODE_);
         it1 = getIntent();
         if (it1 != null) {

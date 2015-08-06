@@ -1,6 +1,8 @@
 package com.example.zy.stry.util;
 
 import com.example.zy.stry.entity.UserEntity;
+import com.example.zy.stry.entity.takingCourseEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,7 +25,7 @@ public class XMLParser {
                 se =new UserEntity();
                 se.setBook(course);
                 lt.add(se);
-                }
+                } 
                 //ia.add(course);
               //  se=null;
             }
@@ -48,10 +50,10 @@ public class XMLParser {
             return true;
         return false;
     }
-    public static List<String > getCourse(String in){
-        List<String> lt =new ArrayList<>();
+    public static List<takingCourseEntity> getCourse(String in){
+        List<takingCourseEntity> lt =new ArrayList<>();
         List<String> ia=new ArrayList<>();
-        String se =null;
+        takingCourseEntity se =null;
         try {
             String patternString =
                     "<td rowspan=\"2\" >\\s*&nbsp;\\s*((.+\\b))\\s*</td>";
@@ -61,8 +63,8 @@ public class XMLParser {
             while (matcher.find()) {
                 String course = matcher.group(1);
                 if(!isNumeric(course,0)&&!isNumeric(course,1)&&!isNotNessC(course)){
-                    se =new String();
-                    se=course;
+                    se =new takingCourseEntity();
+                    se.setCourse(course);
                     lt.add(se);
                 }
                 //ia.add(course);

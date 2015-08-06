@@ -18,7 +18,7 @@ import android.widget.TextView;
  */
 public class ShowMessageActivity  extends Activity {
     public static final int SHOW_MESSAGE_CODE = 2000;
-    private TextView bookname = null;
+    private TextView bookname = null; 
     private String bookName = null;
     private int position = -1;
 
@@ -27,7 +27,7 @@ public class ShowMessageActivity  extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_message_buy);
         bookname = (TextView) findViewById(R.id.book_name_);
-        Intent it = new Intent(ShowMessageActivity.this, Buy_Activity.class);
+        Intent it = new Intent(ShowMessageActivity.this, MainActivity.class);
         setResult(SHOW_MESSAGE_CODE);
         it = getIntent();
         if (it != null) {

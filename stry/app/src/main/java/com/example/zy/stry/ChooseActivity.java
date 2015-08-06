@@ -13,6 +13,7 @@ package com.example.zy.stry;
  *
  * @author zy
  */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,28 +21,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.example.zy.stry.util.GetInputStream;
 
-import com.example.zy.stry.R;
-import com.example.zy.stry.util.MyAdapter;
-import com.example.zy.stry.util.XMLParser;
-import com.example.zy.stry.util.ThreadUsersMessage;
-import com.example.zy.stry.util.UserGlobla;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import android.os.StrictMode;
 
 
 public class ChooseActivity extends Activity {

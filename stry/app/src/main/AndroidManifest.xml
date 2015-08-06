@@ -29,7 +29,7 @@
         <activity android:name=".Login"
             >
         </activity>
-        <activity android:name=".LogActivity"
+        <activity android:name=".SelectFromT"
             >
         </activity>
         <activity android:name=".RegisterActivity"
@@ -51,6 +51,9 @@
             >
         </activity>
         <activity android:name=".PullToZoomListActivity"
+            >
+        </activity>
+        <activity android:name=".LogForT"
             >
         </activity>
 
