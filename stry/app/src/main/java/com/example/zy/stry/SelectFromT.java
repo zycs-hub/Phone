@@ -39,18 +39,16 @@ public class SelectFromT extends Activity{
         setContentView(R.layout.activity_choose);
         //Intent intent=getIntent();
         //Bundle result=intent.getExtras();
+
+
         db=new My_DB(SelectFromT.this,My_DB.MY_DB_MANE,null,My_DB.MY_DB_VERSION);
         job=db.getReadableDatabase();
-        List<UserEntity> lt= db.getUserAll(job);// get need user book is selling t f null find null
-
-        inflater =getLayoutInflater();
-        btn_s=(Button) findViewById(R.id.btn_s);
-        main_tv1=(TextView)findViewById(R.id.main_tv1);
-        main_body_lin=(RelativeLayout) findViewById(R.id.main_body_line);
-        v= inflater.inflate(R.layout.main_page_1,null);
-        page_list=(ListView)v.findViewById(R.id.page_list);
-        if(!lt.isEmpty()){
-            //   UserGlobla.lts=lt;
+        List<UserEntity> lt= db.getUserAll(job);
+        // get need user book
+        // is selling true false unknown
+        // find unknown
+        if(lt.isEmpty()){
+            //UserGlobla.lts=lt;
             Intent intent_=new Intent(SelectFromT.this, MainActivity.class);
             startActivity(intent_);
             finish();
@@ -59,6 +57,19 @@ public class SelectFromT extends Activity{
             //ThreadUsersMessage str =new ThreadUsersMessage(han,result.getString("name"),result.getString("password"),"Override");
             //new Thread(str).start();
         }
+
+
+
+
+
+
+
+        inflater =getLayoutInflater();
+        btn_s=(Button) findViewById(R.id.btn_s);
+        main_tv1=(TextView)findViewById(R.id.main_tv1);
+        main_body_lin=(RelativeLayout) findViewById(R.id.main_body_line);
+        v= inflater.inflate(R.layout.main_page_1,null);
+        page_list=(ListView)v.findViewById(R.id.page_list);
         ma=new MyAdapter(UserGlobla.lts,SelectFromT.this);
         page_list.setAdapter(ma);
         main_body_lin.addView(v);
