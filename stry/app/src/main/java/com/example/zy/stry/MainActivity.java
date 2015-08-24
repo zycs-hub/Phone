@@ -1,11 +1,15 @@
 package com.example.zy.stry;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.example.zy.stry.R;
 import com.example.zy.stry.entity.UserEntity;
-import com.example.zy.stry.lib.PullToZoomListViewEx; 
+import com.example.zy.stry.lib.PullToZoomListViewEx;
 import com.example.zy.stry.util.CourseGlobla;
 import com.example.zy.stry.util.LogStatusGlobla;
 import com.example.zy.stry.util.ThreadLogStatusTest;
@@ -71,14 +75,15 @@ public class MainActivity extends Activity {
     private View v = null;
     private View v1 = null;
     private View v2 = null;
+    private View v3=null;
     private MyBuyAdapter ma = null;
     private MySellAdapter ma3=null;
     private MySellAdapter mb=null;
 
     My_DB db = null;
     SQLiteDatabase job = null;
-    private List<UserEntity> lt2 = null;
-    private List<takingCourseEntity> lt3=null;
+    private List<takingCourseEntity> lt2 = null;
+    private List<UserEntity> lt3=null;
 
     private MyBuyAdapter ma2 = null;
     private Button sell = null;
@@ -97,6 +102,8 @@ public class MainActivity extends Activity {
 
     private Button tv_login=null;
     private Handler hanMain = null;
+    private LinearLayout BLinearLayout1=null;
+    private Toast toast;
 
 
 
@@ -104,6 +111,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toast = Toast.makeText(getApplicationContext(), "再按一次退出", 0);
+
 
 
 
@@ -161,6 +170,11 @@ public class MainActivity extends Activity {
 
 
 
+
+
+
+
+
         db = new My_DB(MainActivity.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
         job = db.getReadableDatabase();
         List<UserEntity> lt = db.getUserAll(job);
@@ -177,6 +191,8 @@ public class MainActivity extends Activity {
 
         //more1 = (LinearLayout)findViewById(R.id.more1);
         //more1t =(TextView)findViewById(R.id.more1t);
+
+        BLinearLayout1=(LinearLayout)findViewById(R.id.BLinearLayout1);
 
 
 
@@ -205,10 +221,13 @@ public class MainActivity extends Activity {
         v = inflater.inflate(R.layout.activity_buy_page, null);
         v1 = inflater.inflate(R.layout.activity_sell_page, null);
         v2 = inflater.inflate(R.layout.activity_pull_to_zoom_list_view, null);
+        //v3=inflater.inflate(R.layout.refresh,null);
 
         buy_page_list = (ListView) v.findViewById(R.id.buy_page_list);
         sell_page_list=(ListView)v1.findViewById(R.id.sell_page_list);
         listView = (PullToZoomListViewEx) v2.findViewById(R.id.listview);
+        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) v.findViewById(R.id.swipe);
+       // final TextView rndNum = (TextView) v3.findViewById(R.id.rndNum);
 
         String[] adapterData = new String[]{"Activity", "Service", "Content Provider", "Intent", "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient",
                 "DDMS", "Android Studio", "Fragment", "Loader", "Activity", "Service", "Content Provider", "Intent",
@@ -244,15 +263,56 @@ public class MainActivity extends Activity {
         AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(mScreenWidth, (int) (9.0F * (mScreenWidth / 16.0F)));
         listView.setHeaderLayoutParams(localObject);
 
-        ma = new MyBuyAdapter(UserGlobla.lts, MainActivity.this);
+        ma = new MyBuyAdapter(CourseGlobla.lts, MainActivity.this);
         buy_page_list.setAdapter(ma);
 
 
-        mb=new MySellAdapter(CourseGlobla.lts,MainActivity.this);
+        mb=new MySellAdapter(UserGlobla.lts,MainActivity.this);
         sell_page_list.setAdapter(mb);
 
         Bmain_body_lin.addView(v);
+        //Bmain_body_lin.removeAllViews();
+
         flag='b';
+
+
+
+
+
+
+
+
+        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeView.setRefreshing(true);
+                Log.d("Swipe", "Refreshing Number");
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeView.setRefreshing(false);
+                        double f = Math.random();
+                        //rndNum.setText(String.valueOf(f));
+                    }
+                }, 3000);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -262,9 +322,13 @@ public class MainActivity extends Activity {
         search_b = (Button) findViewById(R.id.search_button);
         sell.setOnClickListener(new OnClickListener() {
             public void onClick(View v0) {
+                BLinearLayout1.setVisibility(View.VISIBLE);
+
+                ActionBar actionBar = getActionBar();
+                actionBar.show();
                 search_b.setText("搜索");
                 Bmain_body_lin.removeAllViews();
-                Bmain_body_lin.addView(v);
+                Bmain_body_lin.addView(v1);
                 sell.setBackgroundResource(R.drawable.gree_background);
                 buy.setBackgroundResource(R.drawable.white_bankground);
                 self.setBackgroundResource(R.drawable.white_bankground);
@@ -274,6 +338,13 @@ public class MainActivity extends Activity {
         });
         buy.setOnClickListener(new OnClickListener() {
             public void onClick(View v0) {
+                BLinearLayout1.setVisibility(View.VISIBLE);
+                ActionBar actionBar = getActionBar();
+                actionBar.show();
+                //actionBar.
+                //actionBar.setDisplayShowTitleEnabled(false);
+                //actionBar.setElevation(100);
+                //actionBar.setHideOffset(0);
                 Bmain_body_lin.removeAllViews();
                 search_b.setText("搜索");
                 // Bmain_body_lin.addView(v);
@@ -285,9 +356,9 @@ public class MainActivity extends Activity {
                // if(!CourseGlobla.lts.isEmpty()){
 
 
-                    mb=new MySellAdapter(CourseGlobla.lts,MainActivity.this);
+                    mb=new MySellAdapter(UserGlobla.lts,MainActivity.this);
                     sell_page_list.setAdapter(mb);
-                    Bmain_body_lin.addView(v1);
+                    Bmain_body_lin.addView(v);
                // }
                // else{
                // }
@@ -299,6 +370,9 @@ public class MainActivity extends Activity {
         self.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BLinearLayout1.setVisibility(View.GONE);
+                ActionBar actionBar = getActionBar();
+                actionBar.hide();
                 //startActivity(new Intent(Buy_Activity.this, PullToZoomListActivity.class));
 
                 sell.setBackgroundResource(R.drawable.white_bankground);
@@ -328,10 +402,10 @@ public class MainActivity extends Activity {
                     public void onClick(View view) {
                         if (flag == 'b') {
                             if (UserGlobla.lts != null) {
-                                lt2 = new ArrayList<UserEntity>();
+                                lt2 = new ArrayList<takingCourseEntity>();
                                 String param = sh_e.getText().toString().trim();
-                                for (UserEntity str : UserGlobla.lts) {
-                                    if (str.getBook() != null && str.getBook().contains(param)) {
+                                for (takingCourseEntity str : CourseGlobla.lts) {
+                                    if (str.getCourse() != null && str.getCourse().contains(param)) {
                                         if (!lt2.contains(str)) {
                                             lt2.add(str);
                                         }
@@ -347,10 +421,10 @@ public class MainActivity extends Activity {
                             //sell.setBackgroundResource(R.drawable.white_bankground);
                             //buy.setBackgroundResource(R.drawable.gree_background);
                             if (CourseGlobla.lts != null) {
-                                lt3 = new ArrayList<takingCourseEntity>();
+                                lt3 = new ArrayList<UserEntity>();
                                 String param = sh_e.getText().toString().trim();
-                                for (takingCourseEntity str : CourseGlobla.lts) {
-                                    if (str.getCourse() != null && str.toString().contains(param)) {
+                                for (UserEntity str : UserGlobla.lts) {
+                                    if (str.getBook() != null && str.toString().contains(param)) {
                                         if (!lt3.contains(str)) {
                                             lt3.add(str);
                                         }
@@ -397,6 +471,39 @@ public class MainActivity extends Activity {
 
 
     }
+
+
+
+
+
+
+
+    public void onBackPressed() {
+        quitToast();
+    }
+    /*
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        System.out.println(keyCode + "...." + event.getKeyCode());
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            quitToast();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    */
+    private void quitToast() {
+        if(null == toast.getView().getParent()){
+            toast.show();
+        }else{
+            System.exit(0);
+        }
+    }
+
+
+
+
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -56,6 +56,9 @@
         <activity android:name=".LogForT"
             >
         </activity>
+        <activity android:name=".re"
+            >
+        </activity>
 
 
     </application>

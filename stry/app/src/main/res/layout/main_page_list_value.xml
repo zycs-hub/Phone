@@ -1,45 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="right">
+    <TextView
+        android:id="@+id/main_page_1_class"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="0.3"
-        android:gravity="center"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:orientation="vertical">
-            <RadioButton
-                android:id="@+id/main_choose"
-                android:layout_width="75dp"
-                android:layout_height="75dp" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="0.7"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:paddingLeft="10dp">
-            <TextView
-                android:id="@+id/main_page_1_class"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
-
-
-        </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:text="Medium Text"
+        android:gravity="center_vertical"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+    <RadioButton
+        android:id="@+id/main_choose"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="0dp"/>
+</RelativeLayout>

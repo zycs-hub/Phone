@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    tools:context=".ChooseActivity">
+    tools:context=".MainActivity">
     <LinearLayout
         android:id="@+id/BLinearLayout1"
         android:layout_width="match_parent"
@@ -11,7 +11,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:gravity="center"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:animateLayoutChanges="true"
+        android:visibility="visible">
         <LinearLayout
             android:layout_width="30dp"
             android:layout_height="match_parent"
