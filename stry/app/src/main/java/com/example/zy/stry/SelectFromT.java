@@ -57,7 +57,7 @@ public class SelectFromT extends Activity{
         // get need user book
         // is selling true false unknown
         // find unknown
-        /*
+
         if(lt.isEmpty()){
             //UserGlobla.lts=lt;
             Intent intent_=new Intent(SelectFromT.this, MainActivity.class);
@@ -69,7 +69,7 @@ public class SelectFromT extends Activity{
             //new Thread(str).start();
         }
 
-*/
+
 
 
 
@@ -105,16 +105,16 @@ public class SelectFromT extends Activity{
                         for (UserEntity u : lt) {
                             //u.isSelected(1);
 
-                            try {
+                           // try {
                                 job.execSQL("update user set  isSelected=1 where book=?", new String[]{na});
 
 
-                            }
-                            catch (Exception e   ){
+                            //}
+                            //catch (Exception e   ){
                                 Toast.makeText(SelectFromT.this, "err", Toast.LENGTH_LONG).show();
-                                e.toString();
+                              //  e.toString();
 
-                            }
+                            //}
                             //page_list.setItemChecked(i, true);
                         }else{
                         job.execSQL("update user set  isSelected=-1 where book=?", new String[]{na});
