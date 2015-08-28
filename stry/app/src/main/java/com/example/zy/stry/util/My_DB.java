@@ -37,7 +37,8 @@ public class My_DB extends SQLiteOpenHelper {
         tableCreate.append("create table ")
                 .append(MY_DB_TABLE_1_NAME)
                 .append(" (")
-                .append("book text")
+                .append("book text , ")
+                .append("isSelected INTEGER")
                 .append(")");
         //System.out.println(tableCreate.toString());
         arg0.execSQL(tableCreate.toString());
@@ -50,10 +51,11 @@ public class My_DB extends SQLiteOpenHelper {
     public List<UserEntity> getUserAll(SQLiteDatabase db){
         List<UserEntity> It=new ArrayList<UserEntity>();
         UserEntity use=null;
-        Cursor cr=db.rawQuery(QUERY_USER_ALL,null);;
+        Cursor cr=db.rawQuery(QUERY_USER_ALL,null);
         while(cr.moveToNext()){
             use =new UserEntity();
             use.setBook(cr.getString(0));
+            use.isSelected(cr.getInt(1));
             It.add(use);
         }
         return It;
@@ -65,6 +67,7 @@ public class My_DB extends SQLiteOpenHelper {
             for(UserEntity se :be){
                 ContentValues cv =new ContentValues();
                 cv.put("book",se.getBook());
+                cv.put("isSelected" ,se.isSelected());
                 param=db.insert(MY_DB_TABLE_1_NAME,null,cv);
             }
         db.setTransactionSuccessful();

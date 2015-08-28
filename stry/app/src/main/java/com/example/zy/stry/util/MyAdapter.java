@@ -1,10 +1,12 @@
 package com.example.zy.stry.util;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.RadioButton;
 import com.example.zy.stry.R;
@@ -18,10 +20,14 @@ import java.util.Objects;
 public class MyAdapter extends BaseAdapter{
     private List<UserEntity> ssa=null;
     private LayoutInflater inflater=null;
-    public MyAdapter(List<UserEntity> ssa,Context con){
+    Context con=null;
+    ListView ls=null;
+    public MyAdapter(List<UserEntity> ssa,Context con,ListView ls){
         super();
         this.ssa=ssa;
         inflater=LayoutInflater.from(con);
+        this.con=con;
+        this.ls=ls;
     }
     @Override
     public int getCount(){
@@ -42,8 +48,17 @@ public class MyAdapter extends BaseAdapter{
     public View getView(int arg0,View arg1,ViewGroup arg2){
         arg1=inflater.inflate(R.layout.main_page_list_value,null);
         TextView main_page_1_class=(TextView)arg1.findViewById(R.id.main_page_1_class);
-        RadioButton main_choose=(RadioButton)arg1.findViewById(R.id.main_choose);
         main_page_1_class.setText(ssa.get(arg0).getBook());
+        updateBackground(arg0, main_page_1_class );
         return arg1;
     }
-}
+    public void updateBackground(int position, View view) {
+        int backgroundId;
+        if (ls.isItemChecked(position)) {
+            view.setBackgroundResource(R.drawable.gree_background);
+        } else {
+            view.setBackgroundResource(R.drawable.white_bankground);
+        }
+    }
+
+    }
