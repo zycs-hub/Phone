@@ -1,14 +1,15 @@
 package com.example.zy.stry;
 
+import com.viewpagerindicator.TabPageIndicator;
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import com.example.zy.stry.R;
 import com.example.zy.stry.entity.UserEntity;
 import com.example.zy.stry.lib.PullToZoomListViewEx;
+import com.example.zy.stry.lib.TabsAdapter;
 import com.example.zy.stry.util.CourseGlobla;
 import com.example.zy.stry.util.LogStatusGlobla;
 import com.example.zy.stry.util.ThreadLogStatusTest;
@@ -50,7 +52,7 @@ import com.example.zy.stry.entity.takingCourseEntity;
 
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
     /*
     LogStatusGlobla
     * 0 默认
@@ -63,6 +65,9 @@ public class MainActivity extends Activity {
     * -4 未绑定教务处
     */
 
+    private ViewPager viewPager;
+    private TabsAdapter myAdapter;
+    private TabPageIndicator mIndicator ;
 
 
 
@@ -97,9 +102,6 @@ public class MainActivity extends Activity {
     private char flag;
 
 
-
-
-
     private Button tv_login=null;
     private Handler hanMain = null;
     private LinearLayout BLinearLayout1=null;
@@ -113,25 +115,48 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", 0);
 
+        // Initilization
+        mIndicator = (TabPageIndicator) findViewById(R.id.id_indicator);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        myAdapter = new TabsAdapter(getSupportFragmentManager());
 
+        viewPager.setAdapter(myAdapter);
+        mIndicator.setViewPager(viewPager, 0);
 
+        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
+            @Override
+            public void onPageSelected(int position) {
+                Toast.makeText(getApplicationContext(), TabsAdapter.TITLES[position], Toast.LENGTH_SHORT).show();
+                // on changing the page
+                // make respected tab selected
+//                    resetTabBtn();
+//                    switch (position) {
+//                        case 0:
+//                            ((ImageButton) mTabShop.findViewById(R.id.btn_tab_bottom_shop))
+//                                    .setImageResource(R.drawable.tab_weixin_pressed);
+//                            break;
+//                        case 1:
+//                            ((ImageButton) mTabMyCenter.findViewById(R.id.btn_tab_bottom_mycenter))
+//                                    .setImageResource(R.drawable.tab_find_frd_pressed);
+//                            break;
+//                        case 2:
+//                            ((ImageButton) mTabProfile.findViewById(R.id.btn_tab_bottom_profile))
+//                                    .setImageResource(R.drawable.ic_img_user_default);
+//                            break;
+//                    }
+            }
 
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
 
+            }
 
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
 
-        /*
-    LogStatusGlobla
-    * 0 默认
-    * 1 登录
-    * 2 登录有网
-    * 3 验证成功
-    * 4 绑定教务处
-    * -1 未登录
-    * -2 登录无网
-    * -4 未绑定教务处
-    */
-
+            }
+        });
 
         //hanMain.sendEmptyMessage(-1);
 
@@ -168,13 +193,6 @@ public class MainActivity extends Activity {
             }
         };
 
-
-
-
-
-
-
-
         db = new My_DB(MainActivity.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
         job = db.getReadableDatabase();
         List<UserEntity> lt = db.getUserAll(job);
@@ -186,21 +204,10 @@ public class MainActivity extends Activity {
         new Thread(thr).start();
 
 
-
-
-
         //more1 = (LinearLayout)findViewById(R.id.more1);
         //more1t =(TextView)findViewById(R.id.more1t);
 
-        BLinearLayout1=(LinearLayout)findViewById(R.id.BLinearLayout1);
-
-
-
-
-
-
-
-
+//        BLinearLayout1=(LinearLayout)findViewById(R.id.BLinearLayout1);
 
 
 
@@ -212,271 +219,236 @@ public class MainActivity extends Activity {
         //界面2显示信息
         // else{
         //}
-        inflater = getLayoutInflater();
-        // btn_s=(Button) findViewById(R.id.btn_s);
-        //main_tv1=(TextView)findViewById(R.id.main_tv1);
-
+//        inflater = getLayoutInflater();
+//        // btn_s=(Button) findViewById(R.id.btn_s);
+//        //main_tv1=(TextView)findViewById(R.id.main_tv1);
+//
         search_b = (Button) findViewById(R.id.search_button);
-        Bmain_body_lin = (RelativeLayout) findViewById(R.id.Bmain_body_line);
-        v = inflater.inflate(R.layout.activity_buy_page, null);
-        v1 = inflater.inflate(R.layout.activity_sell_page, null);
-        v2 = inflater.inflate(R.layout.activity_pull_to_zoom_list_view, null);
-        //v3=inflater.inflate(R.layout.refresh,null);
+//        Bmain_body_lin = (RelativeLayout) findViewById(R.id.Bmain_body_line);
+//        v = inflater.inflate(R.layout.activity_buy_page, null);
+//        v1 = inflater.inflate(R.layout.activity_sell_page, null);
+//        v2 = inflater.inflate(R.layout.activity_pull_to_zoom_list_view, null);
+//        //v3=inflater.inflate(R.layout.refresh,null);
+//
+//        buy_page_list = (ListView) v.findViewById(R.id.buy_page_list);
+//        sell_page_list=(ListView)v1.findViewById(R.id.sell_page_list);
+//        listView = (PullToZoomListViewEx) v2.findViewById(R.id.listview);
+//        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) v.findViewById(R.id.swipe);
+//       // final TextView rndNum = (TextView) v3.findViewById(R.id.rndNum);
+//
+//        String[] adapterData = new String[]{"Activity", "Service", "Content Provider", "Intent", "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient",
+//                "DDMS", "Android Studio", "Fragment", "Loader", "Activity", "Service", "Content Provider", "Intent",
+//                "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient", "Activity", "Service", "Content Provider", "Intent",
+//                "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient"};
+//
+//        listView.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, adapterData));
+//        listView.getPullRootView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.e("zhuwenwu", "position = " + position);
+//                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.e("zhuwenwu", "position = " + position);
+//                if (position==0){
+//                    Intent intent = new Intent(MainActivity.this, LogForT.class);
+//                    startActivity(intent);
+//                }
+//                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
+//
+//        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(localDisplayMetrics);
+//        int mScreenHeight = localDisplayMetrics.heightPixels;
+//        int mScreenWidth = localDisplayMetrics.widthPixels;
+//        AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(mScreenWidth, (int) (9.0F * (mScreenWidth / 16.0F)));
+//        listView.setHeaderLayoutParams(localObject);
+//
+//        ma = new MyBuyAdapter(CourseGlobla.lts, MainActivity.this);
+//        buy_page_list.setAdapter(ma);
+//
+//
+//        mb=new MySellAdapter(UserGlobla.lts,MainActivity.this);
+//        sell_page_list.setAdapter(mb);
+//
+//        Bmain_body_lin.addView(v);
+//        //Bmain_body_lin.removeAllViews();
+//
+//        flag='b';
+//
 
-        buy_page_list = (ListView) v.findViewById(R.id.buy_page_list);
-        sell_page_list=(ListView)v1.findViewById(R.id.sell_page_list);
-        listView = (PullToZoomListViewEx) v2.findViewById(R.id.listview);
-        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) v.findViewById(R.id.swipe);
-       // final TextView rndNum = (TextView) v3.findViewById(R.id.rndNum);
+//
+//        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                swipeView.setRefreshing(true);
+//                Log.d("Swipe", "Refreshing Number");
+//                (new Handler()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        swipeView.setRefreshing(false);
+//                        double f = Math.random();
+//                        //rndNum.setText(String.valueOf(f));
+//                    }
+//                }, 3000);
+//            }
+//        });
+//
+//
+//        sell = (Button) findViewById(R.id.btn_sell);
+//        buy = (Button) findViewById(R.id.btn_buy);
+//        self =(Button)findViewById(R.id.btn_self);
+//        search_b = (Button) findViewById(R.id.search_button);
+//        sell.setOnClickListener(new OnClickListener() {
+//            public void onClick(View v0) {
+//                BLinearLayout1.setVisibility(View.VISIBLE);
+//
+//                ActionBar actionBar = getActionBar();
+//                actionBar.show();
+//                search_b.setText("搜索");
+//                Bmain_body_lin.removeAllViews();
+//                Bmain_body_lin.addView(v1);
+//                sell.setBackgroundResource(R.drawable.gree_background);
+//                buy.setBackgroundResource(R.drawable.white_bankground);
+//                self.setBackgroundResource(R.drawable.white_bankground);
+//                flag='b';
+//
+//            }
+//        });
+//        buy.setOnClickListener(new OnClickListener() {
+//            public void onClick(View v0) {
+//                BLinearLayout1.setVisibility(View.VISIBLE);
+//                ActionBar actionBar = getActionBar();
+//                actionBar.show();
+//                //actionBar.
+//                //actionBar.setDisplayShowTitleEnabled(false);
+//                //actionBar.setElevation(100);
+//                //actionBar.setHideOffset(0);
+//                Bmain_body_lin.removeAllViews();
+//                search_b.setText("搜索");
+//                // Bmain_body_lin.addView(v);
+//                sell.setBackgroundResource(R.drawable.white_bankground);
+//                buy.setBackgroundResource(R.drawable.gree_background);
+//                self.setBackgroundResource(R.drawable.white_bankground);
+//
+//                // List<String> lt= new ArrayList<>();  //=db.getUserAll(job);
+//               // if(!CourseGlobla.lts.isEmpty()){
+//
+//
+//                    mb=new MySellAdapter(UserGlobla.lts,MainActivity.this);
+//                    sell_page_list.setAdapter(mb);
+//                    Bmain_body_lin.addView(v);
+//               // }
+//               // else{
+//               // }
+//                flag='s';
+//
+//            }
+//        });
+//
 
-        String[] adapterData = new String[]{"Activity", "Service", "Content Provider", "Intent", "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient",
-                "DDMS", "Android Studio", "Fragment", "Loader", "Activity", "Service", "Content Provider", "Intent",
-                "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient", "Activity", "Service", "Content Provider", "Intent",
-                "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient"};
+//        //tv_login=(Button)findViewById(R.id.tv_login);
+//
+/
+        /*
+        MainActivity里的代码最好简洁，都是调用不同模块或者函数，这个search的buttonOnClick里的操作
+        最好新写一个JAVAClass叫Search.java然后只简单的2，3句调用像原来的login和register似的
+        比如这样
+        Intent i = new Intent(getApplicationContext(),
+						RegisterActivity.class);
+				startActivity(i);
+				finish();
+		现在的MainActivity看起来太乱了
+        */
 
-        listView.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, adapterData));
-        listView.getPullRootView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("zhuwenwu", "position = " + position);
-                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("zhuwenwu", "position = " + position);
-                if (position==0){
-                    Intent intent = new Intent(MainActivity.this, LogForT.class);
-                    startActivity(intent);
-                }
-                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(localDisplayMetrics);
-        int mScreenHeight = localDisplayMetrics.heightPixels;
-        int mScreenWidth = localDisplayMetrics.widthPixels;
-        AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(mScreenWidth, (int) (9.0F * (mScreenWidth / 16.0F)));
-        listView.setHeaderLayoutParams(localObject);
-
-        ma = new MyBuyAdapter(CourseGlobla.lts, MainActivity.this);
-        buy_page_list.setAdapter(ma);
-
-
-        mb=new MySellAdapter(UserGlobla.lts,MainActivity.this);
-        sell_page_list.setAdapter(mb);
-
-        Bmain_body_lin.addView(v);
-        //Bmain_body_lin.removeAllViews();
-
-        flag='b';
-
-
-
-
-
-
-
-
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeView.setRefreshing(true);
-                Log.d("Swipe", "Refreshing Number");
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeView.setRefreshing(false);
-                        double f = Math.random();
-                        //rndNum.setText(String.valueOf(f));
-                    }
-                }, 3000);
-            }
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        sell = (Button) findViewById(R.id.btn_sell);
-        buy = (Button) findViewById(R.id.btn_buy);
-        self =(Button)findViewById(R.id.btn_self);
-        search_b = (Button) findViewById(R.id.search_button);
-        sell.setOnClickListener(new OnClickListener() {
-            public void onClick(View v0) {
-                BLinearLayout1.setVisibility(View.VISIBLE);
-
-                ActionBar actionBar = getActionBar();
-                actionBar.show();
-                search_b.setText("搜索");
-                Bmain_body_lin.removeAllViews();
-                Bmain_body_lin.addView(v1);
-                sell.setBackgroundResource(R.drawable.gree_background);
-                buy.setBackgroundResource(R.drawable.white_bankground);
-                self.setBackgroundResource(R.drawable.white_bankground);
-                flag='b';
-
-            }
-        });
-        buy.setOnClickListener(new OnClickListener() {
-            public void onClick(View v0) {
-                BLinearLayout1.setVisibility(View.VISIBLE);
-                ActionBar actionBar = getActionBar();
-                actionBar.show();
-                //actionBar.
-                //actionBar.setDisplayShowTitleEnabled(false);
-                //actionBar.setElevation(100);
-                //actionBar.setHideOffset(0);
-                Bmain_body_lin.removeAllViews();
-                search_b.setText("搜索");
-                // Bmain_body_lin.addView(v);
-                sell.setBackgroundResource(R.drawable.white_bankground);
-                buy.setBackgroundResource(R.drawable.gree_background);
-                self.setBackgroundResource(R.drawable.white_bankground);
-
-                // List<String> lt= new ArrayList<>();  //=db.getUserAll(job);
-               // if(!CourseGlobla.lts.isEmpty()){
-
-
-                    mb=new MySellAdapter(UserGlobla.lts,MainActivity.this);
-                    sell_page_list.setAdapter(mb);
-                    Bmain_body_lin.addView(v);
-               // }
-               // else{
-               // }
-                flag='s';
-
-            }
-        });
-
-        self.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BLinearLayout1.setVisibility(View.GONE);
-                ActionBar actionBar = getActionBar();
-                actionBar.hide();
-                //startActivity(new Intent(Buy_Activity.this, PullToZoomListActivity.class));
-
-                sell.setBackgroundResource(R.drawable.white_bankground);
-                buy.setBackgroundResource(R.drawable.white_bankground);
-                self.setBackgroundResource(R.drawable.gree_background);
-                Bmain_body_lin.removeAllViews();
-                Bmain_body_lin.addView(v2);
-            }
-        });
-        //tv_login=(Button)findViewById(R.id.tv_login);
-
-
-        search_b.setOnClickListener(new OnClickListener() {
-            public void onClick(View vs) {
-                Bmain_body_lin.removeAllViews();
-                search_b.setText("");
-                View v = inflater.inflate(R.layout.acvtivity_sh, null);
-                sh_btn = (Button) v.findViewById(R.id.sh_btn);
-                sh_lv = (ListView) v.findViewById(R.id.sh_lv);
-                sh_e = (EditText) v.findViewById(R.id.sh_e);
-                //if(flag=='s'){
-                //sell.setBackgroundResource(R.drawable.white_bankground);
-                //buy.setBackgroundResource(R.drawable.white_bankground);
-                //}
-                sh_btn.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (flag == 'b') {
-                            if (UserGlobla.lts != null) {
-                                lt2 = new ArrayList<takingCourseEntity>();
-                                String param = sh_e.getText().toString().trim();
-                                for (takingCourseEntity str : CourseGlobla.lts) {
-                                    if (str.getCourse() != null && str.getCourse().contains(param)) {
-                                        if (!lt2.contains(str)) {
-                                            lt2.add(str);
-                                        }
-                                    }
-                                }
-                                if (lt2.isEmpty()) {
-                                    //弹出提示框
-                                }
-                                ma2 = new MyBuyAdapter(lt2, MainActivity.this);
-                                sh_lv.setAdapter(ma2);
-                            }
-                        } else if (flag == 's') {
-                            //sell.setBackgroundResource(R.drawable.white_bankground);
-                            //buy.setBackgroundResource(R.drawable.gree_background);
-                            if (CourseGlobla.lts != null) {
-                                lt3 = new ArrayList<UserEntity>();
-                                String param = sh_e.getText().toString().trim();
-                                for (UserEntity str : UserGlobla.lts) {
-                                    if (str.getBook() != null && str.toString().contains(param)) {
-                                        if (!lt3.contains(str)) {
-                                            lt3.add(str);
-                                        }
-                                    }
-                                }
-                                if (lt3.isEmpty()) {
-                                    //弹出提示框
-                                }
-                                ma3 = new MySellAdapter(lt3, MainActivity.this);
-                                sh_lv.setAdapter(ma3);
-                            }
-                        }
-
-
-                    }
-                });
-
-
-                Bmain_body_lin.addView(v);
-                // sell.setBackgroundResource(R.drawable.gree_background);
-                // buy.setBackgroundResource(R.drawable.white_bankground);
-
-            }
-        });
-        buy_page_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent it = new Intent(MainActivity.this, ShowMessageActivity.class);
-                it.putExtra("bookName", UserGlobla.lts.get(i).getBook());
-                it.putExtra("position", i);
-                startActivityForResult(it, MAIN_ACTIVITY);
-
-            }
-        });
-        sell_page_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent it = new Intent(MainActivity.this, ShowMessageActivity_.class);
-                it.putExtra("bookName", CourseGlobla.lts.get(i).toString());
-                it.putExtra("position", i);
-                startActivityForResult(it, MAIN_ACTIVITY);
-            }
-        });
-
-
+//        search_b.setOnClickListener(new OnClickListener() {
+//            public void onClick(View vs) {
+//                Bmain_body_lin.removeAllViews();
+//                search_b.setText("");
+//                View v = inflater.inflate(R.layout.acvtivity_sh, null);
+//                sh_btn = (Button) v.findViewById(R.id.sh_btn);
+//                sh_lv = (ListView) v.findViewById(R.id.sh_lv);
+//                sh_e = (EditText) v.findViewById(R.id.sh_e);
+//                //if(flag=='s'){
+//                //sell.setBackgroundResource(R.drawable.white_bankground);
+//                //buy.setBackgroundResource(R.drawable.white_bankground);
+//                //}
+//                sh_btn.setOnClickListener(new OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        if (flag == 'b') {
+//                            if (UserGlobla.lts != null) {
+//                                lt2 = new ArrayList<takingCourseEntity>();
+//                                String param = sh_e.getText().toString().trim();
+//                                for (takingCourseEntity str : CourseGlobla.lts) {
+//                                    if (str.getCourse() != null && str.getCourse().contains(param)) {
+//                                        if (!lt2.contains(str)) {
+//                                            lt2.add(str);
+//                                        }
+//                                    }
+//                                }
+//                                if (lt2.isEmpty()) {
+//                                    //弹出提示框
+//                                }
+//                                ma2 = new MyBuyAdapter(lt2, MainActivity.this);
+//                                sh_lv.setAdapter(ma2);
+//                            }
+//                        } else if (flag == 's') {
+//                            //sell.setBackgroundResource(R.drawable.white_bankground);
+//                            //buy.setBackgroundResource(R.drawable.gree_background);
+//                            if (CourseGlobla.lts != null) {
+//                                lt3 = new ArrayList<UserEntity>();
+//                                String param = sh_e.getText().toString().trim();
+//                                for (UserEntity str : UserGlobla.lts) {
+//                                    if (str.getBook() != null && str.toString().contains(param)) {
+//                                        if (!lt3.contains(str)) {
+//                                            lt3.add(str);
+//                                        }
+//                                    }
+//                                }
+//                                if (lt3.isEmpty()) {
+//                                    //弹出提示框
+//                                }
+//                                ma3 = new MySellAdapter(lt3, MainActivity.this);
+//                                sh_lv.setAdapter(ma3);
+//                            }
+//                        }
+//                    }
+//                });
+////
+//                Bmain_body_lin.addView(v);
+////                // sell.setBackgroundResource(R.drawable.gree_background);
+////                // buy.setBackgroundResource(R.drawable.white_bankground);
+//            }
+//        });
+//        buy_page_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent it = new Intent(MainActivity.this, ShowMessageActivity.class);
+//                it.putExtra("bookName", UserGlobla.lts.get(i).getBook());
+//                it.putExtra("position", i);
+//                startActivityForResult(it, MAIN_ACTIVITY);
+//
+//            }
+//        });
+//        sell_page_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent it = new Intent(MainActivity.this, ShowMessageActivity_.class);
+//                it.putExtra("bookName", CourseGlobla.lts.get(i).toString());
+//                it.putExtra("position", i);
+//                startActivityForResult(it, MAIN_ACTIVITY);
+//            }
+//        });
+//
+//
     }
-
-
-
-
-
-
 
     public void onBackPressed() {
         quitToast();

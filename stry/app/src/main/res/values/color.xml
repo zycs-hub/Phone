@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <drawable name="red">#f00</drawable>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
     <drawable name="green">#0f0</drawable>
     <drawable name="gray">#ccc</drawable>
+    <color name="orange">#FFE84E0E</color>
+    <color name="transparent">#00000000</color>
+    <color name="lightblue">#FF007AA2</color>
+    <color name="lightorange">#FFACBA00</color>
+    <color name="red">#FFFF0000</color>
+    <color name="yellow">#FFD700</color>
+    <color name="gray">#ff333333</color>
+    <color name="light_blue">#5CACEE</color>
+    <color name="light_gray">#87CEEB</color>
+    <color name="transparentblue">#445CACEE</color>
 </resources>  
