@@ -16,12 +16,11 @@ import java.util.ArrayList;
 import android.os.Message;
 import android.os.Handler;
 
-import com.example.zy.stry.util.CourseGlobla;
 import com.example.zy.stry.util.My_DB;
 import com.example.zy.stry.util.MyAdapter;
-import com.example.zy.stry.util.ThreadUsersMessage;
-import com.example.zy.stry.util.UserGlobla;
-import com.example.zy.stry.entity.UserEntity;
+import com.example.zy.stry.util.ThreadBooksMessage;
+import com.example.zy.stry.util.BookGlobla;
+import com.example.zy.stry.entity.BookEntity;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
@@ -36,7 +35,7 @@ public class SelectFromT extends Activity{
        private View v = null;
        private MyAdapter ma=null;
        My_DB db=null;
-    List<UserEntity> lt=null;
+    List<BookEntity> lt=null;
        private SQLiteDatabase job =null;
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -59,13 +58,13 @@ public class SelectFromT extends Activity{
         // find unknown
 
         if(lt.isEmpty()){
-            //UserGlobla.lts=lt;
+            //BookGlobla=lt;
             Intent intent_=new Intent(SelectFromT.this, MainActivity.class);
             startActivity(intent_);
             finish();
         }
         else{
-            //ThreadUsersMessage str =new ThreadUsersMessage(han,result.getString("name"),result.getString("password"),"Override");
+            //ThreadBooksMessage str =new ThreadBooksMessage(han,result.getString("name"),result.getString("password"),"Override");
             //new Thread(str).start();
         }
 
@@ -82,7 +81,7 @@ public class SelectFromT extends Activity{
         v= inflater.inflate(R.layout.main_page_1,null);
         page_list=(ListView)v.findViewById(R.id.page_list);
         page_list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        ma=new MyAdapter(UserGlobla.lts,SelectFromT.this,page_list);
+        ma=new MyAdapter(BookGlobla.lts,SelectFromT.this,page_list);
         page_list.setAdapter(ma);
         main_body_lin.addView(v);
         page_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,7 +101,7 @@ public class SelectFromT extends Activity{
                 for (int i = 0; i < ma.getCount(); i++) {
                     String na = lt.get(i).getBook();
                     if (page_list.isItemChecked(i))
-                        for (UserEntity u : lt) {
+                        for (BookEntity u : lt) {
                             //u.isSelected(1);
 
                            // try {

@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.zy.stry.util.My_DB;
-import com.example.zy.stry.util.ThreadUsersMessage;
-import com.example.zy.stry.util.UserGlobla;
+import com.example.zy.stry.util.ThreadBooksMessage;
+import com.example.zy.stry.util.BookGlobla;
 
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -64,8 +64,8 @@ public class LogForT extends Activity {
                                 job = db.getReadableDatabase();
                                 //db.onUpgrade(job,0,0);
                                 job.execSQL("DELETE FROM user");
-                                long param = db.addDate(UserGlobla.lts, job);
-                               // if (param != UserGlobla.lts.size()) Toast.makeText(LogForT.this, "err", Toast.LENGTH_LONG).show();
+                                long param = db.addDate(BookGlobla.lts, job);
+                               // if (param != BookGlobla.lts.size()) Toast.makeText(LogForT.this, "err", Toast.LENGTH_LONG).show();
                                 //Bundle data = new Bundle();
                                 //data.putString("name", nameString);
                                 //data.putString("password", passwordString);
@@ -94,7 +94,7 @@ public class LogForT extends Activity {
                     return;
                 }
                 ///////////////////////////////////////////////////////////////////
-                ThreadUsersMessage str = new ThreadUsersMessage(han, nameString, passwordString, "Override");
+                ThreadBooksMessage str = new ThreadBooksMessage(han, nameString, passwordString, "Override");
                 new Thread(str).start();
                 ///////////////////////////////////////////////////////////////////
             }

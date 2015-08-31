@@ -41,11 +41,11 @@ public class ChooseActivity extends Activity {
         Intent intent=getIntent();
         Bundle result=intent.getExtras();
         //name.setText(result.getString("name"));
-        // ThreadUsersMessage tsmfm =new ThreadUsersMessage(han,result.getString("name"),result.getString("password"));
+        // ThreadBooksMessage tsmfm =new ThreadBooksMessage(han,result.getString("name"),result.getString("password"));
         // GetInputStream in= new GetInputStream();
         //PullForXml on=new PullForXml();
         //String it=new String();
-        //  it=PullForXml.getUserEntitys(GetInputStream.getInputStream(result.getString("name"), result.getString("password"))).toString();
+        //  it=PullForXml.getBookEntitys(GetInputStream.getInputStream(result.getString("name"), result.getString("password"))).toString();
 
         // name.setText(it);
         getU();
@@ -72,7 +72,7 @@ public class ChooseActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-               // txt=new String (PullForXml.getUserEntitys(GetInputStream.getInputStream("201347028","255016",1)).toString());
+               // txt=new String (PullForXml.getBookEntitys(GetInputStream.getInputStream("201347028","255016",1)).toString());
                 //name.setText("txt");
                 han1.sendEmptyMessage(3);
                 //  else

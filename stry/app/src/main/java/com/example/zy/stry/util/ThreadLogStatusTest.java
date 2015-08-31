@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
-import com.example.zy.stry.entity.UserEntity;
+import com.example.zy.stry.entity.BookEntity;
 
 import java.util.List;
 
@@ -82,7 +82,7 @@ public class ThreadLogStatusTest implements Runnable{
      private boolean isLog(){
          db=new My_DB(context,My_DB.MY_DB_MANE,null,My_DB.MY_DB_VERSION);///may err //really err
          job=db.getReadableDatabase();
-         List<UserEntity> lt= db.getUserAll(job);
+         List<BookEntity> lt= db.getUserAll(job);
          return !lt.isEmpty();
      }
 

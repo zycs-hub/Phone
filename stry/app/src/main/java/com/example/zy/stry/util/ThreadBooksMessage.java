@@ -4,15 +4,19 @@ package com.example.zy.stry.util;
  * Created by zy on 15/7/8.
  */
 import android.os.Handler;
+
+import com.example.zy.stry.entity.BookEntity;
+
 import java.lang.String;
+import java.util.List;
 
 
-public class ThreadUsersMessage implements Runnable {
+public class ThreadBooksMessage implements Runnable {
     private Handler han = null;
     private String name, password;
     private String purpose = "";
 
-    public ThreadUsersMessage(Handler han, String name, String password, String purpose) {
+    public ThreadBooksMessage(Handler han, String name, String password, String purpose) {
         super();
         this.han = han;
         this.name = name;
@@ -34,8 +38,11 @@ public class ThreadUsersMessage implements Runnable {
         }
         else if (logStatus == 1) {
             if (purpose.equals("Override")) {
-                UserGlobla.lts = XMLParser.getUserEntitys(GetInputStream.View("grade", name, password));
-                CourseGlobla.lts = XMLParser.getCourse(GetInputStream.View("curriculum", name, password));
+                List<BookEntity> t;
+                t = XMLParser.getBookEntitys(GetInputStream.View("grade", name, password));
+                for(BookEntity book : XMLParser.getCourse(GetInputStream.View("curriculum", name, password)))
+                    t.add(book);
+                BookGlobla.lts = t;
                 han.sendEmptyMessage(1);
             } else {
                 han.sendEmptyMessage(1);

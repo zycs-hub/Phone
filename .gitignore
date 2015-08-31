@@ -1,0 +1,4 @@
+*.DS_Store
+stry/.idea/gradle.xml
+stry/.idea/misc.xml
+stry/app/*.iml
