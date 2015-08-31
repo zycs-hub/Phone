@@ -199,8 +199,11 @@ public class MainActivity extends FragmentActivity {
 
 
 
-        ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
-        new Thread(thr).start();
+        if (LogStatusGlobla.getLogStatus()==-1){
+            ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
+            new Thread(thr).start();
+        }
+
 
 
         //more1 = (LinearLayout)findViewById(R.id.more1);
