@@ -463,7 +463,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent it = new Intent(MainActivity.this, ShowMessageActivity_.class);
-                it.putExtra("bookName", CourseGlobla.lts.get(i).toString());
+                it.putExtra("bookName", UserGlobla.lts.get(i).toString());
                 it.putExtra("position", i);
                 startActivityForResult(it, MAIN_ACTIVITY);
             }

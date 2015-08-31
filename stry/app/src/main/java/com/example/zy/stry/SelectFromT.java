@@ -49,7 +49,7 @@ public class SelectFromT extends Activity{
         db=new My_DB(SelectFromT.this,My_DB.MY_DB_MANE,null,My_DB.MY_DB_VERSION);
         job=db.getReadableDatabase();
        // job.execSQL("update user set  isSelected = 1 where book  = '经济学原理' ");
-        job.execSQL("insert into user(book,isSelected) values(?,?)", new Object[]{"测试数据",1});
+        //job.execSQL("insert into user(book,isSelected) values(?,?)", new Object[]{"测试数据",1});
         lt= db.getUserAll(job);
         //db.close();
         //long param = db.addDate(lt, job);
@@ -134,17 +134,6 @@ public class SelectFromT extends Activity{
 
 
 
-    }
-    public void saveAll() {
-        for (int i = 0; i < ma.getCount(); i++) {
-            if (page_list.isItemChecked(i))
-                for (UserEntity u : lt) {
-                    u.isSelected(1);
-                    String na = lt.get(i).getBook();
-                    job.execSQL("update user set  isSelected=1 where book =" + na);
-                    //page_list.setItemChecked(i, true);
-                }
-        }
     }
         //  @Override
     // protected void onActiyityResult(int requestCode,int resultCode,Intent data){
