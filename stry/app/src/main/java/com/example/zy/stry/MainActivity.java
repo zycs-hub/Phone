@@ -23,10 +23,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.zy.stry.R;
-import com.example.zy.stry.entity.UserEntity;
+import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.lib.PullToZoomListViewEx;
 import com.example.zy.stry.lib.TabsAdapter;
-import com.example.zy.stry.util.CourseGlobla;
 import com.example.zy.stry.util.LogStatusGlobla;
 import com.example.zy.stry.util.ThreadLogStatusTest;
 import com.example.zy.stry.util.MyAdapter;
@@ -34,8 +33,8 @@ import com.example.zy.stry.util.MyBuyAdapter;
 import com.example.zy.stry.util.MySellAdapter;
 import com.example.zy.stry.util.My_DB;
 import com.example.zy.stry.util.ThreadLogStatusTest;
-import com.example.zy.stry.util.ThreadUsersMessage;
-import com.example.zy.stry.util.UserGlobla;
+import com.example.zy.stry.util.ThreadBooksMessage;
+import com.example.zy.stry.util.BookGlobla;
 
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -46,7 +45,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.example.zy.stry.entity.takingCourseEntity;
+import com.example.zy.stry.entity.BookEntity;
 
 
 
@@ -87,8 +86,8 @@ public class MainActivity extends FragmentActivity {
 
     My_DB db = null;
     SQLiteDatabase job = null;
-    private List<takingCourseEntity> lt2 = null;
-    private List<UserEntity> lt3=null;
+    private List<BookEntity> lt2 = null;
+    private List<BookEntity> lt3=null;
 
     private MyBuyAdapter ma2 = null;
     private Button sell = null;
@@ -195,8 +194,8 @@ public class MainActivity extends FragmentActivity {
 
         db = new My_DB(MainActivity.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
         job = db.getReadableDatabase();
-        List<UserEntity> lt = db.getUserAll(job);
-        UserGlobla.lts=lt;
+        List<BookEntity> lt = db.getUserAll(job);
+        BookGlobla.lts=lt;
 
 
 
@@ -212,9 +211,9 @@ public class MainActivity extends FragmentActivity {
 
 
 
-        //取在售的UserEntity
+        //取在售的BookEntity
         // if(!lt.isEmpty()){
-        //   UserGlobla.lts=lt;
+        //   BookGlobla.lts=lt;
         // }
         //界面2显示信息
         // else{
@@ -274,7 +273,7 @@ public class MainActivity extends FragmentActivity {
 //        buy_page_list.setAdapter(ma);
 //
 //
-//        mb=new MySellAdapter(UserGlobla.lts,MainActivity.this);
+//        mb=new MySellAdapter(BookGlobla.lts,MainActivity.this);
 //        sell_page_list.setAdapter(mb);
 //
 //        Bmain_body_lin.addView(v);
@@ -341,7 +340,7 @@ public class MainActivity extends FragmentActivity {
 //               // if(!CourseGlobla.lts.isEmpty()){
 //
 //
-//                    mb=new MySellAdapter(UserGlobla.lts,MainActivity.this);
+//                    mb=new MySellAdapter(BookGlobla.lts,MainActivity.this);
 //                    sell_page_list.setAdapter(mb);
 //                    Bmain_body_lin.addView(v);
 //               // }
@@ -355,7 +354,11 @@ public class MainActivity extends FragmentActivity {
 
 //        //tv_login=(Button)findViewById(R.id.tv_login);
 //
+<<<<<<< HEAD
 
+=======
+        //
+>>>>>>> origin
         /*
         MainActivity里的代码最好简洁，都是调用不同模块或者函数，这个search的buttonOnClick里的操作
         最好新写一个JAVAClass叫Search.java然后只简单的2，3句调用像原来的login和register似的
@@ -383,10 +386,10 @@ public class MainActivity extends FragmentActivity {
 //                    @Override
 //                    public void onClick(View view) {
 //                        if (flag == 'b') {
-//                            if (UserGlobla.lts != null) {
-//                                lt2 = new ArrayList<takingCourseEntity>();
+//                            if (BookGlobla.lts != null) {
+//                                lt2 = new ArrayList<BookEntity>();
 //                                String param = sh_e.getText().toString().trim();
-//                                for (takingCourseEntity str : CourseGlobla.lts) {
+//                                for (BookEntity str : CourseGlobla.lts) {
 //                                    if (str.getCourse() != null && str.getCourse().contains(param)) {
 //                                        if (!lt2.contains(str)) {
 //                                            lt2.add(str);
@@ -403,9 +406,9 @@ public class MainActivity extends FragmentActivity {
 //                            //sell.setBackgroundResource(R.drawable.white_bankground);
 //                            //buy.setBackgroundResource(R.drawable.gree_background);
 //                            if (CourseGlobla.lts != null) {
-//                                lt3 = new ArrayList<UserEntity>();
+//                                lt3 = new ArrayList<BookEntity>();
 //                                String param = sh_e.getText().toString().trim();
-//                                for (UserEntity str : UserGlobla.lts) {
+//                                for (BookEntity str : BookGlobla.lts) {
 //                                    if (str.getBook() != null && str.toString().contains(param)) {
 //                                        if (!lt3.contains(str)) {
 //                                            lt3.add(str);
@@ -431,7 +434,7 @@ public class MainActivity extends FragmentActivity {
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Intent it = new Intent(MainActivity.this, ShowMessageActivity.class);
-//                it.putExtra("bookName", UserGlobla.lts.get(i).getBook());
+//                it.putExtra("bookName", BookGlobla.lts.get(i).getBook());
 //                it.putExtra("position", i);
 //                startActivityForResult(it, MAIN_ACTIVITY);
 //

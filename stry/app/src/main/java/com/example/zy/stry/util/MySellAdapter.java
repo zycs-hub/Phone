@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.RadioButton;
 import com.example.zy.stry.R;
-import com.example.zy.stry.entity.UserEntity;
-import com.example.zy.stry.entity.takingCourseEntity;
+import com.example.zy.stry.entity.BookEntity;
+import com.example.zy.stry.entity.BookEntity;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,9 +18,9 @@ import java.util.Objects;
  * Created by zy on 15/7/8.
  */
 public class MySellAdapter extends BaseAdapter{
-    private List<UserEntity> ssa=null;
+    private List<BookEntity> ssa=null;
     private LayoutInflater inflater=null;
-    public MySellAdapter(List<UserEntity> ssa,Context con){
+    public MySellAdapter(List<BookEntity> ssa,Context con){
         super();
         this.ssa=ssa;
         inflater=LayoutInflater.from(con);
@@ -29,7 +29,7 @@ public class MySellAdapter extends BaseAdapter{
     public int getCount(){
         int param=0;
         if(ssa!=null){
-            for(UserEntity u :ssa)
+            for(BookEntity u :ssa)
             if(u.isSelected()==1)
                 ++param;
         }

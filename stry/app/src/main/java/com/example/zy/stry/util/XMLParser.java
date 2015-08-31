@@ -1,7 +1,6 @@
 package com.example.zy.stry.util;
 
-import com.example.zy.stry.entity.UserEntity;
-import com.example.zy.stry.entity.takingCourseEntity;
+import com.example.zy.stry.entity.BookEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class XMLParser {
-    public static List<UserEntity> getUserEntitys(String in){
-        List<UserEntity> lt =new ArrayList<UserEntity>();
+    public static List<BookEntity> getBookEntitys(String in){
+        List<BookEntity> lt =new ArrayList<BookEntity>();
         List<String> ia=new ArrayList<>();
-        UserEntity se =null;
+        BookEntity se =null;
         try {
             String patternString =
                     "<td align=\"center\">\\s+((.*\\b))\\s+</td>";
@@ -22,9 +21,10 @@ public class XMLParser {
             while (matcher.find()) {
                 String course = matcher.group(1);
                 if(!isNumeric(course,0)&&!isNumeric(course,1)&&!isNotNess(course)){
-                se =new UserEntity();
-                se.setBook(course);
-                lt.add(se);
+                    se =new BookEntity();
+                    se.setBook(course);
+                    se.isTaking(-1);
+                    lt.add(se);
                 } 
                 //ia.add(course);
               //  se=null;
@@ -50,10 +50,10 @@ public class XMLParser {
             return true;
         return false;
     }
-    public static List<takingCourseEntity> getCourse(String in){
-        List<takingCourseEntity> lt =new ArrayList<>();
+    public static List<BookEntity> getCourse(String in){
+        List<BookEntity> lt =new ArrayList<>();
         List<String> ia=new ArrayList<>();
-        takingCourseEntity se =null;
+        BookEntity se =null;
         try {
             String patternString =
                     "<td rowspan=\"2\" >\\s*&nbsp;\\s*((.+\\b))\\s*</td>";
@@ -63,8 +63,9 @@ public class XMLParser {
             while (matcher.find()) {
                 String course = matcher.group(1);
                 if(!isNumeric(course,0)&&!isNumeric(course,1)&&!isNotNessC(course)){
-                    se =new takingCourseEntity();
-                    se.setCourse(course);
+                    se =new BookEntity();
+                    se.setBook(course);
+                    se.isTaking(1);
                     lt.add(se);
                 }
                 //ia.add(course);

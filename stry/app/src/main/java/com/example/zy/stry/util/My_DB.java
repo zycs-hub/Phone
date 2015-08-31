@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.zy.stry.entity.UserEntity;
+import com.example.zy.stry.entity.BookEntity;
 import java.lang.StringBuilder;
 import java.lang.StringBuffer;
 
@@ -39,6 +39,7 @@ public class My_DB extends SQLiteOpenHelper {
                 .append(" (")
                 .append("book text , ")
                 .append("isSelected INTEGER")
+                .append("isTaking INTEGER")
                 .append(")");
         //System.out.println(tableCreate.toString());
         arg0.execSQL(tableCreate.toString());
@@ -48,26 +49,27 @@ public class My_DB extends SQLiteOpenHelper {
         arg0.execSQL("drop table if it exits "+MY_DB_MANE);
         onCreate(arg0);
     }
-    public List<UserEntity> getUserAll(SQLiteDatabase db){
-        List<UserEntity> It=new ArrayList<UserEntity>();
-        UserEntity use=null;
+    public List<BookEntity> getUserAll(SQLiteDatabase db){
+        List<BookEntity> It=new ArrayList<BookEntity>();
+        BookEntity use=null;
         Cursor cr=db.rawQuery(QUERY_USER_ALL,null);
         while(cr.moveToNext()){
-            use =new UserEntity();
+            use =new BookEntity();
             use.setBook(cr.getString(0));
             use.isSelected(cr.getInt(1));
             It.add(use);
         }
         return It;
     }
-    public long addDate(List<UserEntity> be,SQLiteDatabase db){
+    public long addDate(List<BookEntity> be,SQLiteDatabase db){
         long param=0;
         db.beginTransaction();
         if(be!=null)
-            for(UserEntity se :be){
+            for(BookEntity se :be){
                 ContentValues cv =new ContentValues();
                 cv.put("book",se.getBook());
                 cv.put("isSelected" ,se.isSelected());
+                cv.put("isTaking" ,se.isTaking());
                 param=db.insert(MY_DB_TABLE_1_NAME,null,cv);
             }
         db.setTransactionSuccessful();

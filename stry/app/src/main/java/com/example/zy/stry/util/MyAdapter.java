@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.RadioButton;
 import com.example.zy.stry.R;
-import com.example.zy.stry.entity.UserEntity;
+import com.example.zy.stry.entity.BookEntity;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,11 +18,11 @@ import java.util.Objects;
  * Created by zy on 15/7/8.
  */
 public class MyAdapter extends BaseAdapter{
-    private List<UserEntity> ssa=null;
+    private List<BookEntity> ssa=null;
     private LayoutInflater inflater=null;
     Context con=null;
     ListView ls=null;
-    public MyAdapter(List<UserEntity> ssa,Context con,ListView ls){
+    public MyAdapter(List<BookEntity> ssa,Context con,ListView ls){
         super();
         this.ssa=ssa;
         inflater=LayoutInflater.from(con);
