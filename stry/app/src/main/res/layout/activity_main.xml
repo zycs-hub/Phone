@@ -19,25 +19,25 @@
         android:layout_alignParentTop="true"
         android:layout_above="@id/id_indicator" >
     </android.support.v4.view.ViewPager>
-    <LinearLayout
-        android:layout_width="30dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_gravity="center">
-        <TextView
-            android:id="@+id/Bmain_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10" />
-        <Button
-            android:id="@+id/search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="搜索"
-            android:background="#EBEBEB"/>
-        <requestFocus/>
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_gravity="center">-->
+        <!--<TextView-->
+            <!--android:id="@+id/Bmain_search"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:ems="10" />-->
+        <!--<Button-->
+            <!--android:id="@+id/search_button"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="搜索"-->
+            <!--android:background="#EBEBEB"/>-->
+        <!--<requestFocus/>-->
+    <!--</LinearLayout>-->
 
     <!--<include layout="@layout/bottom_bar" />-->
 

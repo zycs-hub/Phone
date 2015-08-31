@@ -1,18 +1,4 @@
-package com.example.zy.stry;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-
-import com.example.zy.stry.lib.PullToZoomListViewEx;
+package com.example.zy.stry.lib;
 
 /**
  * Author:    ZhuWenWuw
@@ -25,6 +11,20 @@ import com.example.zy.stry.lib.PullToZoomListViewEx;
  * 2014/9/4        ZhuWenWu            1.0                    1.0
  * Why & What is modified:
  */
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import com.example.zy.stry.R;
+
 public class PullToZoomListActivity extends Activity {
 
     private PullToZoomListViewEx listView;
@@ -99,3 +99,4 @@ public class PullToZoomListActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 }
+
