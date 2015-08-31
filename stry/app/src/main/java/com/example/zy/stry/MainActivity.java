@@ -357,7 +357,11 @@ public class MainActivity extends FragmentActivity {
 
 //        //tv_login=(Button)findViewById(R.id.tv_login);
 //
+<<<<<<< HEAD
+
+=======
         //
+>>>>>>> origin
         /*
         MainActivity里的代码最好简洁，都是调用不同模块或者函数，这个search的buttonOnClick里的操作
         最好新写一个JAVAClass叫Search.java然后只简单的2，3句调用像原来的login和register似的
@@ -471,13 +475,6 @@ public class MainActivity extends FragmentActivity {
             System.exit(0);
         }
     }
-
-
-
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
