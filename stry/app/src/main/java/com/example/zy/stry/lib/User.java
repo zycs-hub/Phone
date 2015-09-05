@@ -31,7 +31,7 @@ public class User {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("username", username));
         params.add(new BasicNameValuePair("password", password));
-        JSONObject json = jsonParser.getJSONFromUrl(Config.getLogUrl(), params);
+        JSONObject json = jsonParser.postJSONFromUrl(Config.getLogUrl(), params);
 
         // return json
         // Log.e("JSON", json.toString());
@@ -50,7 +50,7 @@ public class User {
         params.add(new BasicNameValuePair("password", password));
 
         // getting JSON Object
-        JSONObject json = jsonParser.getJSONFromUrl(Config.REGIST_URL, params);
+        JSONObject json = jsonParser.postJSONFromUrl(Config.REGIST_URL, params);
         // return json
         return json;
     }
