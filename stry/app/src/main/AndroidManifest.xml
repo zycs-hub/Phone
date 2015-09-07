@@ -51,6 +51,12 @@
             >
         </activity>
 
+        <activity android:name=".re"
+            >
+        </activity>
+        <activity android:name=".Shop"
+            >
+        </activity>
 
 
     </application>

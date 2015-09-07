@@ -25,25 +25,26 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 
-public class SelectFromT extends Activity{
-       public static final int MAIN_ACTIVITY=1000;
-       private Button btn_s=null;
-       private TextView main_tv1=null;
-       private LayoutInflater inflater=null;
-       private RelativeLayout main_body_lin=null;
-       private ListView page_list=null;
-       private View v = null;
-       private MyAdapter ma=null;
-       My_DB db=null;
+public class SelectFromT extends Activity {
+
+    public static final int MAIN_ACTIVITY=1000;
+    private Button btn_s=null;
+    private TextView main_tv1=null;
+    private LayoutInflater inflater=null;
+    private RelativeLayout main_body_lin=null;
+    private ListView page_list=null;
+    private View v = null;
+    private MyAdapter ma=null;
+    My_DB db=null;
     List<BookEntity> lt=null;
-       private SQLiteDatabase job =null;
+    private SQLiteDatabase job =null;
+
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_choose);
         //Intent intent=getIntent();
         //Bundle result=intent.getExtras();
-
 
         db=new My_DB(SelectFromT.this,My_DB.MY_DB_MANE,null,My_DB.MY_DB_VERSION);
         job=db.getReadableDatabase();
@@ -67,11 +68,6 @@ public class SelectFromT extends Activity{
             //ThreadBooksMessage str =new ThreadBooksMessage(han,result.getString("name"),result.getString("password"),"Override");
             //new Thread(str).start();
         }
-
-
-
-
-
 
 
         inflater =getLayoutInflater();
@@ -124,7 +120,6 @@ public class SelectFromT extends Activity{
                 db.close();
                 Intent intent_1 = new Intent(SelectFromT.this, MainActivity.class);
                 startActivity(intent_1);
-
                 finish();
 
             }

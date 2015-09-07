@@ -120,7 +120,7 @@ public class MainActivity extends FragmentActivity {
         myAdapter = new TabsAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(myAdapter);
-        mIndicator.setViewPager(viewPager, 0);
+        mIndicator.setViewPager(viewPager, 2);
 
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -356,12 +356,16 @@ public class MainActivity extends FragmentActivity {
 //
 
 //        //tv_login=(Button)findViewById(R.id.tv_login);
+//<<<<<<< HEAD
 //
 //<<<<<<< HEAD
 //
 //=======
         //
 //>>>>>>> origin
+//=======
+
+//>>>>>>> 2fef4077ce0be2c0c0dd8de53aae3144088253d8
         /*
         MainActivity里的代码最好简洁，都是调用不同模块或者函数，这个search的buttonOnClick里的操作
         最好新写一个JAVAClass叫Search.java然后只简单的2，3句调用像原来的login和register似的

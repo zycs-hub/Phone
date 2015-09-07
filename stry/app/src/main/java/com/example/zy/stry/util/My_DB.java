@@ -37,10 +37,10 @@ public class My_DB extends SQLiteOpenHelper {
         tableCreate.append("create table ")
                 .append(MY_DB_TABLE_1_NAME)
                 .append(" (")
-                .append("book text , ")
-                .append("isSelected INTEGER")
-                .append("isTaking INTEGER")
-                .append(")");
+                .append(" book text , ")
+                .append(" isSelected INTEGER , ")
+                .append(" isTaking INTEGER ")
+                .append(" )");
         //System.out.println(tableCreate.toString());
         arg0.execSQL(tableCreate.toString());
     }
