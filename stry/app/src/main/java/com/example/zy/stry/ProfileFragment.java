@@ -1,12 +1,15 @@
 package com.example.zy.stry;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -41,6 +44,18 @@ public class ProfileFragment extends Fragment {
 //        listView.getHeaderView().setImageResource(R.drawable.splash01);
 //        listView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
 //        listView.setHeaderLayoutParams(localObject);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("zhuwenwu", "position = " + position);
+                if (position==0){
+                    Intent intent = new Intent(getActivity(), LogForT.class);
+                    startActivity(intent);
+                }
+                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();
+
+            }
+        });
         return rootView;
     }
     @Override

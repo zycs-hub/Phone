@@ -19,13 +19,15 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/MyTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".Login"
             >
         </activity>
@@ -35,12 +37,7 @@
         <activity android:name=".RegisterActivity"
             >
         </activity>
-        <activity android:name=".ProfileActivity"
-            >
-        </activity>
-        <activity android:name=".Buy_Activity"
-            >
-        </activity>
+
         <activity android:name=".ChooseActivity"
             >
         </activity>
@@ -53,9 +50,7 @@
         <activity android:name=".LogForT"
             >
         </activity>
-        <activity android:name=".re"
-            >
-        </activity>
+
 
 
     </application>
