@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import android.os.Message;
 import android.os.Handler;
 
+import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.util.My_DB;
 import com.example.zy.stry.util.MyAdapter;
 import com.example.zy.stry.util.ThreadBooksMessage;
@@ -35,7 +36,7 @@ public class SelectFromT extends Activity {
     private ListView page_list=null;
     private View v = null;
     private MyAdapter ma=null;
-    My_DB db=null;
+    DatabaseHandler db=null;
     List<BookEntity> lt=null;
     private SQLiteDatabase job =null;
 
@@ -46,7 +47,11 @@ public class SelectFromT extends Activity {
         //Intent intent=getIntent();
         //Bundle result=intent.getExtras();
 
-        db=new My_DB(SelectFromT.this,My_DB.MY_DB_MANE,null,My_DB.MY_DB_VERSION);
+
+
+         db = new DatabaseHandler(getApplicationContext());
+
+        //db=new My_DB(SelectFromT.this,My_DB.MY_DB_MANE,null,My_DB.MY_DB_VERSION);
         job=db.getReadableDatabase();
        // job.execSQL("update user set  isSelected = 1 where book  = '经济学原理' ");
         //job.execSQL("insert into user(book,isSelected) values(?,?)", new Object[]{"测试数据",1});
@@ -94,6 +99,7 @@ public class SelectFromT extends Activity {
         Button btn=(Button)findViewById(R.id.btn_s);
         btn.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+                job=db.getReadableDatabase();
                 for (int i = 0; i < ma.getCount(); i++) {
                     String na = lt.get(i).getBook();
                     if (page_list.isItemChecked(i))
@@ -101,18 +107,18 @@ public class SelectFromT extends Activity {
                             //u.isSelected(1);
 
                            // try {
-                                job.execSQL("update user set  isSelected=1 where book=?", new String[]{na});
+                                job.execSQL("update books set  isSelected=1 where book=?", new String[]{na});
 
 
                             //}
                             //catch (Exception e   ){
-                                Toast.makeText(SelectFromT.this, "err", Toast.LENGTH_LONG).show();
+                               // Toast.makeText(SelectFromT.this, "err", Toast.LENGTH_LONG).show();
                               //  e.toString();
 
                             //}
                             //page_list.setItemChecked(i, true);
                         }else{
-                        job.execSQL("update user set  isSelected=-1 where book=?", new String[]{na});
+                        job.execSQL("update books set  isSelected=-1 where book=?", new String[]{na});
                     }
                 }
                // saveAll();

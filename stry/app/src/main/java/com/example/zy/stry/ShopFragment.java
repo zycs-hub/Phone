@@ -103,6 +103,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
         mListItems = new LinkedList<String>();
 
+        t=new myThread();
         t.start(); // spawn thread
 
         try {
@@ -153,6 +154,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             e.printStackTrace();
         }
 
+        t = new myThread();
         t.start(); // spawn thread
 
         try {

@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.util.My_DB;
 import com.example.zy.stry.util.ThreadBooksMessage;
 import com.example.zy.stry.util.BookGlobla;
@@ -60,11 +62,15 @@ public class LogForT extends Activity {
                                 //if confirm password return finish(); if overridr clear db
                                 //确认密码 存入数据库  return
                                 //初次登录 晴空， 写入数据库  跳到选书界面
-                                db = new My_DB(LogForT.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
-                                job = db.getReadableDatabase();
+                                //db = new My_DB(LogForT.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
+                                //job = db.getReadableDatabase();
                                 //db.onUpgrade(job,0,0);
-                                job.execSQL("DELETE FROM user");
-                                long param = db.addDate(BookGlobla.lts, job);
+                                ///job.execSQL("DROP TABLE IF EXISTS books");
+                                DatabaseHandler db1 = new DatabaseHandler(getApplicationContext());
+                                job = db1.getReadableDatabase();
+                                job.execSQL("DELETE FROM books");
+                                job.close();
+                                long param = db1.addDate(BookGlobla.lts);
                                // if (param != BookGlobla.lts.size()) Toast.makeText(LogForT.this, "err", Toast.LENGTH_LONG).show();
                                 //Bundle data = new Bundle();
                                 //data.putString("name", nameString);

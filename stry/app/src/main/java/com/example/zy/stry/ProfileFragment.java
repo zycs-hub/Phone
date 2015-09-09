@@ -4,10 +4,12 @@ package com.example.zy.stry;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
@@ -44,6 +46,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 //        listView.getHeaderView().setImageResource(R.drawable.splash01);
 //        listView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
 //        listView.setHeaderLayoutParams(localObject);
+//<<<<<<< HEAD
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("zhuwenwu", "position = " + position);
+                if (position==0){
+                    Intent intent = new Intent(getActivity(), LogForT.class);
+                    startActivity(intent);
+                }
+                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();/
+
+           }
+       });
+//=======
 
         login_bnt = (Button) rootView.findViewById(R.id.login);
         login_bnt.setOnClickListener(this);
@@ -64,6 +80,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         listView.setAdapter(new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, (String[])adapterData.toArray(new String[adapterData.size()])));
+//>>>>>>> 2fef4077ce0be2c0c0dd8de53aae3144088253d8
         return rootView;
     }
 

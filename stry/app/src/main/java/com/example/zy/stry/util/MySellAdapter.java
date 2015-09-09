@@ -30,7 +30,7 @@ public class MySellAdapter extends BaseAdapter{
         int param=0;
         if(ssa!=null){
             for(BookEntity u :ssa)
-            if(u.isSelected()==1)
+         //   if(u.isSelected()==1)
                 ++param;
         }
         return param;
@@ -47,7 +47,7 @@ public class MySellAdapter extends BaseAdapter{
         arg1=inflater.inflate(R.layout.activity_buy_page_value,null);
         TextView buy_page_class=(TextView)arg1.findViewById(R.id.buy_page_class);
         // RadioButton main_choose=(RadioButton)arg1.findViewById(R.id.main_choose);
-        if (ssa.get(arg0).isSelected()==1)
+        //if (ssa.get(arg0).isSelected()==1)
             buy_page_class.setText(ssa.get(arg0).getBook());
         return arg1;
     }

@@ -16,7 +16,7 @@ import java.io.OutputStream;
  * Created by zy on 15/7/8.
  */ 
 public class GetInputStream {
-    static String sURL="http://202.118.65.20:8089/";
+    static String sURL="http://202.118.65.20:8083/";
     static String log="loginAction.do";
     static String grade="gradeLnAllAction.do?type=ln&oper=fainfo";
     static String curriculum="xkAction.do?actionType=6";

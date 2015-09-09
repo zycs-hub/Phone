@@ -15,7 +15,7 @@ import java.lang.StringBuffer;
 
 public class My_DB extends SQLiteOpenHelper {
     public static final String MY_DB_MANE = "my_db";
-    public static final String MY_DB_TABLE_1_NAME = "user";
+    public static final String MY_DB_TABLE_1_NAME = "books";
     public static final int MY_DB_VERSION = 1;
     public static final String QUERY_USER_ALL = "SELECT * FROM " + MY_DB_TABLE_1_NAME;
 
@@ -37,10 +37,10 @@ public class My_DB extends SQLiteOpenHelper {
         tableCreate.append("create table ")
                 .append(MY_DB_TABLE_1_NAME)
                 .append(" (")
-                .append("book text , ")
-                .append("isSelected INTEGER")
-                .append("isTaking INTEGER")
-                .append(")");
+                .append(" book TEXT , ")
+                .append(" isSelected INTEGER , ")
+                .append(" isTaking INTEGER ")
+                .append(" )");
         //System.out.println(tableCreate.toString());
         arg0.execSQL(tableCreate.toString());
     }
@@ -57,13 +57,17 @@ public class My_DB extends SQLiteOpenHelper {
             use =new BookEntity();
             use.setBook(cr.getString(0));
             use.isSelected(cr.getInt(1));
+            use.isTaking(cr.getInt(2));
             It.add(use);
         }
+        db.close();
         return It;
     }
-    public long addDate(List<BookEntity> be,SQLiteDatabase db){
+    public long addDate(List<BookEntity> be){
+        SQLiteDatabase db = this.getReadableDatabase();
+        //db.execSQL("DROP TABLE IF EXISTS books");
         long param=0;
-        db.beginTransaction();
+        //db.beginTransaction();
         if(be!=null)
             for(BookEntity se :be){
                 ContentValues cv =new ContentValues();
@@ -72,8 +76,9 @@ public class My_DB extends SQLiteOpenHelper {
                 cv.put("isTaking" ,se.isTaking());
                 param=db.insert(MY_DB_TABLE_1_NAME,null,cv);
             }
-        db.setTransactionSuccessful();
-        db.endTransaction();
+        db.close();
+        //db.setTransactionSuccessful();
+        //db.endTransaction();
         return param;
     }
 }

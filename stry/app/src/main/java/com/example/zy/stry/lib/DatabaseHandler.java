@@ -1,5 +1,6 @@
 package com.example.zy.stry.lib;
 
+import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.entity.UserEntity.User;
 import com.example.zy.stry.entity.SellEntity.SellBook;
 import com.example.zy.stry.entity.SellEntity.Sell;
@@ -12,6 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by wendy on 15-7-6.
@@ -24,10 +26,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     // Database Name
     private static final String DATABASE_NAME = "App";
 
-    private static final String TEXT_TYPE = " TEXT";
-    private static final String INT_TYPE = " INTEGER";
-    private static final String BOOL_TYPE = " BLOB";
-    private static final String COMMA_SEP = ",";
+    private static final String TEXT_TYPE = " TEXT ";
+    private static final String INT_TYPE = " INTEGER ";
+    private static final String BOOL_TYPE = " BLOB ";
+    private static final String COMMA_SEP = " , ";
+
+    public static final String QUERY_USER_ALL = "SELECT * FROM " + "books";
+
 
 
     public DatabaseHandler(Context context) {
@@ -40,7 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         String CREATE_USERS_TABLE = "CREATE TABLE " + User.TABLE_NAME + " ("
                 + User.KEY_UID + " INTEGER PRIMARY KEY,"
                 + User.KEY_NAME + " TEXT UNIQUE" + COMMA_SEP
-                + User.KEY_PASS + TEXT_TYPE + COMMA_SEP
+                + User.KEY_PASS + TEXT_TYPE //+ COMMA_SEP
                 + ")";
 
         String CREATE_SELL_TABLE = "CREATE TABLE " + Sell.TABLE_NAME + "("
@@ -56,10 +61,21 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 + Sell.KEY_ADD_TIME + TEXT_TYPE + COMMA_SEP
                 + Sell.KEY_UPDATE_TIME + TEXT_TYPE + COMMA_SEP
                 + Sell.KEY_IS_DEL + BOOL_TYPE + COMMA_SEP
-                + Sell.KEY_BID  + INT_TYPE + COMMA_SEP
+                + Sell.KEY_BID  + INT_TYPE //+ COMMA_SEP
                 + ")";
+        StringBuffer tableCreate = new StringBuffer();
+        tableCreate.append("CREATE TABLE ")
+                .append(" books ")
+                .append(" (")
+                .append(" book TEXT , ")
+                .append(" isSelected INTEGER , ")
+                .append(" isTaking INTEGER ")
+                .append(" )");
+        //System.out.println(tableCreate.toString());
+
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_SELL_TABLE);
+        db.execSQL(tableCreate.toString());
     }
 
     // Upgrading database
@@ -166,6 +182,38 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         cursor.close();
         db.close();
         return list;
+    }
+    public long addDate(List<BookEntity> be){
+        SQLiteDatabase db = this.getReadableDatabase();
+        //db.execSQL("DROP TABLE IF EXISTS books");
+        long param=0;
+        //db.beginTransaction();
+        if(be!=null)
+            for(BookEntity se :be){
+                ContentValues cv =new ContentValues();
+                cv.put("book",se.getBook());
+                cv.put("isSelected" ,se.isSelected());
+                cv.put("isTaking" ,se.isTaking());
+                param=db.insert("books",null,cv);
+            }
+        db.close();
+        //db.setTransactionSuccessful();
+        //db.endTransaction();
+        return param;
+    }
+    public List<BookEntity> getUserAll(SQLiteDatabase db){
+        List<BookEntity> It=new ArrayList<BookEntity>();
+        BookEntity use=null;
+        Cursor cr=db.rawQuery(QUERY_USER_ALL,null);
+        while(cr.moveToNext()){
+            use =new BookEntity();
+            use.setBook(cr.getString(0));
+            use.isSelected(cr.getInt(1));
+            use.isTaking(cr.getInt(2));
+            It.add(use);
+        }
+        db.close();
+        return It;
     }
 
 

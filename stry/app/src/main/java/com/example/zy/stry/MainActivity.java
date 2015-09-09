@@ -192,15 +192,18 @@ public class MainActivity extends FragmentActivity {
             }
         };
 
-        db = new My_DB(MainActivity.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
-        job = db.getReadableDatabase();
-        List<BookEntity> lt = db.getUserAll(job);
-        BookGlobla.lts=lt;
+        //db = new My_DB(MainActivity.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
+        //job = db.getReadableDatabase();
+        //List<BookEntity> lt = db.getUserAll(job);
+        //BookGlobla.lts=lt;
 
 
 
-        ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
-        new Thread(thr).start();
+        if (LogStatusGlobla.getLogStatus()==-1){
+          //  ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
+          //  new Thread(thr).start();
+        }
+
 
 
         //more1 = (LinearLayout)findViewById(R.id.more1);
@@ -353,7 +356,16 @@ public class MainActivity extends FragmentActivity {
 //
 
 //        //tv_login=(Button)findViewById(R.id.tv_login);
+//<<<<<<< HEAD
+//
+//<<<<<<< HEAD
+//
+//=======
+        //
+//>>>>>>> origin
+//=======
 
+//>>>>>>> 2fef4077ce0be2c0c0dd8de53aae3144088253d8
         /*
         MainActivity里的代码最好简洁，都是调用不同模块或者函数，这个search的buttonOnClick里的操作
         最好新写一个JAVAClass叫Search.java然后只简单的2，3句调用像原来的login和register似的
