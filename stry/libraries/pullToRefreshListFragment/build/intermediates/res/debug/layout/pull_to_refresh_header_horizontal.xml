@@ -26,4 +26,8 @@
             android:visibility="gone" />
     </FrameLayout>
 
+<<<<<<< HEAD
 </merge><!-- From: file:/Users/wendy/Project/Phone/stry/libraries/PullToRefreshLibrary/src/main/res/layout/pull_to_refresh_header_horizontal.xml --><!-- From: file:/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/layout/pull_to_refresh_header_horizontal.xml -->
+=======
+</merge><!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/PullToRefreshLibrary/src/main/res/layout/pull_to_refresh_header_horizontal.xml --><!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/layout/pull_to_refresh_header_horizontal.xml -->
+>>>>>>> 99b4b60ea074fee5dac0b9092be5943a90e8cb1d

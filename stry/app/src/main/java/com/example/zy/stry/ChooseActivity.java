@@ -1,84 +1,97 @@
 package com.example.zy.stry;
 
-/**
- * Created by zy on 15/7/7.
- */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author zy
- */
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.example.zy.stry.BooksFragment;
+import com.example.zy.stry.widget.BackHandledFragment;
 
+public class ChooseActivity extends AppCompatActivity  {
 
-public class ChooseActivity extends Activity {
+    private Toolbar mToolbar;
 
-    private TextView name ;
-    public String txt;
-    //测试登录功能，返回“自动”登录后的页面
+    private static final int ANIM_DURATION_TOOLBAR = 300;
+
+     String default_search_keyword;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log);
-       /* if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }*/
-        name = (TextView)findViewById(R.id.sname);
-        TextView password=(TextView)findViewById(R.id.spassword);
-        Intent intent=getIntent();
-        Bundle result=intent.getExtras();
-        //name.setText(result.getString("name"));
-        // ThreadBooksMessage tsmfm =new ThreadBooksMessage(han,result.getString("name"),result.getString("password"));
-        // GetInputStream in= new GetInputStream();
-        //PullForXml on=new PullForXml();
-        //String it=new String();
-        //  it=PullForXml.getBookEntitys(GetInputStream.getInputStream(result.getString("name"), result.getString("password"))).toString();
+        setContentView(R.layout.activity_choose);
+        Intent intent = getIntent();
+        default_search_keyword = intent.getStringExtra("searchword");
 
-        // name.setText(it);
-        getU();
-    }
-    private  Handler han1 =new Handler(){
-        public  void handleMessage(Message msg){
-            switch (msg.what){
-                case 3:
-                    name.setText(txt);
-                    break;
-                case 4:
-                    name.setText("4");
-                    break;
-                default:
-                    name.setText("error");
-                    break;
-            }
-        }
-    };
-    public void getU(){
-        //  name.setText("run");
-        // name.setText("run1");
-
-        new Thread(new Runnable() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-               // txt=new String (PullForXml.getBookEntitys(GetInputStream.getInputStream("201347028","255016",1)).toString());
-                //name.setText("txt");
-                han1.sendEmptyMessage(3);
-                //  else
-                //      han1.sendEmptyMessage(4);
+            public void onClick(View view) {
+                onBackPressed();
             }
-        }).start();
+        });
+
+
+
+
+
+        switchToBook();
+
     }
+
+
+    private void switchToBook() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new BooksFragment()).commit();
+        //mToolbar.setTitle(R.string.navigation_book);
+    }
+
+
+
+
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+
+
 
 }

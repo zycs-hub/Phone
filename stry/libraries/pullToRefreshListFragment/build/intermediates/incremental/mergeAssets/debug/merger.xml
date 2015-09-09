@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/src/main/assets"/></dataSet><dataSet config="debug"><source path="/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/src/debug/assets"/></dataSet></merger>
+=======
+<merger version="3"><dataSet config="main"><source path="/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/src/main/assets"/></dataSet><dataSet config="debug"><source path="/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/src/debug/assets"/></dataSet></merger>
+>>>>>>> 99b4b60ea074fee5dac0b9092be5943a90e8cb1d

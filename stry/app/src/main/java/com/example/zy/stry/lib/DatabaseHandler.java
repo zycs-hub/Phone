@@ -69,7 +69,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 .append(" (")
                 .append(" book TEXT , ")
                 .append(" isSelected INTEGER , ")
-                .append(" isTaking INTEGER ")
+                .append(" isTaking INTEGER , ")
+                .append(" Images INTEGER ")
                 .append(" )");
         //System.out.println(tableCreate.toString());
 
