@@ -75,7 +75,7 @@ public class SelectFromT extends Activity {
         }
 
 
-        inflater =getLayoutInflater();
+        inflater = getLayoutInflater();
         btn_s=(Button) findViewById(R.id.btn_s);
         main_tv1=(TextView)findViewById(R.id.main_tv1);
         main_body_lin=(RelativeLayout) findViewById(R.id.main_body_line);

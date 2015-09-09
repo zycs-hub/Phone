@@ -46,24 +46,22 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 //        listView.getHeaderView().setImageResource(R.drawable.splash01);
 //        listView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
 //        listView.setHeaderLayoutParams(localObject);
-//<<<<<<< HEAD
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("zhuwenwu", "position = " + position);
-                if (position==0){
-                    Intent intent = new Intent(getActivity(), LogForT.class);
-                    startActivity(intent);
-                }
-                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();/
-
-           }
-       });
-//=======
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//           @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.e("zhuwenwu", "position = " + position);
+//                if (position==0){
+//                    Intent intent = new Intent(getActivity(), LogForT.class);
+//                    startActivity(intent);
+//                }
+//                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();/
+//
+//           }
+//       });
 
         login_bnt = (Button) rootView.findViewById(R.id.login);
         login_bnt.setOnClickListener(this);
-
+//
         String newString;
         if (savedInstanceState == null) {
             Bundle extras = getActivity().getIntent().getExtras();
@@ -86,7 +84,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View arg0) {
-        Intent login = new Intent(getActivity(), Login.class);
+        Intent login = new Intent(getActivity(), LogForT.class);
         startActivity(login);
     }
 

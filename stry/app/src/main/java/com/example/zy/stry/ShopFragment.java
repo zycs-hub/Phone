@@ -39,7 +39,6 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     List mStrings = new ArrayList();
     private PullToRefreshListFragment mPullRefreshListFragment;
     private PullToRefreshListView mPullRefreshListView;
-    myThread t = new myThread();
 
     private static String KEY_SUCCESS = "success";
     public static String KEY_USERNAME = "username";
@@ -103,14 +102,8 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
         mListItems = new LinkedList<String>();
 
-        t=new myThread();
-        t.start(); // spawn thread
+        new GetData().execute();
 
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 //        DatabaseHandler db = new DatabaseHandler(getActivity());
 //        ArrayList<SellBook> list =  db.getShopData();
 //        for(int i = 0; i < list.size(); i++)
@@ -138,6 +131,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             return rootView;
         };
 
+
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
         String label = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(),
@@ -147,25 +141,23 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
         // Do work to refresh the list here.
-//        new GetDataTask().execute();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        t = new myThread();
-        t.start(); // spawn thread
-
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        new GetData().execute();
     }
 
-    private class myThread extends Thread {
-        public void run(){
+
+
+    private class GetData extends AsyncTask<Void, Void, String[]> {
+
+        @Override
+        protected String[] doInBackground(Void... params) {
+            // Simulates a background job.
+            try {
+                Thread.sleep(4000);
+
+            } catch (InterruptedException e) {
+            }
+
+
             try {
 
                 Book book = new Book();
@@ -192,24 +184,16 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-    }
-    private class GetDataTask extends AsyncTask<Void, Void, String[]> {
 
-        @Override
-        protected String[] doInBackground(Void... params) {
-            // Simulates a background job.
-            try {
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-            }
             final int len = mStrings.size();
             return (String[])mStrings.toArray(new String[len]);
         }
 
         @Override
         protected void onPostExecute(String[] result) {
-            mListItems.addFirst("Added after refresh...");
+            mListItems.clear();
+            mListItems.addAll(mStrings);
+
             mAdapter.notifyDataSetChanged();
 
             // Call onRefreshComplete when the list has been refreshed.
@@ -218,6 +202,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             super.onPostExecute(result);
         }
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
