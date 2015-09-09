@@ -192,16 +192,16 @@ public class MainActivity extends FragmentActivity {
             }
         };
 
-        db = new My_DB(MainActivity.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
-        job = db.getReadableDatabase();
-        List<BookEntity> lt = db.getUserAll(job);
-        BookGlobla.lts=lt;
+        //db = new My_DB(MainActivity.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
+        //job = db.getReadableDatabase();
+        //List<BookEntity> lt = db.getUserAll(job);
+        //BookGlobla.lts=lt;
 
 
 
         if (LogStatusGlobla.getLogStatus()==-1){
-            ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
-            new Thread(thr).start();
+          //  ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
+          //  new Thread(thr).start();
         }
 
 

@@ -41,6 +41,10 @@
         <activity android:name=".ChooseActivity"
             >
         </activity>
+        <activity android:name=".BookDetailActivity"
+            android:theme="@style/DrawerLayoutTheme"
+            >
+        </activity>
         <activity android:name=".ShowMessageActivity"
             >
         </activity>
