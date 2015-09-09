@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/libraries/PullToRefreshLibrary/PullToRefreshLibrary.iml" filepath="$PROJECT_DIR$/libraries/PullToRefreshLibrary/PullToRefreshLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/libraries.iml" filepath="$PROJECT_DIR$/libraries/libraries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/libraries.iml" filepath="$PROJECT_DIR$/libraries/libraries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/pullToRefreshListFragment/pullToRefreshListFragment.iml" filepath="$PROJECT_DIR$/libraries/pullToRefreshListFragment/pullToRefreshListFragment.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/PullToRefreshLibrary/extras/pullToRefreshListFragment/pullToRefreshListFragment.iml" filepath="$PROJECT_DIR$/libraries/PullToRefreshLibrary/extras/pullToRefreshListFragment/pullToRefreshListFragment.iml" />
       <module fileurl="file://$PROJECT_DIR$/stry.iml" filepath="$PROJECT_DIR$/stry.iml" />
     </modules>
