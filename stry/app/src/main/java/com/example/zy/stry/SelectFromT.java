@@ -43,7 +43,7 @@ public class SelectFromT extends Activity {
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.activity_choose);
+        setContentView(R.layout.activity_select);
         //Intent intent=getIntent();
         //Bundle result=intent.getExtras();
 

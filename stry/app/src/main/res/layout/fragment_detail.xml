@@ -7,6 +7,11 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <Button
+            android:id="@+id/button_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:text="点击添加信息"/>
 
         <TextView
             android:id="@+id/tvInfo"
