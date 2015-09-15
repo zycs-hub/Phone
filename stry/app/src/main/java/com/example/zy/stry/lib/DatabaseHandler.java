@@ -154,36 +154,44 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * */
     public ArrayList<SellBook> getShopData(){
         ArrayList<SellBook> list = new ArrayList<SellBook>();
-        SellBook book = new SellBook();
 //        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_IS_SELLING + " = 1";
         String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
-        String[] columns={"bookname"};
 //        Cursor  cursor = db.query(Sell.TABLE_NAME, columns, null, null, null, null, null);
 
         Cursor cursor = db.rawQuery(selectQuery, null);
-        cursor.moveToFirst();
-        while(cursor.moveToNext()) {
-//            book.username = cursor.getString(1);
-//            book.bookname = cursor.getString(2);
-//            book.courseid = cursor.getInt(3);
-//            book.coursename = cursor.getString(4);
-//            book.price = cursor.getInt(5);
-//            book.press = cursor.getString(6);
-//            book.is_selling = cursor.getBlob(7);
-//            book.is_sold = cursor.getBlob(8);
-//            book.add_time = cursor.getString(9);
-//            book.update_time = cursor.getString(10);
-//            book.is_del = cursor.getBlob(11);
-//            book.bid = cursor.getInt(12);
-            book.bookname = cursor.getString(0);
-            list.add(book);
+        if (cursor.moveToFirst()) {
+            do {
+                SellBook book = new SellBook();
+                book.username = cursor.getString(1);
+                book.bookname = cursor.getString(2);
+                book.courseid = cursor.getInt(3);
+                book.coursename = cursor.getString(4);
+                book.price = cursor.getInt(5);
+                book.press = cursor.getString(6);
+//                book.is_selling = cursor.getBlob(7);
+//                book.is_sold = cursor.getBlob(8);
+                book.add_time = cursor.getString(9);
+                book.update_time = cursor.getString(10);
+//                book.is_del = cursor.getBlob(11);
+//                book.bid = cursor.getInt(12);
+                list.add(book);
+            } while(cursor.moveToNext());
         }
+
         cursor.close();
         db.close();
         return list;
     }
+
+    public void deleteShopData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete All Rows
+        db.delete(Sell.TABLE_NAME, null, null);
+        db.close();
+    }
+
     public long addDate(List<BookEntity> be){
         SQLiteDatabase db = this.getReadableDatabase();
         //db.execSQL("DROP TABLE IF EXISTS books");
