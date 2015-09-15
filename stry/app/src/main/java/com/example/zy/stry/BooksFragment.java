@@ -235,7 +235,10 @@ public class BooksFragment extends Fragment {
             runEnterAnimation(holder.itemView, position);
             Book book = mBooks.get(position);
             holder.tvTitle.setText(book.getTitle());
-            String desc = "作者: " + book.getAuthor()[0] + "\n副标题: " + book.getSubtitle()
+            String desc ;
+            if (book.getAuthor().length==0) desc =   "\n副标题: " + book.getSubtitle()
+                    + "\n出版年: " + book.getPubdate() + "\n页数: " + book.getPages() + "\n定价:" + book.getPrice();
+            else desc = "作者: " + book.getAuthor()[0] + "\n副标题: " + book.getSubtitle()
                     + "\n出版年: " + book.getPubdate() + "\n页数: " + book.getPages() + "\n定价:" + book.getPrice();
             holder.tvDesc.setText(desc);
             Glide.with(holder.ivBook.getContext())

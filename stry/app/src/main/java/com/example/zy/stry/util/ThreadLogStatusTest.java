@@ -65,16 +65,19 @@ public class ThreadLogStatusTest implements Runnable{
     }
 
     private boolean isWeb(){
-        int logStatus = GetInputStream.logStatus("1", "1");
-        if (logStatus == -1) {
-            hanStatus.sendEmptyMessage(-1);
-            return false;
-        } else if (logStatus == -2) {
-            hanStatus.sendEmptyMessage(-2);
-            return true;
-        } else {
-            return false;
+        String logStatus;
+        logStatus = XMLParser.parserForTLog(GetInputStream.login("1", "1"));
+        switch (logStatus){
+            case "err" :
+                hanStatus.sendEmptyMessage(-1);
+                return false;
+            case "你输入的证件号不存在，请您重新输入！" :
+                hanStatus.sendEmptyMessage(-2);
+                return true;
+            default:
+                return false;
         }
+
     }
 
 

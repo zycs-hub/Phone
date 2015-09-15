@@ -72,6 +72,7 @@ public class MyCenterFragment extends Fragment {
             Intent intent = new Intent(getActivity(), LogForT.class);
             startActivity(intent);
         }
+        if (lt!=null)
         for (BookEntity book : lt){
             if (book.isSelected()==1)
             book_for_sell.add(book);

@@ -16,7 +16,7 @@ public class ThreadBooksMessage implements Runnable {
     private String name, password;
     private String purpose = "";
 
-    public ThreadBooksMessage(Handler han, String name, String password, String purpose) {
+    public ThreadBooksMessage(Handler han, String name, String password, String purpose ) {
         super();
         this.han = han;
         this.name = name;
@@ -26,34 +26,37 @@ public class ThreadBooksMessage implements Runnable {
 
     @Override
     public void run() {
+
         /*
         * -1 err unknown
         * 1 log
         * -2 账户名err
         * -3 mm  err
         * */
-        int logStatus = GetInputStream.logStatus(name, password);
-        if (logStatus == -1) {
-            han.sendEmptyMessage(-1);
+        String logStatus;
+        logStatus = XMLParser.parserForTLog(GetInputStream.login(name, password));
+        switch (logStatus){
+            case "err" :
+                han.sendEmptyMessage(-1);
+                break;
+            case "log" :
+                if (purpose.equals("Override")) {
+                    BookGlobla.lts = XMLParser.getBookEntitys(GetInputStream.View("grade", name, password));
+                    BookGlobla.lts.addAll(XMLParser.getCourse(GetInputStream.View("curriculum", name, password)));
+                    han.sendEmptyMessage(1);
+                } else {
+                    han.sendEmptyMessage(1);
+                }
+                break;
+            case "你输入的证件号不存在，请您重新输入！" :
+                han.sendEmptyMessage(-2);
+                break;
+            case "您的密码不正确，请您重新输入！":
+                han.sendEmptyMessage(-3);
+                break;
         }
-        else if (logStatus == 1) {
-            if (purpose.equals("Override")) {
-                List<BookEntity> t;
-                t = XMLParser.getBookEntitys(GetInputStream.View("grade", name, password));
-                for(BookEntity book : XMLParser.getCourse(GetInputStream.View("curriculum", name, password)))
-                    t.add(book);
-                BookGlobla.lts = t;
-                han.sendEmptyMessage(1);
-            } else {
-                han.sendEmptyMessage(1);
-            }
-        }
-        else if (logStatus == -2) {
-            han.sendEmptyMessage(-2);
-        }
-        else if (logStatus == -3) {
-            han.sendEmptyMessage(-3);
-        }
+
+
 
     }
 }

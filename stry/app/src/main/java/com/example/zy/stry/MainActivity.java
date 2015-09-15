@@ -102,7 +102,7 @@ public class MainActivity extends FragmentActivity {
 
 
     private Button tv_login=null;
-    private Handler hanMain = null;
+    private final Handler hanMain = null;
     private LinearLayout BLinearLayout1=null;
     private Toast toast;
 
@@ -159,7 +159,9 @@ public class MainActivity extends FragmentActivity {
 
         //hanMain.sendEmptyMessage(-1);
 
-        hanMain = new Handler()
+        final  Handler hanMain = new Handler()
+
+        //hanMain = new Handler()
         {
             @Override
             public  void handleMessage(Message msg)
