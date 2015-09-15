@@ -1,6 +1,7 @@
 package com.example.zy.stry;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,13 +10,15 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.zy.stry.lib.Book;
+import com.example.zy.stry.entity.Book;
+import com.example.zy.stry.entity.SellEntity;
+import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.DatabaseHandler;
-import com.handmark.pulltorefresh.extras.listfragment.PullToRefreshListFragment;
+import com.example.zy.stry.lib.ListAdapter;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
@@ -34,10 +37,10 @@ import java.util.List;
  */
 public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefreshListener<ListView> {
     private LinkedList<String> mListItems;
-    private ArrayAdapter<String> mAdapter;
-    FragmentActivity listener;
-    List mStrings = new ArrayList();
-    private PullToRefreshListFragment mPullRefreshListFragment;
+    private ListAdapter mAdapter;
+    private FragmentActivity listener;
+    private ArrayList<SellEntity.SellBook> mData;
+    private List mStrings = new ArrayList();
     private PullToRefreshListView mPullRefreshListView;
 
     private static String KEY_SUCCESS = "success";
@@ -75,12 +78,8 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//
 
         View rootView = inflater.inflate(R.layout.fragment_shop, container, false);
-
-//        mPullRefreshListFragment = (PullToRefreshListFragment) rootView.findFragmentById(
-//                R.id.frag_ptr_list);
 
         // Get PullToRefreshListView from Fragment
         mPullRefreshListView = (PullToRefreshListView) rootView.findViewById(R.id.pull_refresh_list);
@@ -101,19 +100,18 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         registerForContextMenu(actualListView);
 
         mListItems = new LinkedList<String>();
-
+        //如果连网就更新否则直接查询本地
         new GetData().execute();
 
-//        DatabaseHandler db = new DatabaseHandler(getActivity());
-//        ArrayList<SellBook> list =  db.getShopData();
-//        for(int i = 0; i < list.size(); i++)
-//        {
-//            mStrings.add(list.get(i).bookname);
-//        }
+        DatabaseHandler db = new DatabaseHandler(getActivity());
+        ArrayList<SellEntity.SellBook> mData =  db.getShopData();
+        for(int i = 0; i < mData.size(); i++)
+        {
+            mStrings.add(mData.get(i).bookname);
+        }
 
         mListItems.addAll(mStrings);
-
-        mAdapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,mListItems);
+        mAdapter=new ListAdapter(getActivity(),mData);
 
         /**
          * Add Sound Event Listener
@@ -123,9 +121,19 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         soundListener.addSoundEvent(State.RESET,R.raw.reset_sound);
         soundListener.addSoundEvent(State.REFRESHING, R.raw.refreshing_sound);
         mPullRefreshListView.setOnPullEventListener(soundListener);
+        mPullRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Book book =new Book();
+                Intent intent1 = new Intent(getActivity(), BookDetailActivity.class);
+                intent1.putExtra("book", book);
+                startActivity(intent1);
+            }
+        });
+
 
         // You can also just use setListAdapter(mAdapter) or
-        mPullRefreshListView.setAdapter(mAdapter);
+//        mPullRefreshListView.setAdapter(mAdapter);
         actualListView.setAdapter(mAdapter);
 
             return rootView;
@@ -145,7 +153,6 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     }
 
 
-
     private class GetData extends AsyncTask<Void, Void, String[]> {
 
         @Override
@@ -160,13 +167,14 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
             try {
 
-                Book book = new Book();
+                BookOperarion book = new BookOperarion();
                 JSONObject json = book.getAllSell();
                 mStrings.removeAll(mStrings);
 
                 if (json.getString(KEY_SUCCESS) != null) {
                     // Store user details in SQLite Database
                     DatabaseHandler db = new DatabaseHandler(getActivity());
+                    db.deleteShopData();
                     JSONArray json_books = json.getJSONArray("goods");
                     int len = json_books.length();
                     for (int i = 0; i < len; i++) {
@@ -192,7 +200,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         @Override
         protected void onPostExecute(String[] result) {
             mListItems.clear();
-            mListItems.addAll(mStrings);
+//            mListItems.addAll(mStrings);
 
             mAdapter.notifyDataSetChanged();
 
@@ -208,5 +216,6 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
 
 }

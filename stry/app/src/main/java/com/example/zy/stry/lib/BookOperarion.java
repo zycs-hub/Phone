@@ -6,11 +6,11 @@ import org.json.JSONObject;
 /**
  * Created by wendy on 15-9-2.
  */
-public class Book {
+public class BookOperarion {
     private JSONParser jsonParser;
 
     // constructor
-    public Book() {
+    public BookOperarion() {
         jsonParser = new JSONParser();
     }
 

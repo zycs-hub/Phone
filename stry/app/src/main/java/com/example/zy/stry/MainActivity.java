@@ -120,7 +120,7 @@ public class MainActivity extends FragmentActivity {
         myAdapter = new TabsAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(myAdapter);
-        mIndicator.setViewPager(viewPager, 2);
+        mIndicator.setViewPager(viewPager, 0);
 
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 

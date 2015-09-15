@@ -1,74 +1,81 @@
 package com.example.zy.stry.lib;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.zy.stry.BookDetailActivity;
 import com.example.zy.stry.R;
+import com.example.zy.stry.entity.SellEntity;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by wendy on 15-9-9.
  */
 public class ListAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<String> mStrings;
+    private ArrayList<SellEntity.SellBook> mData;
 
-    public ListAdapter(Context context, ArrayList<String> strings) {
+
+    public ListAdapter(Context context,ArrayList<SellEntity.SellBook> data) {
         super();
         mContext=context;
-        mStrings = strings;
+        mData = data;
     }
 
-    private static class ViewHolder {
-        TextView title;
-    }
 
 
     @Override
-    public View getView(int position, View rootView, ViewGroup parent) {
-            rootView = LayoutInflater.from(mContext).inflate(R.layout.activity_appbar_detail, parent, false);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder = null;
+        if(convertView == null) {
+            viewHolder = new ViewHolder();
+            convertView =  LayoutInflater.from(mContext).inflate(R.layout.item, null);
+//            convertView =  LayoutInflater.from(parent.getContext()).inflate(R.layout.item, null);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.price = (TextView) convertView.findViewById(R.id.price);
 
+            convertView.setTag(viewHolder);
+        }else{
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
-//        ViewHolder viewHolder;
-//        if(rootView == null){
-////            viewHolder = new ViewHolder();
-//            rootView = LayoutInflater.from(mContext).inflate(R.layout.activity_appbar_detail, parent, false);
-////            viewHolder.title = (TextView) rootView.findViewById(R.id.title);
-//
-////            rootView.setTag(viewHolder);
-//        }else{
-////            viewHolder = (ViewHolder) rootView.getTag();
-//        }
+        viewHolder.title.setText(mData.get(position).bookname);
+        viewHolder.price.setText(Integer.toString(mData.get(position).price));
 
-//        viewHolder.title.setText(mStrings.get(position));
-
-        return rootView;
+        return convertView;
     }
+
 
     public int getCount()
     {
         // return the number of records in cursor
-        return mStrings.size();
+        return mData.size();
     }
 
     public Object getItem(int position) {
         // TODO Auto-generated method stub
-        return position;
+        return mData.get(position);
     }
 
     public long getItemId(int position) {
         // TODO Auto-generated method stub
         return position;
     }
+
+    class ViewHolder{
+        TextView title;
+        TextView price;
+    }
+
 
 }
 
