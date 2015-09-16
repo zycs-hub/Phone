@@ -31,8 +31,25 @@ public class SellEntity {
     public static class SellBook {
         public String username, bookname, coursename, press, add_time, update_time;
         public int courseid, price, bid;
-        public byte[] is_selling, is_sold, is_del;
+        public boolean is_selling, is_sold, is_del;
         public SellBook() {
+            setData("", "", -1, "", -1, "", false, false, "", "", false, -1);
+        }
+        public void setData(String _username, String _bookname, int _courseid, String _coursename,
+                        int _price, String _press, boolean _is_selling, boolean _is_sold, String _add_time,
+                        String _update_time, boolean _is_del, int _bid) {
+            username = _username;
+            bookname = _bookname;
+            courseid = _courseid;
+            coursename = _coursename;
+            price = _price;
+            press = _press;
+            is_selling = _is_selling;
+            is_sold = _is_sold;
+            add_time = _add_time;
+            update_time = _update_time;
+            is_del = _is_del;
+            bid = _bid;
         }
     }
 }

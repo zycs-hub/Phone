@@ -1,5 +1,6 @@
 package com.example.zy.stry;
 
+import com.example.zy.stry.lib.NetWorkChecker;
 import com.viewpagerindicator.TabPageIndicator;
 import android.app.ActionBar;
 import android.content.Context;
@@ -68,9 +69,10 @@ public class MainActivity extends FragmentActivity {
     private TabsAdapter myAdapter;
     private TabPageIndicator mIndicator ;
 
-
+    private NetWorkChecker netWorkChecker = null;
 
     public static final int MAIN_ACTIVITY = 100;
+    public static boolean hvNetwork = false;
     private LayoutInflater inflater = null;
     private RelativeLayout Bmain_body_lin = null;
     private ListView buy_page_list = null;
@@ -79,7 +81,6 @@ public class MainActivity extends FragmentActivity {
     private View v = null;
     private View v1 = null;
     private View v2 = null;
-    private View v3=null;
     private MyBuyAdapter ma = null;
     private MySellAdapter ma3=null;
     private MySellAdapter mb=null;
@@ -112,12 +113,14 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toast = Toast.makeText(getApplicationContext(), "再按一次退出", 0);
+        toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 
         // Initilization
         mIndicator = (TabPageIndicator) findViewById(R.id.id_indicator);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         myAdapter = new TabsAdapter(getSupportFragmentManager());
+        netWorkChecker = new NetWorkChecker(getApplicationContext());
+        hvNetwork = netWorkChecker.isOnline();
 
         viewPager.setAdapter(myAdapter);
         mIndicator.setViewPager(viewPager, 0);
@@ -159,16 +162,13 @@ public class MainActivity extends FragmentActivity {
 
         //hanMain.sendEmptyMessage(-1);
 
-        hanMain = new Handler()
-        {
+        hanMain = new Handler() {
             @Override
-            public  void handleMessage(Message msg)
-            {
+            public void handleMessage(Message msg) {
 
                 //more1 = (LinearLayout)findViewById(R.id.more1);
                 //more1t =(TextView)findViewById(R.id.more1t);
-                switch (msg.what)
-                {
+                switch (msg.what) {
                     case 1:
                     case 2:
                     case 3:
@@ -198,20 +198,16 @@ public class MainActivity extends FragmentActivity {
         //BookGlobla.lts=lt;
 
 
-
-        if (LogStatusGlobla.getLogStatus()==-1){
-          //  ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
-          //  new Thread(thr).start();
+        if (LogStatusGlobla.getLogStatus() == -1) {
+            //  ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
+            //  new Thread(thr).start();
         }
-
 
 
         //more1 = (LinearLayout)findViewById(R.id.more1);
         //more1t =(TextView)findViewById(R.id.more1t);
 
 //        BLinearLayout1=(LinearLayout)findViewById(R.id.BLinearLayout1);
-
-
 
 
         //取在售的BookEntity
@@ -229,19 +225,13 @@ public class MainActivity extends FragmentActivity {
 //        Bmain_body_lin = (RelativeLayout) findViewById(R.id.Bmain_body_line);
 //        v = inflater.inflate(R.layout.activity_buy_page, null);
 //        v1 = inflater.inflate(R.layout.activity_sell_page, null);
-//        v2 = inflater.inflate(R.layout.activity_pull_to_zoom_list_view, null);
-//        //v3=inflater.inflate(R.layout.refresh,null);
 //
 //        buy_page_list = (ListView) v.findViewById(R.id.buy_page_list);
 //        sell_page_list=(ListView)v1.findViewById(R.id.sell_page_list);
 //        listView = (PullToZoomListViewEx) v2.findViewById(R.id.listview);
 //        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) v.findViewById(R.id.swipe);
 //       // final TextView rndNum = (TextView) v3.findViewById(R.id.rndNum);
-//
-//        String[] adapterData = new String[]{"Activity", "Service", "Content Provider", "Intent", "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient",
-//                "DDMS", "Android Studio", "Fragment", "Loader", "Activity", "Service", "Content Provider", "Intent",
-//                "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient", "Activity", "Service", "Content Provider", "Intent",
-//                "BroadcastReceiver", "ADT", "Sqlite3", "HttpClient"};
+
 //
 //        listView.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, adapterData));
 //        listView.getPullRootView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -280,7 +270,6 @@ public class MainActivity extends FragmentActivity {
 //        sell_page_list.setAdapter(mb);
 //
 //        Bmain_body_lin.addView(v);
-//        //Bmain_body_lin.removeAllViews();
 //
 //        flag='b';
 //
@@ -356,16 +345,7 @@ public class MainActivity extends FragmentActivity {
 //
 
 //        //tv_login=(Button)findViewById(R.id.tv_login);
-//<<<<<<< HEAD
-//
-//<<<<<<< HEAD
-//
-//=======
-        //
-//>>>>>>> origin
-//=======
 
-//>>>>>>> 2fef4077ce0be2c0c0dd8de53aae3144088253d8
         /*
         MainActivity里的代码最好简洁，都是调用不同模块或者函数，这个search的buttonOnClick里的操作
         最好新写一个JAVAClass叫Search.java然后只简单的2，3句调用像原来的login和register似的
@@ -437,27 +417,7 @@ public class MainActivity extends FragmentActivity {
 ////                // buy.setBackgroundResource(R.drawable.white_bankground);
 //            }
 //        });
-//        buy_page_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent it = new Intent(MainActivity.this, ShowMessageActivity.class);
-//                it.putExtra("bookName", BookGlobla.lts.get(i).getBook());
-//                it.putExtra("position", i);
-//                startActivityForResult(it, MAIN_ACTIVITY);
-//
-//            }
-//        });
-//        sell_page_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent it = new Intent(MainActivity.this, ShowMessageActivity_.class);
-//                it.putExtra("bookName", CourseGlobla.lts.get(i).toString());
-//                it.putExtra("position", i);
-//                startActivityForResult(it, MAIN_ACTIVITY);
-//            }
-//        });
-//
-//
+
     }
 
     public void onBackPressed() {

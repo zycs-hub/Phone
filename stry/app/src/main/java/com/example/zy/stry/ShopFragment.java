@@ -19,6 +19,7 @@ import com.example.zy.stry.entity.SellEntity;
 import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.lib.ListAdapter;
+import com.example.zy.stry.lib.TabsAdapter;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
@@ -39,7 +40,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     private LinkedList<String> mListItems;
     private ListAdapter mAdapter;
     private FragmentActivity listener;
-    private ArrayList<SellEntity.SellBook> mData;
+    private ArrayList<SellEntity.SellBook> mData = new ArrayList<>();
     private List mStrings = new ArrayList();
     private PullToRefreshListView mPullRefreshListView;
 
@@ -70,9 +71,6 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Intent shop = new Intent(getActivity(), Shop.class);
-//////        getActivity().startActivity(myIntent)
-////        startActivity(shop);
     }
 
     @Override
@@ -100,16 +98,19 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         registerForContextMenu(actualListView);
 
         mListItems = new LinkedList<String>();
+
+
         //如果连网就更新否则直接查询本地
-        new GetData().execute();
-
-        DatabaseHandler db = new DatabaseHandler(getActivity());
-        ArrayList<SellEntity.SellBook> mData =  db.getShopData();
-        for(int i = 0; i < mData.size(); i++)
-        {
-            mStrings.add(mData.get(i).bookname);
+        if(MainActivity.hvNetwork) {
+            Toast.makeText(getActivity(), "加载中...", Toast.LENGTH_SHORT).show();
+            new GetData().execute();
+        } else {
+            DatabaseHandler db = new DatabaseHandler(getActivity());
+            mData =  db.getShopData();
+            for(int i = 0; i < mData.size(); i++) {
+                mStrings.add(mData.get(i).bookname);
+            }
         }
-
         mListItems.addAll(mStrings);
         mAdapter=new ListAdapter(getActivity(),mData);
 
@@ -170,6 +171,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                 BookOperarion book = new BookOperarion();
                 JSONObject json = book.getAllSell();
                 mStrings.removeAll(mStrings);
+                mData.clear();
 
                 if (json.getString(KEY_SUCCESS) != null) {
                     // Store user details in SQLite Database
@@ -179,12 +181,17 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                     int len = json_books.length();
                     for (int i = 0; i < len; i++) {
                         JSONObject oj = json_books.getJSONObject(i);
-                        db.addSell(oj.getString(KEY_USERNAME), oj.getString(KEY_BOOKNAME),
+                        SellEntity.SellBook data = new SellEntity.SellBook();
+                        data.setData(oj.getString(KEY_USERNAME), oj.getString(KEY_BOOKNAME),
                                 oj.getInt(KEY_COURSEID), oj.getString(KEY_COURSENAME),
                                 oj.getInt(KEY_PRICE), oj.getString(KEY_PRESSS), oj.getBoolean(KEY_IS_SELLING),
                                 oj.getBoolean(KEY_IS_SOLD), oj.getString(KEY_ADD_TIME),
                                 oj.getString(KEY_UPDATE_TIME), oj.getBoolean(KEY_IS_DEL), oj.getInt(KEY_BID));
-                        mStrings.add(oj.getString(KEY_BOOKNAME));
+                        db.addSell(data.username, data.bookname, data.courseid, data.coursename,
+                                data.price, data.press, data.is_selling, data.is_sold, data.add_time,
+                                data.update_time, data.is_del, data.bid);
+                        mData.add(data);
+                        mStrings.add(data.bookname);
                     }
                 } else {
                     Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
@@ -200,7 +207,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         @Override
         protected void onPostExecute(String[] result) {
             mListItems.clear();
-//            mListItems.addAll(mStrings);
+            mListItems.addAll(mStrings);
 
             mAdapter.notifyDataSetChanged();
 
