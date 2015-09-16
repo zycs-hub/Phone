@@ -38,7 +38,7 @@ public class DetailFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, null);
         TextView tvInfo = (TextView) view.findViewById(R.id.tvInfo);
-        Button button  = (Button) view.findViewById(R.id.button_detail);
+ //       Button button  = (Button) view.findViewById(R.id.button_detail);
         tvInfo.setText(getArguments().getString("info"));
 //        tvInfo.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -46,6 +46,7 @@ public class DetailFragment extends Fragment {
 //                Snackbar.make(v,"hello",Snackbar.LENGTH_SHORT).show();
 //            }
 //        });
+        /*
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v0) {
                 String[] S ={"手动添加","数据库自动添加"};
@@ -71,6 +72,7 @@ public class DetailFragment extends Fragment {
                         .show();
             }
         });
+        */
         return view;
     }
 }

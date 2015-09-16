@@ -8,9 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,7 +54,7 @@ import com.example.zy.stry.entity.BookEntity;
 
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
     /*
     LogStatusGlobla
     * 0 默认
@@ -66,7 +69,7 @@ public class MainActivity extends FragmentActivity {
 
     private ViewPager viewPager;
     private TabsAdapter myAdapter;
-    private TabPageIndicator mIndicator ;
+    private TabLayout mIndicator ;
 
 
 
@@ -114,14 +117,55 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", 0);
 
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.tabanim_toolbar);
+        setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Initilization
-        mIndicator = (TabPageIndicator) findViewById(R.id.id_indicator);
+        mIndicator = (TabLayout) findViewById(R.id.id_indicator);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         myAdapter = new TabsAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(myAdapter);
-        mIndicator.setViewPager(viewPager, 0);
+        mIndicator.setupWithViewPager(viewPager);
 
+        //mIndicator.setViewPager(viewPager, 0);
+        mIndicator.setupWithViewPager(viewPager);
+
+
+        mIndicator.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                viewPager.setCurrentItem(tab.getPosition());
+
+                switch (tab.getPosition()) {
+                    case 0:
+                        showToast("One");
+                        break;
+                    case 1:
+                        toolbar.setTitle("货架");
+                        showToast("Two");
+
+                        break;
+                    case 2:
+                        toolbar.setTitle("个人");
+                        showToast("Three");
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        /*
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -155,7 +199,7 @@ public class MainActivity extends FragmentActivity {
             public void onPageScrollStateChanged(int arg0) {
 
             }
-        });
+        });*/
 
         //hanMain.sendEmptyMessage(-1);
 
@@ -460,6 +504,9 @@ public class MainActivity extends FragmentActivity {
 //        });
 //
 //
+    }
+    void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     public void onBackPressed() {
