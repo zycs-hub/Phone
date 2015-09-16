@@ -62,17 +62,17 @@ public class BookDetailActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.addTab(tabLayout.newTab().setText("内容简介"));
-        tabLayout.addTab(tabLayout.newTab().setText("作者简介"));
-        tabLayout.addTab(tabLayout.newTab().setText("目录"));
+        tabLayout.addTab(tabLayout.newTab().setText("消息"));
+        //tabLayout.addTab(tabLayout.newTab().setText("目录"));
         tabLayout.setupWithViewPager(mViewPager);
     }
 
 
     private void setupViewPager(ViewPager mViewPager) {
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(DetailFragment.newInstance(mBook.getSummary()), "内容简介");
-        adapter.addFragment(DetailFragment.newInstance(mBook.getAuthor_intro()), "作者简介");
-        adapter.addFragment(DetailFragment.newInstance(mBook.getCatalog()), "目录");
+        adapter.addFragment(BookDetailInfo.newInstance(mBook.getSummary()), "内容简介");
+        adapter.addFragment(DetailFragment.newInstance(mBook.getAuthor_intro()), "消息");
+        //adapter.addFragment(DetailFragment.newInstance(mBook.getCatalog()), "目录");
         mViewPager.setAdapter(adapter);
     }
 

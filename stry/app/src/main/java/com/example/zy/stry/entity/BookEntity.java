@@ -26,6 +26,11 @@ public class BookEntity implements Serializable {
     //是否有书可以卖
     private int isSelected = 0;
 
+    public String courseid;
+    public String academic_credit;
+    public String coursenum;
+    public String course_status;
+
     private String subtitle;
     private String[] author;
     private String pubdate;

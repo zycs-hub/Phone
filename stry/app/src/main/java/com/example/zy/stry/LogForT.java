@@ -35,15 +35,17 @@ public class LogForT extends Activity {
     //Bundle data=new Bundle();
     My_DB db=null;
     private SQLiteDatabase job =null;
+    Button bt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_for_t);
-        Button bt=(Button)findViewById(R.id.teachLogin);
-        bt.setOnClickListener(new OnClickListener() {
+         bt=(Button)findViewById(R.id.teachLogin);
+         bt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                bt.setVisibility(View.GONE);
                 ///////////////////////////////////////////////////
                 han = new Handler() {
                     @Override
@@ -51,12 +53,15 @@ public class LogForT extends Activity {
                         switch (msg.what) {
                             case -1:
                                 Toast.makeText(LogForT.this, "no_web", Toast.LENGTH_LONG).show();
+                                bt.setVisibility(View.VISIBLE);
                                 break;
                             case -2:
                                 Toast.makeText(LogForT.this, R.string.TLogErr1, Toast.LENGTH_LONG).show();
+                                bt.setVisibility(View.VISIBLE);
                                 break;
                             case -3:
                                 Toast.makeText(LogForT.this, R.string.TLogErr2, Toast.LENGTH_LONG).show();
+                                bt.setVisibility(View.VISIBLE);
                                 break;
                             case 1: {
                                 //if confirm password return finish(); if overridr clear db
@@ -84,7 +89,9 @@ public class LogForT extends Activity {
                                 // }
                                 break;
                             }
+
                             default:
+                                bt.setVisibility(View.VISIBLE);
                                 break;
                         }
 
@@ -97,6 +104,7 @@ public class LogForT extends Activity {
                 passwordString = password.getText().toString();
                 if (nameString.equals("") || passwordString.equals("")) {
                     Toast.makeText(LogForT.this, "Username or password must be filled", Toast.LENGTH_LONG).show();
+                    bt.setVisibility(View.VISIBLE);
                     return;
                 }
                 ///////////////////////////////////////////////////////////////////

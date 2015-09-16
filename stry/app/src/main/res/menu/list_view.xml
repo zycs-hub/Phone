@@ -38,4 +38,5 @@
         android:title="@string/action_enable_zoom"
         android:orderInCategory="105"
         app:showAsAction="never" />
+
 </menu>

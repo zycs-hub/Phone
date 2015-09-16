@@ -1,6 +1,5 @@
 package com.example.zy.stry.util;
 
-import com.example.zy.stry.R;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,18 +19,9 @@ public class GetInputStream {
     static String log="loginAction.do";
     static String grade="gradeLnAllAction.do?type=ln&oper=fainfo";
     static String curriculum="xkAction.do?actionType=6";
+    static String info = "xjInfoAction.do?oper=xjxx";
     static String responseCookie="";//标示Session必须
-    static int logS=-1;
-    public static int  logStatus(String name,String password) {
-        try {
-            logS=-1;
-            login(name, password);
-        } catch (Exception e) {
-            // e.toString();
-        }
-        return logS;
-    }
-    public static void  login(String usr,String pwd)
+    public static String  login(String usr,String pwd)
     {
         try {
             StringBuilder sbR = new StringBuilder();
@@ -64,21 +54,8 @@ public class GetInputStream {
                 line = br.readLine();
             }
 
-            String logStatus;
-            logStatus = XMLParser.parserForTLog(sbR.toString());
+            return sbR.toString();
 
-            if (logStatus.equals("err"))
-                logS = -1;
-            else if (logStatus.equals("log"))
-                logS = 1;
-            else if (logStatus.equals("你输入的证件号不存在，请您重新输入！")) {
-                logS = -2;
-            } else if (logStatus.equals("您的密码不正确，请您重新输入！")) {
-                logS = -3;
-            }
-            else {
-                logS =-1 ;
-            }
         }
         catch (Exception e){
 
@@ -91,6 +68,7 @@ public class GetInputStream {
         * -2 zh
         * -3 mm
         * */
+        return "err";
 
 
 
@@ -103,9 +81,25 @@ public class GetInputStream {
         try {
             if (responseCookie.equals("")) login(name, password);
             String page;
+            switch (status)
+            {
+                case  "curriculum" :
+                    page = curriculum;
+                    break;
+                case "grade" :
+                    page = grade;
+                    break;
+                case "info" :
+                    page = info;
+                    break;
+                default:
+                    return "err";
+            }
+            /*
             if (status.equals("curriculum")) page = curriculum;
             else if (status.equals("grade")) page = grade;
             else return "err";
+            */
 
             StringBuilder sbR = new StringBuilder();
 

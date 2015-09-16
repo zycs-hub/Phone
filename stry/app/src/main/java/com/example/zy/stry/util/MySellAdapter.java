@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.RadioButton;
 import com.example.zy.stry.R;
-import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.entity.BookEntity;
 
 import java.util.List;

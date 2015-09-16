@@ -1,13 +1,21 @@
 package com.example.zy.stry;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -71,6 +79,13 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
+=======
+        setHasOptionsMenu(true);
+//        Intent shop = new Intent(getActivity(), Shop.class);
+//////        getActivity().startActivity(myIntent)
+////        startActivity(shop);
+>>>>>>> 8a0b4756818650938c5581368ee34099023033d4
     }
 
     @Override
@@ -78,6 +93,18 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_shop, container, false);
+        //Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+
+        //set toolbar appearance
+        //toolbar.setBackground(R.color.material_blue_grey_800);
+
+        //for crate home button
+        //AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ((AppCompatActivity) getActivity()).getSupportActionBar();
+        //activity.setSupportActionBar(toolbar);
+        //activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
         // Get PullToRefreshListView from Fragment
         mPullRefreshListView = (PullToRefreshListView) rootView.findViewById(R.id.pull_refresh_list);
@@ -139,6 +166,33 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
             return rootView;
         };
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.search, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        }
+        searchView.setIconifiedByDefault(false);
+        searchView.setQueryHint("");
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                getActivity().onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override
