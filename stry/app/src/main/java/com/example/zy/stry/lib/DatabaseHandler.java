@@ -65,7 +65,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 + ")";
         StringBuffer tableCreate = new StringBuffer();
         tableCreate.append("CREATE TABLE ")
-                .append(" books ")
+                .append(" courses ")
                 .append(" (")
                 .append(" book TEXT , ")
                 .append(" isSelected INTEGER , ")
