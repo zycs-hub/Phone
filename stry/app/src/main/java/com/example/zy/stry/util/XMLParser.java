@@ -4,6 +4,7 @@ import com.example.zy.stry.entity.BookEntity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,10 +38,12 @@ public class XMLParser {
             se.isTaking(-1);
             int ca = 0;
             while (matcher.find()) {
+
+
                 String course = matcher.group(1);
                 switch (ca) {
                     case 0:
-                        se.courseid=course;
+                        se.courseid=Integer.parseInt(course);;
                         ++ca;
                         break;
                     case 1:
@@ -48,6 +51,8 @@ public class XMLParser {
                         ++ca;
                         break;
                     case 2 :
+                        se.bookname=course;
+                        se.coursename=course;
                         se.setBook(course);
                         ++ca;
                         break;
@@ -119,7 +124,7 @@ public class XMLParser {
                         ++ca;
                         break;
                     case 1:
-                        se.courseid=course;
+                        se.courseid=Integer.parseInt(course);
                         ++ca;
                         break;
                     case 2 :

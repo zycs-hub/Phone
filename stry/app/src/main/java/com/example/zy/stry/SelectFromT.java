@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import android.os.Message;
@@ -116,8 +118,7 @@ public class SelectFromT extends Activity {
                             //u.isSelected(1);
 
                            // try {
-                                job.execSQL("update books set  isSelected=1 where book=?", new String[]{na});
-
+                                job.execSQL("update courses set  isSelected=1 where book=?", new String[]{na});
 
 
                             //}
@@ -128,8 +129,12 @@ public class SelectFromT extends Activity {
                             //}
                             //page_list.setItemChecked(i, true);
                         }else{
-                        job.execSQL("update books set  isSelected=-1 where book=?", new String[]{na});
+                        job.execSQL("update courses set  isSelected=-1 where book=?", new String[]{na});
                     }
+                    HashMap<String, String> user = db.getUsersData();
+
+                    db.addSell(user.get("username"), lt.get(i).bookname, lt.get(i).courseid,lt.get(i).coursename, -1, null ,false,false,null,null,false,-1);
+
                 }
                 bookOperator.addSellBooks(username, books_data);
                // saveAll();
