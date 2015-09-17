@@ -1,6 +1,11 @@
 package com.example.zy.stry.lib;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,5 +27,11 @@ public class BookOperarion {
         return json;
     }
 
-    public JSONObject add
+    public JSONObject addSellBooks(String username, String books) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("username", username));
+        params.add(new BasicNameValuePair("books", books));
+        JSONObject json = jsonParser.postJSONFromUrl(Config.getAddSellUrl(), params);
+        return json;
+    }
 }

@@ -60,7 +60,7 @@ public class User {
      * */
     public boolean isUserLoggedIn(Context context){
         DatabaseHandler db = new DatabaseHandler(context);
-        int count = db.getRowCount();
+        int count = db.getUserCount();
         if(count > 0){
             // user logged in
             return true;
@@ -74,7 +74,7 @@ public class User {
      * */
     public boolean logoutUser(Context context){
         DatabaseHandler db = new DatabaseHandler(context);
-        db.deleteTables();
+        db.deleteUser();
         return true;
     }
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import android.os.Message;
 import android.os.Handler;
 
+import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.util.My_DB;
 import com.example.zy.stry.util.MyAdapter;
@@ -39,6 +40,8 @@ public class SelectFromT extends Activity {
     DatabaseHandler db=null;
     List<BookEntity> lt=null;
     private SQLiteDatabase job =null;
+    private String books_data = null;
+    private BookOperarion bookOperator;
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -89,19 +92,25 @@ public class SelectFromT extends Activity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ma.notifyDataSetChanged();
-               // main_body_lin.addView(v);
+                // main_body_lin.addView(v);
 
                 //updateSeletedCount();
             }
         });
+        bookOperator = new BookOperarion();
 
         // main_body_lin.addView(v);
         Button btn=(Button)findViewById(R.id.btn_s);
         btn.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 job=db.getReadableDatabase();
-                for (int i = 0; i < ma.getCount(); i++) {
+                int n = ma.getCount();
+                for (int i = 0; i < n; i++) {
                     String na = lt.get(i).getBook();
+                    books_data += lt.toString();
+                    if(i != n - 1) {
+                        books_data += '\n';
+                    }
                     if (page_list.isItemChecked(i))
                         for (BookEntity u : lt) {
                             //u.isSelected(1);
@@ -122,6 +131,7 @@ public class SelectFromT extends Activity {
                         job.execSQL("update books set  isSelected=-1 where book=?", new String[]{na});
                     }
                 }
+                bookOperator.addSellBooks(username, books_data);
                // saveAll();
                 //main_body_lin.removeAllViews();
                 db.close();

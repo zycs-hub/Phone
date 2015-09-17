@@ -246,23 +246,27 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * Getting user login status
      * return true if rows are there in table
      * */
-    public int getRowCount() {
+    public int getUserCount() {
         String countQuery = "SELECT  * FROM " + User.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int rowCount = cursor.getCount();
         db.close();
         cursor.close();
-
         // return row count
         return rowCount;
     }
 
+    public void deleteUser() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(User.TABLE_NAME, null, null);
+        db.close();
+    }
     /**
      * Re crate database
      * Delete all tables and create them again
      * */
-    public void deleteTables(){
+    public void deleteTables() {
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete All Rows
         db.delete(User.TABLE_NAME, null, null);

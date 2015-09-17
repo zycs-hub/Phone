@@ -9,6 +9,8 @@ public class Config {
     private static  String HOME_URL = "http://bookt.sinaapp.com/phone/homePage";
     private static String LOG_URL = "http://bookt.sinaapp.com/phone/login/";
     public static String REGIST_URL = "http://bookt.sinaapp.com/phone/register/";
+    private static String ADD_SELL_URL = "http://bookt.sinaapp.com/phone/addSaleBook";
+
     public static String LOGIN_INFO_ERROR = "用户名或密码不正确";
 
     public static String getHomeUrl() {
@@ -16,5 +18,8 @@ public class Config {
     }
     public static String getLogUrl() {
         return LOG_URL;
+    }
+    public static  String getAddSellUrl() {
+        return ADD_SELL_URL;
     }
 }

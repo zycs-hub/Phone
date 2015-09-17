@@ -88,7 +88,7 @@ public class Login extends Activity {
                                 JSONObject json_user = json.getJSONObject("user");
 
                                 // Clear all previous data in database
-//                                user.logoutUser(getApplicationContext()); //有问题
+                                user.logoutUser(getApplicationContext()); //有问题
                                 db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_PASS));
 
                                 // Launch Dashboard Screen
