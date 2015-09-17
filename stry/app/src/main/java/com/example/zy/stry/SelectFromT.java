@@ -110,6 +110,7 @@ public class SelectFromT extends Activity {
                                 job.execSQL("update books set  isSelected=1 where book=?", new String[]{na});
 
 
+
                             //}
                             //catch (Exception e   ){
                                // Toast.makeText(SelectFromT.this, "err", Toast.LENGTH_LONG).show();

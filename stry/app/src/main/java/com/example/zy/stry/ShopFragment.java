@@ -79,13 +79,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
-=======
-        setHasOptionsMenu(true);
-//        Intent shop = new Intent(getActivity(), Shop.class);
-//////        getActivity().startActivity(myIntent)
-////        startActivity(shop);
->>>>>>> 8a0b4756818650938c5581368ee34099023033d4
+         setHasOptionsMenu(true);
     }
 
     @Override
@@ -128,8 +122,8 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
 
         //如果连网就更新否则直接查询本地
+        Toast.makeText(getActivity(), "加载中...", Toast.LENGTH_SHORT).show();
         if(MainActivity.hvNetwork) {
-            Toast.makeText(getActivity(), "加载中...", Toast.LENGTH_SHORT).show();
             new GetData().execute();
         } else {
             DatabaseHandler db = new DatabaseHandler(getActivity());
@@ -164,8 +158,9 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 //        mPullRefreshListView.setAdapter(mAdapter);
         actualListView.setAdapter(mAdapter);
 
-            return rootView;
-        };
+        return rootView;
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search, menu);
@@ -261,7 +256,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         @Override
         protected void onPostExecute(String[] result) {
             mListItems.clear();
-            mListItems.addAll(mStrings);
+//            mListItems.addAll(mStrings);
 
             mAdapter.notifyDataSetChanged();
 

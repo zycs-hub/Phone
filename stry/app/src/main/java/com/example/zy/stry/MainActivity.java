@@ -1,58 +1,37 @@
 package com.example.zy.stry;
 
 import com.example.zy.stry.lib.NetWorkChecker;
-import com.viewpagerindicator.TabPageIndicator;
-import android.app.ActionBar;
+
+import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import com.example.zy.stry.R;
 import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.lib.PullToZoomListViewEx;
 import com.example.zy.stry.lib.TabsAdapter;
 import com.example.zy.stry.util.LogStatusGlobla;
-import com.example.zy.stry.util.ThreadLogStatusTest;
-import com.example.zy.stry.util.MyAdapter;
 import com.example.zy.stry.util.MyBuyAdapter;
 import com.example.zy.stry.util.MySellAdapter;
 import com.example.zy.stry.util.My_DB;
-import com.example.zy.stry.util.ThreadLogStatusTest;
-import com.example.zy.stry.util.ThreadBooksMessage;
-import com.example.zy.stry.util.BookGlobla;
-
-import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
-import com.example.zy.stry.entity.BookEntity;
-
-
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -71,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabsAdapter myAdapter;
     private TabLayout mIndicator ;
+    private Toolbar toolbar;
 
     private NetWorkChecker netWorkChecker = null;
 
@@ -83,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     private PullToZoomListViewEx listView = null;
     private View v = null;
     private View v1 = null;
-    private View v2 = null;
     private MyBuyAdapter ma = null;
     private MySellAdapter ma3=null;
     private MySellAdapter mb=null;
@@ -97,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
     private Button sell = null;
     private Button buy = null;
     private Button self = null;
-    private Button search_b = null;
 
     private Button sh_btn=null;
     private EditText sh_e=null;
@@ -116,46 +94,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.tabanim_toolbar);
+        // Initilization
+        toolbar = (Toolbar) findViewById(R.id.tabanim_toolbar);
         setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // Initilization
+
         mIndicator = (TabLayout) findViewById(R.id.id_indicator);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         myAdapter = new TabsAdapter(getSupportFragmentManager());
         netWorkChecker = new NetWorkChecker(getApplicationContext());
         hvNetwork = netWorkChecker.isOnline();
+        toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
+
 
         viewPager.setAdapter(myAdapter);
         mIndicator.setupWithViewPager(viewPager);
 
-        //mIndicator.setViewPager(viewPager, 0);
         mIndicator.setupWithViewPager(viewPager);
 
 
         mIndicator.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
-                viewPager.setCurrentItem(tab.getPosition());
-
-                switch (tab.getPosition()) {
-                    case 0:
-                        showToast("One");
-                        break;
-                    case 1:
-                        toolbar.setTitle("货架");
-                        showToast("Two");
-
-                        break;
-                    case 2:
-                        toolbar.setTitle("个人");
-                        showToast("Three");
-
-                        break;
-                }
+                int position = tab.getPosition();
+                viewPager.setCurrentItem(position);
+                showToast(TabsAdapter.TITLES[position]);
+                toolbar.setTitle(TabsAdapter.TITLES[position]);
             }
 
             @Override
@@ -168,52 +133,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        /*
-        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-            @Override
-            public void onPageSelected(int position) {
-                Toast.makeText(getApplicationContext(), TabsAdapter.TITLES[position], Toast.LENGTH_SHORT).show();
-                // on changing the page
-                // make respected tab selected
-//                    resetTabBtn();
-//                    switch (position) {
-//                        case 0:
-//                            ((ImageButton) mTabShop.findViewById(R.id.btn_tab_bottom_shop))
-//                                    .setImageResource(R.drawable.tab_weixin_pressed);
-//                            break;
-//                        case 1:
-//                            ((ImageButton) mTabMyCenter.findViewById(R.id.btn_tab_bottom_mycenter))
-//                                    .setImageResource(R.drawable.tab_find_frd_pressed);
-//                            break;
-//                        case 2:
-//                            ((ImageButton) mTabProfile.findViewById(R.id.btn_tab_bottom_profile))
-//                                    .setImageResource(R.drawable.ic_img_user_default);
-//                            break;
-//                    }
-            }
 
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
+//        hanMain.sendEmptyMessage(-1);
 
-            }
+        final  Handler hanMain = new Handler() {
 
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-
-            }
-        });*/
-
-        //hanMain.sendEmptyMessage(-1);
-
-<<<<<<< HEAD
-        hanMain = new Handler() {
-=======
-        final  Handler hanMain = new Handler()
-
-        //hanMain = new Handler()
-        {
->>>>>>> 8a0b4756818650938c5581368ee34099023033d4
             @Override
             public void handleMessage(Message msg) {
 
@@ -272,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
 //        // btn_s=(Button) findViewById(R.id.btn_s);
 //        //main_tv1=(TextView)findViewById(R.id.main_tv1);
 //
-        search_b = (Button) findViewById(R.id.search_button);
 //        Bmain_body_lin = (RelativeLayout) findViewById(R.id.Bmain_body_line);
 //        v = inflater.inflate(R.layout.activity_buy_page, null);
 //        v1 = inflater.inflate(R.layout.activity_sell_page, null);
@@ -346,7 +270,6 @@ public class MainActivity extends AppCompatActivity {
 //        sell = (Button) findViewById(R.id.btn_sell);
 //        buy = (Button) findViewById(R.id.btn_buy);
 //        self =(Button)findViewById(R.id.btn_self);
-//        search_b = (Button) findViewById(R.id.search_button);
 //        sell.setOnClickListener(new OnClickListener() {
 //            public void onClick(View v0) {
 //                BLinearLayout1.setVisibility(View.VISIBLE);
@@ -397,77 +320,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        //tv_login=(Button)findViewById(R.id.tv_login);
 
-        /*
-        MainActivity里的代码最好简洁，都是调用不同模块或者函数，这个search的buttonOnClick里的操作
-        最好新写一个JAVAClass叫Search.java然后只简单的2，3句调用像原来的login和register似的
-        比如这样
-        Intent i = new Intent(getApplicationContext(),
-						RegisterActivity.class);
-				startActivity(i);
-				finish();
-		现在的MainActivity看起来太乱了
-        */
-
-//        search_b.setOnClickListener(new OnClickListener() {
-//            public void onClick(View vs) {
-//                Bmain_body_lin.removeAllViews();
-//                search_b.setText("");
-//                View v = inflater.inflate(R.layout.acvtivity_sh, null);
-//                sh_btn = (Button) v.findViewById(R.id.sh_btn);
-//                sh_lv = (ListView) v.findViewById(R.id.sh_lv);
-//                sh_e = (EditText) v.findViewById(R.id.sh_e);
-//                //if(flag=='s'){
-//                //sell.setBackgroundResource(R.drawable.white_bankground);
-//                //buy.setBackgroundResource(R.drawable.white_bankground);
-//                //}
-//                sh_btn.setOnClickListener(new OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (flag == 'b') {
-//                            if (BookGlobla.lts != null) {
-//                                lt2 = new ArrayList<BookEntity>();
-//                                String param = sh_e.getText().toString().trim();
-//                                for (BookEntity str : CourseGlobla.lts) {
-//                                    if (str.getCourse() != null && str.getCourse().contains(param)) {
-//                                        if (!lt2.contains(str)) {
-//                                            lt2.add(str);
-//                                        }
-//                                    }
-//                                }
-//                                if (lt2.isEmpty()) {
-//                                    //弹出提示框
-//                                }
-//                                ma2 = new MyBuyAdapter(lt2, MainActivity.this);
-//                                sh_lv.setAdapter(ma2);
-//                            }
-//                        } else if (flag == 's') {
-//                            //sell.setBackgroundResource(R.drawable.white_bankground);
-//                            //buy.setBackgroundResource(R.drawable.gree_background);
-//                            if (CourseGlobla.lts != null) {
-//                                lt3 = new ArrayList<BookEntity>();
-//                                String param = sh_e.getText().toString().trim();
-//                                for (BookEntity str : BookGlobla.lts) {
-//                                    if (str.getBook() != null && str.toString().contains(param)) {
-//                                        if (!lt3.contains(str)) {
-//                                            lt3.add(str);
-//                                        }
-//                                    }
-//                                }
-//                                if (lt3.isEmpty()) {
-//                                    //弹出提示框
-//                                }
-//                                ma3 = new MySellAdapter(lt3, MainActivity.this);
-//                                sh_lv.setAdapter(ma3);
-//                            }
-//                        }
-//                    }
-//                });
-////
-//                Bmain_body_lin.addView(v);
-////                // sell.setBackgroundResource(R.drawable.gree_background);
-////                // buy.setBackgroundResource(R.drawable.white_bankground);
-//            }
-//        });
 
     }
     void showToast(String msg) {
@@ -498,6 +350,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+//        SearchManager searchManager =
+//                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        SearchView searchView =
+//                (SearchView) menu.findItem(R.id.search).getActionView();
+//        searchView.setSearchableInfo(
+//                searchManager.getSearchableInfo(getComponentName()));
+
         return true;
     }
 
