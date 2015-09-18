@@ -10,6 +10,8 @@ public class Config {
     private static String LOG_URL = "http://bookt.sinaapp.com/phone/login/";
     public static String REGIST_URL = "http://bookt.sinaapp.com/phone/register/";
     private static String ADD_SELL_URL = "http://bookt.sinaapp.com/phone/addSaleBook";
+//    private static String ADD_SELL_URL = "http://192.168.14.65:8080/phone/addSaleBook";
+
 
     public static String LOGIN_INFO_ERROR = "用户名或密码不正确";
 

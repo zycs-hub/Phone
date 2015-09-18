@@ -81,10 +81,6 @@ public class RegisterActivity extends Activity {
                                 user.logoutUser(getApplicationContext());
                                 db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_PASS));
                                 // Launch Dashboard Screen
-                                Intent profile = new Intent(getApplicationContext(), ProfileFragment.class);
-
-//                                profile.putExtra(KEY_NAME, username);
-                                startActivity(profile);
                                 finish();
                             } else {
                                 Toast.makeText(RegisterActivity.this, Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();

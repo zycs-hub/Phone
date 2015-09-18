@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class BookEntity implements Serializable {
 
-
+    public static final String TABLE_NAME = "courses";
     private String book = null;
     //课是否在上
     private int isTaking = 0;
@@ -57,6 +57,10 @@ public class BookEntity implements Serializable {
     public void isSelected(int isSelected){
         this.isSelected=isSelected;
     }
+    public void courseid(int id){
+        courseid = id;
+    }
+
 
 
 }

@@ -43,7 +43,7 @@ public class XMLParser {
                 String course = matcher.group(1);
                 switch (ca) {
                     case 0:
-                        se.courseid=Integer.parseInt(course);;
+                        se.courseid=Integer.parseInt(course);
                         ++ca;
                         break;
                     case 1:

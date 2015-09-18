@@ -4,6 +4,7 @@ import com.example.zy.stry.lib.NetWorkChecker;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.lib.PullToZoomListViewEx;
 import com.example.zy.stry.lib.TabsAdapter;
+import com.example.zy.stry.lib.User;
 import com.example.zy.stry.util.LogStatusGlobla;
 import com.example.zy.stry.util.MyBuyAdapter;
 import com.example.zy.stry.util.MySellAdapter;
@@ -51,11 +53,18 @@ public class MainActivity extends AppCompatActivity {
     private TabsAdapter myAdapter;
     private TabLayout mIndicator ;
     private Toolbar toolbar;
+    SharedPreferences settings;
+    SharedPreferences.Editor prefEditor;
+
+
 
     private NetWorkChecker netWorkChecker = null;
+    private User user = null;
 
     public static final int MAIN_ACTIVITY = 100;
     public static boolean hvNetwork = false;
+    public static final String PREFS_NAME = "MyPrefs";
+
     private LayoutInflater inflater = null;
     private RelativeLayout Bmain_body_lin = null;
     private ListView buy_page_list = null;
@@ -105,14 +114,18 @@ public class MainActivity extends AppCompatActivity {
         myAdapter = new TabsAdapter(getSupportFragmentManager());
         netWorkChecker = new NetWorkChecker(getApplicationContext());
         hvNetwork = netWorkChecker.isOnline();
+        settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        prefEditor = settings.edit();
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 
 
         viewPager.setAdapter(myAdapter);
         mIndicator.setupWithViewPager(viewPager);
 
-        mIndicator.setupWithViewPager(viewPager);
-
+//        if( !user.isUserLoggedIn(getApplicationContext()) ) {
+//
+//
+//        }
 
         mIndicator.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

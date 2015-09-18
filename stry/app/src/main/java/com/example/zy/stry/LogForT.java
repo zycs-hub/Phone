@@ -71,15 +71,12 @@ public class LogForT extends Activity {
                                 //job = db.getReadableDatabase();
                                 //db.onUpgrade(job,0,0);
                                 ///job.execSQL("DROP TABLE IF EXISTS books");
-                                DatabaseHandler db1 = new DatabaseHandler(getApplicationContext());
-                                job = db1.getReadableDatabase();
-                                job.execSQL("DELETE FROM courses");
-                                job.close();
-                                long param = db1.addDate(BookGlobla.lts);
+                                DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+
+                                db.deleteCourses();
+                                long param = db.addData(BookGlobla.lts);
                                // if (param != BookGlobla.lts.size()) Toast.makeText(LogForT.this, "err", Toast.LENGTH_LONG).show();
                                 //Bundle data = new Bundle();
-                                //data.putString("name", nameString);
-                                //data.putString("password", passwordString);
                                 Intent intent = new Intent(LogForT.this, SelectFromT.class);
                                 //intent.putExtras(data);
                                 startActivity(intent);

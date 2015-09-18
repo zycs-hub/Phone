@@ -3,7 +3,11 @@ package com.example.zy.stry;
 import com.example.zy.stry.lib.*;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
@@ -23,15 +27,19 @@ import java.util.List;
 /**
  * Created by wendy on 15-8-4.
  */
-public class Login extends Activity {
+public class Login extends FragmentActivity {
     Button login_button;
     Button register_button;
     private EditText inputName;
     private EditText inputPass;
+    SharedPreferences settings;
+    SharedPreferences.Editor prefEditor;
 
+    public static final String PREFS_NAME = "MyPrefs";
     private static String KEY_SUCCESS = "success";
     private static String KEY_NAME = "username";
     private static String KEY_PASS = "password";
+
 
 
     List<NameValuePair> nameValuePairs;
@@ -88,14 +96,15 @@ public class Login extends Activity {
                                 JSONObject json_user = json.getJSONObject("user");
 
                                 // Clear all previous data in database
-                                user.logoutUser(getApplicationContext()); //有问题
-                                db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_PASS));
-
-                                // Launch Dashboard Screen
-                                Intent profile = new Intent(getApplicationContext(), MainActivity.class);
-
-                                profile.putExtra(KEY_NAME, username);
-                                startActivity(profile);
+                                user.logoutUser(getApplicationContext());
+                                db.addUser(username, password);
+                                settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                                prefEditor = settings.edit();
+                                prefEditor.putString("username", username);
+                                prefEditor.apply();
+                                FragmentManager fragmentManager = getSupportFragmentManager();
+                                ProfileFragment mProfileFragment = new ProfileFragment();
+                                fragmentManager.beginTransaction().add(android.R.id.content, mProfileFragment).commit();
                                 finish();
                             } else {
                                 Toast.makeText(Login.this, Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();

@@ -31,7 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private static final String BOOL_TYPE = " BLOB ";
     private static final String COMMA_SEP = " , ";
 
-    public static final String QUERY_USER_ALL = "SELECT * FROM " + "books";
+    public static final String QUERY_USER_ALL = "SELECT * FROM courses";
 
 
 
@@ -63,6 +63,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 + Sell.KEY_IS_DEL + BOOL_TYPE + COMMA_SEP
                 + Sell.KEY_BID  + INT_TYPE //+ COMMA_SEP
                 + ")";
+
         StringBuffer tableCreate = new StringBuffer();
         tableCreate.append("CREATE TABLE ")
                 .append(" courses ")
@@ -71,6 +72,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 .append(" isSelected INTEGER , ")
                 .append(" isTaking INTEGER , ")
                 .append(" Images INTEGER ")
+                .append(" courseid INTEGER")
                 .append(" )");
         //System.out.println(tableCreate.toString());
 
@@ -85,7 +87,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + User.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Sell.TABLE_NAME);
-
+        db.execSQL("DROP TABLE IF EXISTS " + BookEntity.TABLE_NAME);
         // Create tables again
         onCreate(db);
     }
@@ -146,7 +148,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         values.put(Sell.KEY_IS_DEL, is_del);
         values.put(Sell.KEY_BID, 0);
         db.insert(Sell.TABLE_NAME, null, values);
-        db.close();
     }
 
     /**
@@ -192,7 +193,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         db.close();
     }
 
-    public long addDate(List<BookEntity> be){
+    public long addData(List<BookEntity> be){
         SQLiteDatabase db = this.getReadableDatabase();
         //db.execSQL("DROP TABLE IF EXISTS books");
         long param=0;
@@ -203,28 +204,50 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 cv.put("book",se.getBook());
                 cv.put("isSelected" ,se.isSelected());
                 cv.put("isTaking" ,se.isTaking());
-                param=db.insert("books",null,cv);
+                cv.put("courseid", se.courseid);
+                param=db.insert("courses",null,cv);
             }
         db.close();
         //db.setTransactionSuccessful();
         //db.endTransaction();
         return param;
     }
-    public List<BookEntity> getUserAll(SQLiteDatabase db){
+    public List<BookEntity> getCoursesAll(){
         List<BookEntity> It=new ArrayList<BookEntity>();
+        SQLiteDatabase db = this.getReadableDatabase();
         BookEntity use=null;
-        Cursor cr=db.rawQuery(QUERY_USER_ALL,null);
-        while(cr.moveToNext()){
-            use =new BookEntity();
-            use.setBook(cr.getString(0));
-            use.isSelected(cr.getInt(1));
-            use.isTaking(cr.getInt(2));
-            It.add(use);
+        String selectQuery = "SELECT  * FROM " + BookEntity.TABLE_NAME;
+        Cursor cr=db.rawQuery(selectQuery,null);
+        if (cr.moveToFirst()) {
+            do {
+                use = new BookEntity();
+                use.setBook(cr.getString(0));
+                use.isSelected(cr.getInt(1));
+                use.isTaking(cr.getInt(2));
+                use.courseid(cr.getInt(4));
+                It.add(use);
+            } while (cr.moveToNext());
+        }
+        return It;
+    }
+
+    public List<BookEntity> getUserBooks(String username){
+        List<BookEntity> It=new ArrayList<BookEntity>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        BookEntity use = null;
+        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_USERNAME + "=?";
+        Cursor cr=db.rawQuery(selectQuery,new String[]{username});
+        if (cr.moveToFirst()) {
+            do {
+                use = new BookEntity();
+                use.setBook(cr.getString(2));
+                use.courseid(cr.getInt(3));
+                It.add(use);
+            } while (cr.moveToNext());
         }
         db.close();
         return It;
     }
-
 
 
     /**
@@ -262,6 +285,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         db.delete(User.TABLE_NAME, null, null);
         db.close();
     }
+
+
+    public void deleteCourses() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(BookEntity.TABLE_NAME, null, null);
+        db.close();
+    }
     /**
      * Re crate database
      * Delete all tables and create them again
@@ -271,7 +301,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         // Delete All Rows
         db.delete(User.TABLE_NAME, null, null);
         db.delete(Sell.TABLE_NAME, null, null);
-
+        db.delete(BookEntity.TABLE_NAME, null, null);
         db.close();
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

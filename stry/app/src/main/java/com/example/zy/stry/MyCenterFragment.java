@@ -2,6 +2,7 @@ package com.example.zy.stry;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -43,7 +44,11 @@ public class MyCenterFragment extends Fragment {
     private String[] myDataset;
     private MyAdapter mAdapter;
     DatabaseHandler db = null;
-    SQLiteDatabase job = null;
+    SharedPreferences shared_preferences;
+
+
+    public static final String PREFS_NAME = "MyPrefs";
+    private String username;
 
 
     ListView my_center_list =null;
@@ -63,23 +68,23 @@ public class MyCenterFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), onItemClickListener));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        shared_preferences = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
+        username = shared_preferences.getString("username", null);
 
-        //Intent intent = new Intent(getActivity(), LogForT.class);
-        //startActivity(intent);
         // specify an adapter (see also next example)
-         db = new DatabaseHandler(getActivity());
-        job = db.getReadableDatabase();
-        List<BookEntity> lt = db.getUserAll(job);
-        if (lt==null){
-            Intent intent = new Intent(getActivity(), LogForT.class);
-            startActivity(intent);
+        if(username != null) {
+            db = new DatabaseHandler(getActivity());
+            List<BookEntity> lt = db.getUserBooks(username);
+            if (lt==null){
+                Intent intent = new Intent(getActivity(), LogForT.class);
+                startActivity(intent);
+            }
+            if (lt!=null)
+                for (BookEntity book : lt){
+                    book_for_sell.add(book);
+                }
         }
-        if (lt!=null)
-        for (BookEntity book : lt){
-            if (book.isSelected()==1)
-            book_for_sell.add(book);
 
-        }
         myDataset = new String[]{"RecycleView",
                 "TextInputLayout", "CardView", "AppBar & TabLayout","Bottom Tab"
         };

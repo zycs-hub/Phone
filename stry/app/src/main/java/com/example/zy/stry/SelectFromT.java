@@ -2,6 +2,7 @@ package com.example.zy.stry;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,10 +29,11 @@ import com.example.zy.stry.entity.BookEntity;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 
 public class SelectFromT extends Activity {
 
-    public static final int MAIN_ACTIVITY=1000;
     private Button btn_s=null;
     private TextView main_tv1=null;
     private LayoutInflater inflater=null;
@@ -41,9 +43,16 @@ public class SelectFromT extends Activity {
     private MyAdapter ma=null;
     DatabaseHandler db=null;
     List<BookEntity> lt=null;
-    private SQLiteDatabase job =null;
-    private String books_data = null;
+
     private BookOperarion bookOperator;
+    SharedPreferences shared_preferences;
+
+    private SQLiteDatabase job =null;
+
+    public static final String PREFS_NAME = "MyPrefs";
+    private String books_data = "";
+    private String username;
+
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -54,14 +63,8 @@ public class SelectFromT extends Activity {
 
 
 
-         db = new DatabaseHandler(getApplicationContext());
-
-        //db=new My_DB(SelectFromT.this,My_DB.MY_DB_MANE,null,My_DB.MY_DB_VERSION);
-        job=db.getReadableDatabase();
-       // job.execSQL("update user set  isSelected = 1 where book  = '经济学原理' ");
-        //job.execSQL("insert into user(book,isSelected) values(?,?)", new Object[]{"测试数据",1});
-        lt= db.getUserAll(job);
-        //db.close();
+        db = new DatabaseHandler(getApplicationContext());
+        lt= db.getCoursesAll();
         //long param = db.addDate(lt, job);
         //lt= db.getUserAll(job);
         // get need user book
@@ -90,6 +93,8 @@ public class SelectFromT extends Activity {
         ma=new MyAdapter(BookGlobla.lts,SelectFromT.this,page_list);
         page_list.setAdapter(ma);
         main_body_lin.addView(v);
+
+
         page_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -101,6 +106,11 @@ public class SelectFromT extends Activity {
         });
         bookOperator = new BookOperarion();
 
+        shared_preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        username = shared_preferences.getString("username", null);
+
+
+
         // main_body_lin.addView(v);
         Button btn=(Button)findViewById(R.id.btn_s);
         btn.setOnClickListener(new OnClickListener() {
@@ -109,41 +119,56 @@ public class SelectFromT extends Activity {
                 int n = ma.getCount();
                 for (int i = 0; i < n; i++) {
                     String na = lt.get(i).getBook();
-                    books_data += lt.toString();
-                    if(i != n - 1) {
-                        books_data += '\n';
-                    }
-                    if (page_list.isItemChecked(i))
+                    String courseid = Integer.toString(lt.get(i).courseid);
+                    if (page_list.isItemChecked(i)) {
+                        books_data += courseid + ',' + na;
+                        if (i != n - 1) {
+                            books_data += '\n';
+                        }
                         for (BookEntity u : lt) {
                             //u.isSelected(1);
 
-                           // try {
-                                job.execSQL("update courses set  isSelected=1 where book=?", new String[]{na});
+                            // try {
+                            job.execSQL("update courses set  isSelected=1 where book=?", new String[]{na});
 
 
                             //}
                             //catch (Exception e   ){
-                               // Toast.makeText(SelectFromT.this, "err", Toast.LENGTH_LONG).show();
-                              //  e.toString();
+                            // Toast.makeText(SelectFromT.this, "err", Toast.LENGTH_LONG).show();
+                            //  e.toString();
 
                             //}
                             //page_list.setItemChecked(i, true);
-                        }else{
+                        }
+                        db.addSell(username, na, lt.get(i).courseid, na, -1, null ,false,false,null,null,false,-1);
+                    } else{
                         job.execSQL("update courses set  isSelected=-1 where book=?", new String[]{na});
                     }
-                    HashMap<String, String> user = db.getUsersData();
-
-                    db.addSell(user.get("username"), lt.get(i).bookname, lt.get(i).courseid,lt.get(i).coursename, -1, null ,false,false,null,null,false,-1);
-
                 }
-                bookOperator.addSellBooks(username, books_data);
+                db.close();
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+
+                            JSONObject json = bookOperator.addSellBooks(username, books_data.substring(0, books_data.length() - 1));
+                            if (json.getString("success") != null) {
+                                Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            System.out.println("Exception : " + e.getMessage());
+                        }
+                    }
+                }).start();
+
                // saveAll();
                 //main_body_lin.removeAllViews();
                 db.close();
-                Intent intent_1 = new Intent(SelectFromT.this, MainActivity.class);
+                Intent intent_1 = new Intent(SelectFromT.this, MyCenterFragment.class);
                 startActivity(intent_1);
                 finish();
-
             }
         });
 

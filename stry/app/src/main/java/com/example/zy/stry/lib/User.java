@@ -1,6 +1,7 @@
 package com.example.zy.stry.lib;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 
 import org.apache.http.NameValuePair;
@@ -15,6 +16,8 @@ import java.util.List;
  */
 public class User {
     private JSONParser jsonParser;
+    SharedPreferences.Editor prefEditor;
+    public static final String PREFS_NAME = "MyPrefs";
 
     // constructor
     public User(){
@@ -75,6 +78,9 @@ public class User {
     public boolean logoutUser(Context context){
         DatabaseHandler db = new DatabaseHandler(context);
         db.deleteUser();
+        prefEditor = context.getSharedPreferences(PREFS_NAME, context.MODE_PRIVATE).edit();
+        prefEditor.clear();
+        prefEditor.commit();
         return true;
     }
 }
