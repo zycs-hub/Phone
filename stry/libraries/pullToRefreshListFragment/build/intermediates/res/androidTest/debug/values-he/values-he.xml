@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <!-- From: file:/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/values-he/values-he.xml -->
+=======
+    <!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/values-he/values-he.xml -->
+>>>>>>> 61fd3b53bb3a77cf303f5f74f54c870dbc6fbf88
     <eat-comment/>
     <string name="pull_to_refresh_pull_label">משוך לרענון…</string>
     <string name="pull_to_refresh_refreshing_label">טוען…</string>

@@ -56,4 +56,8 @@
         </LinearLayout>
     </FrameLayout>
 
+<<<<<<< HEAD
 </merge><!-- From: file:/Users/wendy/Project/Phone/stry/libraries/PullToRefreshLibrary/src/main/res/layout/pull_to_refresh_header_vertical.xml --><!-- From: file:/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/layout/pull_to_refresh_header_vertical.xml -->
+=======
+</merge><!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/PullToRefreshLibrary/src/main/res/layout/pull_to_refresh_header_vertical.xml --><!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/layout/pull_to_refresh_header_vertical.xml -->
+>>>>>>> 61fd3b53bb3a77cf303f5f74f54c870dbc6fbf88

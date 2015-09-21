@@ -67,7 +67,9 @@
             >
         </activity>
 
-        <activity android:name=".re"
+        <activity
+            android:name=".MyCenterBookDetailActivity"
+            android:theme="@style/MyTheme">
             >
         </activity>
 

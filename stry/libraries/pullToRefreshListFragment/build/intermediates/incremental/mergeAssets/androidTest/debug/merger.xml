@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <merger version="3"><dataSet config="unspecified"><source path="/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/assets"/></dataSet><dataSet config="debug"><source path="/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/bundles/debug/assets"/></dataSet><dataSet config="main"><source path="/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/src/androidTest/assets"/></dataSet></merger>
+=======
+<merger version="3"><dataSet config="unspecified"><source path="/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/assets"/></dataSet><dataSet config="debug"><source path="/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/bundles/debug/assets"/></dataSet><dataSet config="main"><source path="/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/src/androidTest/assets"/></dataSet></merger>
+>>>>>>> 61fd3b53bb3a77cf303f5f74f54c870dbc6fbf88

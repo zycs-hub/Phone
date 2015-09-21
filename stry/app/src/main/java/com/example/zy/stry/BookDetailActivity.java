@@ -1,5 +1,6 @@
 package com.example.zy.stry;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -9,8 +10,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.zy.stry.R;
 import com.example.zy.stry.DetailFragment;
@@ -28,7 +35,11 @@ public class BookDetailActivity extends AppCompatActivity {
 
 
     private ViewPager mViewPager;
-    private Book mBook;
+    private Book mBook  = new Book();
+    private String bookname;
+    FrameLayout fab;
+    ImageButton fabBtn;
+    View fabShadow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +55,9 @@ public class BookDetailActivity extends AppCompatActivity {
             }
         });
 
-        mBook = (Book) getIntent().getSerializableExtra("book");
+        bookname =  getIntent().getStringExtra("book");
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(mBook.getTitle());
+        collapsingToolbar.setTitle(bookname);
 
         ImageView ivImage = (ImageView) findViewById(R.id.ivImage);
         if (mBook==null|| mBook.getImage()==null|| mBook.getImages().getLarge()==null)
@@ -62,16 +73,55 @@ public class BookDetailActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.addTab(tabLayout.newTab().setText("内容简介"));
-        tabLayout.addTab(tabLayout.newTab().setText("消息"));
+        //tabLayout.addTab(tabLayout.newTab().setText("消息"));
         //tabLayout.addTab(tabLayout.newTab().setText("目录"));
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.simple_grow);
+
         tabLayout.setupWithViewPager(mViewPager);
+        fab = (FrameLayout) findViewById(R.id.myfab_main);
+        fabBtn = (ImageButton) findViewById(R.id.myfab_main_btn);
+        fabShadow = findViewById(R.id.myfab_shadow);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fabShadow.setVisibility(View.GONE);
+            fabBtn.setBackground(getDrawable(R.drawable.ripple_accent));
+        }
+
+        fab.startAnimation(animation);
+
+        fabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /*
+                   ∧＿∧
+                （｡･ω･｡)つ━☆.. ・*。
+                ⊂　　 ノ 　 　　・゜+.
+　               しーＪ　 　　°。+ *´¨)
+　　　 　　              .· ´¸.·*´¨) ¸.·*¨)
+　　　　　　 　 　                  (¸.·´ (¸.·’*
+
+
+                DB操作
+                job.execSQL("update courses set  isSelected=1 where book=?", new String[]{na});
+                感觉 where 后写 ID 比较好 唯一确定 书
+
+
+
+                 */
+                Log.d("CLICK", "FAB CLICK");
+                Toast.makeText(getBaseContext(), "FAB Clicked", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 
     private void setupViewPager(ViewPager mViewPager) {
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(BookDetailInfo.newInstance(mBook.getSummary()), "内容简介");
-        adapter.addFragment(DetailFragment.newInstance(mBook.getAuthor_intro()), "消息");
+        //adapter.addFragment(DetailFragment.newInstance(mBook.getAuthor_intro()), "消息");
         //adapter.addFragment(DetailFragment.newInstance(mBook.getCatalog()), "目录");
         mViewPager.setAdapter(adapter);
     }
