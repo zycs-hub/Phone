@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<<<<<<< HEAD
-    <!-- From: file:/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/values-fr/values-fr.xml -->
-=======
     <!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/values-fr/values-fr.xml -->
->>>>>>> 99b4b60ea074fee5dac0b9092be5943a90e8cb1d
     <eat-comment/>
     <string name="pull_to_refresh_pull_label">Tirez pour rafraîchir…</string>
     <string name="pull_to_refresh_refreshing_label">Chargement…</string>

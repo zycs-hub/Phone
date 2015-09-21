@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -85,10 +86,8 @@ public class MyCenterFragment extends Fragment {
                 }
         }
 
-        myDataset = new String[]{"RecycleView",
-                "TextInputLayout", "CardView", "AppBar & TabLayout","Bottom Tab"
-        };
-        mAdapter = new MyAdapter(getActivity(), myDataset);
+
+        mAdapter = new MyAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
         /*
         my_center_list =(ListView) rootView.findViewById(R.id.my_center_list);
@@ -114,7 +113,7 @@ public class MyCenterFragment extends Fragment {
         @Override
         public void onItemClick(View view, int position) {
             Book book =new Book();//mAdapter.getBook(position);
-            Intent intent1 = new Intent(getActivity(), BookDetailActivity.class);
+            Intent intent1 = new Intent(getActivity(), MyCenterBookDetailActivity.class);
             intent1.putExtra("book", book);
 
             //ActivityOptionsCompat options =
@@ -157,7 +156,6 @@ public class MyCenterFragment extends Fragment {
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private final int mBackground;
-        private String[] mDataset;
         private final TypedValue mTypedValue = new TypedValue();
 
         // Provide a reference to the views for each data item
@@ -165,19 +163,23 @@ public class MyCenterFragment extends Fragment {
         // you provide access to all the views for a data item in a view holder
         public class ViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
-            public TextView mTextView;
+            public ImageView ivBook;
+            public TextView tvTitle;
+            public TextView tvDesc;
+
 
             public int position;
 
             public ViewHolder(View v) {
                 super(v);
-                mTextView = (TextView) v.findViewById(R.id.textView);
+                ivBook = (ImageView) v.findViewById(R.id.vBook);
+                tvTitle = (TextView) v.findViewById(R.id.vTitle);
+                tvDesc = (TextView) v.findViewById(R.id.vDesc);
             }
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        public MyAdapter(Context context, String[] myDataset) {
-            mDataset = myDataset;
+        public MyAdapter(Context context) {
             context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
             mBackground = mTypedValue.resourceId;
         }
@@ -187,8 +189,8 @@ public class MyCenterFragment extends Fragment {
                                                        int viewType) {
             // create a new view
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_view, parent, false);
-            v.setBackgroundResource(mBackground);
+                    .inflate(R.layout.courses_item, parent, false);
+            //v.setBackgroundResource(mBackground);
             // set the view's size, margins, paddings and layout parameters
             ViewHolder vh = new ViewHolder(v);
             return vh;
@@ -198,7 +200,9 @@ public class MyCenterFragment extends Fragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            holder.mTextView.setText(book_for_sell.get(position).getBook());
+            BookEntity book = book_for_sell.get(position);
+            holder.tvTitle.setText(book.getBook());
+            holder.tvDesc.setText(new Integer(book.courseid).toString());
 
         }
 
@@ -207,8 +211,8 @@ public class MyCenterFragment extends Fragment {
         public int getItemCount() {
             return book_for_sell.size();
         }
-        //public Book getBook(int pos) {
-        //    return mBooks.get(pos);
-       // }
+        public BookEntity getBook(int pos) {
+            return book_for_sell.get(pos);
+        }
     }
 }

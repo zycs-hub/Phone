@@ -12,7 +12,7 @@
             android:id="@+id/infoprice"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="价格：点击添加"/>
+            android:text="价格：2\n\n\n"/>
         <TextView
             android:id="@+id/info"
             android:layout_width="match_parent"

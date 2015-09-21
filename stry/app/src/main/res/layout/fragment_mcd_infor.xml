@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="vertical"
+    android:fadingEdge="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EBEBEB"
+        android:orientation="vertical"
+        android:clickable="false">
+        <RelativeLayout
+            android:id="@+id/re_friends"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_friends"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_friends" -->
+            <!--/>-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="售价"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/re_yaoyiyao1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="地址"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/re_yaoyiyaog"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="破碎程度"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/re_yaoyiyaoy"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="备注"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/re_erweima"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp"
+            >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_erweima"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_erweima" />-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="点击数据库添加"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:gravity="end"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/re_yaeoyiuyrao"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="书名"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_yaoyiyao12"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="作者"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/re_yaoyiyayo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="出版社"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/re_yaoyiyuao"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="原价"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/re_yaoyiuyao"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="false"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="页数"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/re_fujin"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:background="@drawable/btn_list_item_bg"-->
+            <!--android:clickable="true"-->
+            <!--android:paddingLeft="12dp" >-->
+
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/iv_fujin"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginLeft="12dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@drawable/find_fujin" />&ndash;&gt;-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:text="附近的人"-->
+                <!--android:textColor="#353535"-->
+                <!--android:textSize="16sp" />-->
+
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0.1dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_marginRight="12dp"-->
+                <!--android:background="#dadada" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/re_piaoliuping"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:background="@drawable/btn_list_item_bg"-->
+            <!--android:clickable="true"-->
+            <!--android:paddingLeft="12dp" >-->
+
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/iv_piaoliuping"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginLeft="12dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@drawable/find_piaoliuping" />&ndash;&gt;-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:text="漂流瓶"-->
+                <!--android:textColor="#353535"-->
+                <!--android:textSize="16sp" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/re_gouwu"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:background="@drawable/btn_list_item_bg"-->
+            <!--android:clickable="true"-->
+            <!--android:paddingLeft="12dp" >-->
+
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/iv_gouwu"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginLeft="12dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@drawable/find_gouwu" />&ndash;&gt;-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:text="购物"-->
+                <!--android:textColor="#353535"-->
+                <!--android:textSize="16sp" />-->
+
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0.1dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_marginRight="12dp"-->
+                <!--android:background="#dadada" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/re_youxi"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:background="@drawable/btn_list_item_bg"-->
+            <!--android:clickable="true"-->
+            <!--android:paddingLeft="12dp" >-->
+
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/iv_youxi"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginLeft="12dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@drawable/find_youxi" />&ndash;&gt;-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:text="游戏"-->
+                <!--android:textColor="#353535"-->
+                <!--android:textSize="16sp" />-->
+
+        <!--</RelativeLayout>-->
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+

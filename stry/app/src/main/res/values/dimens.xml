@@ -5,5 +5,9 @@
     <dimen name="card_margin">5dp</dimen>
     <dimen name="btn_fab_size">56dp</dimen>
     <dimen name="btn_fab_margins">10dp</dimen>>
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="fab_elevation_press">12dp</dimen>
+
+
 
 </resources>
