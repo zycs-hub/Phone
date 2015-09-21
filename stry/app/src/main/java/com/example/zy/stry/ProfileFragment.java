@@ -94,10 +94,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 if(username != null) {
                     User user = new User();
                     user.logoutUser(getActivity());
+                    left_bnt.setText("注册");
+                    login_bnt.setText("登入");
                     adapterData.clear();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    ProfileFragment mProfileFragment = new ProfileFragment();
-                    fragmentManager.beginTransaction().add(android.R.id.content, mProfileFragment).commit();
+                    listView.setAdapter(new ArrayAdapter<String>(getActivity(),
+                            android.R.layout.simple_list_item_1, (String[]) adapterData.toArray(new String[adapterData.size()])));
                 } else {
                     intent = new Intent(getActivity(), RegisterActivity.class);
                     startActivity(intent);

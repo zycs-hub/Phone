@@ -2,8 +2,6 @@ package com.example.zy.stry;
 
 import com.example.zy.stry.lib.*;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.app.ProgressDialog;

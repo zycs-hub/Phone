@@ -56,11 +56,11 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 + Sell.KEY_COURSENAME + TEXT_TYPE + COMMA_SEP
                 + Sell.KEY_PRICE + INT_TYPE + COMMA_SEP
                 + Sell.KEY_PRESSS + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_IS_SELLING + BOOL_TYPE + COMMA_SEP
-                + Sell.KEY_IS_SOLD + BOOL_TYPE + COMMA_SEP
+                + Sell.KEY_IS_SELLING + TEXT_TYPE + COMMA_SEP
+                + Sell.KEY_IS_SOLD + TEXT_TYPE +  COMMA_SEP
                 + Sell.KEY_ADD_TIME + TEXT_TYPE + COMMA_SEP
                 + Sell.KEY_UPDATE_TIME + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_IS_DEL + BOOL_TYPE + COMMA_SEP
+                + Sell.KEY_IS_DEL + TEXT_TYPE +  COMMA_SEP
                 + Sell.KEY_BID  + INT_TYPE //+ COMMA_SEP
                 + ")";
 
@@ -171,12 +171,12 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 book.coursename = cursor.getString(4);
                 book.price = cursor.getInt(5);
                 book.press = cursor.getString(6);
-//                book.is_selling = cursor.getBlob(7);
+                book.is_selling =  (cursor.getString(7) == "true" )? true : false;
 //                book.is_sold = cursor.getBlob(8);
                 book.add_time = cursor.getString(9);
                 book.update_time = cursor.getString(10);
 //                book.is_del = cursor.getBlob(11);
-//                book.bid = cursor.getInt(12);
+                book.bid = cursor.getInt(12);
                 list.add(book);
             } while(cursor.moveToNext());
         }
@@ -245,6 +245,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 It.add(use);
             } while (cr.moveToNext());
         }
+        cr.close();
         db.close();
         return It;
     }
@@ -292,6 +293,45 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         db.delete(BookEntity.TABLE_NAME, null, null);
         db.close();
     }
+
+    public List search(String query) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<SellBook> list = new ArrayList<>();
+        SellBook tmp;
+        String searchQuery = "SELECT * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_BOOKNAME;
+        int len = query.length();
+        for (int i = 0; i < len; i++)  {
+            if(i > 0) {
+                searchQuery += " AND " + Sell.KEY_BOOKNAME;
+            }
+            searchQuery += " LIKE " + "'%" + query.charAt(i) +"%'";
+        }
+        Cursor cursor = db.rawQuery(searchQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                tmp = new SellBook();
+//                tmp.setData();
+                tmp.username = cursor.getString(1);
+                tmp.bookname = cursor.getString(2);
+                tmp.courseid = cursor.getInt(3);
+                tmp.coursename = cursor.getString(4);
+                tmp.price = cursor.getInt(5);
+                tmp.press = cursor.getString(6);
+                tmp.is_selling =  (cursor.getString(7) == "true" )? true : false;
+//                book.is_sold = cursor.getBlob(8);
+                tmp.add_time = cursor.getString(9);
+                tmp.update_time = cursor.getString(10);
+//                book.is_del = cursor.getBlob(11);
+                tmp.bid = cursor.getInt(12);
+                list.add(tmp);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return list;
+
+    }
+
     /**
      * Re crate database
      * Delete all tables and create them again

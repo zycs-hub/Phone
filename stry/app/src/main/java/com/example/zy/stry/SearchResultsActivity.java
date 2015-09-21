@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.zy.stry.entity.SellEntity;
+import com.example.zy.stry.lib.DatabaseHandler;
+
+import java.util.List;
+
 /**
  * Created by wendy on 15-9-17.
  */
@@ -28,6 +33,9 @@ public class SearchResultsActivity extends Activity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
             //use the query to search your data somehow
+//            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+//            List<SellEntity.SellBook> lt = db.search(query);
+
         }
     }
 

@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+
+
 /**
  * Created by wendy on 15-8-30.
  */
@@ -66,6 +68,11 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     public static String KEY_IS_DEL = "is_del";
     public static String KEY_BID = "bid";
 
+
+    private static final String TEXT_TYPE = " TEXT ";
+    private static final String INT_TYPE = " INTEGER ";
+    private static final String BOOL_TYPE = " BLOB ";
+    private static final String COMMA_SEP = " , ";
 
 
     // This event fires 1st, before creation of fragment or any views
@@ -177,6 +184,9 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         }
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("");
+        searchView.setSubmitButtonEnabled(true);
+
+
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -239,8 +249,10 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                         db.addSell(data.username, data.bookname, data.courseid, data.coursename,
                                 data.price, data.press, data.is_selling, data.is_sold, data.add_time,
                                 data.update_time, data.is_del, data.bid);
-                        mData.add(data);
-                        mStrings.add(data.bookname);
+                        if(data.is_selling == true && data.is_sold == false) {
+                            mData.add(data);
+                            mStrings.add(data.bookname);
+                        }
                     }
                 } else {
                     Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
