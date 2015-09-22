@@ -1,6 +1,7 @@
 package com.example.zy.stry.lib;
 
 import com.example.zy.stry.entity.BookEntity;
+import com.example.zy.stry.entity.CartEntity.Cart;
 import com.example.zy.stry.entity.UserEntity.User;
 import com.example.zy.stry.entity.SellEntity.SellBook;
 import com.example.zy.stry.entity.SellEntity.Sell;
@@ -76,9 +77,28 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 .append(" )");
         //System.out.println(tableCreate.toString());
 
+        String CREATE_CART_TABLE = "CREATE TABLE " + Cart.TABLE_NAME + "("
+                + Cart.KEY_ID + " INTEGER PRIMARY KEY,"
+                + Cart.KEY_SELLID + INT_TYPE + COMMA_SEP
+//                + Sell.KEY_BOOKNAME + TEXT_TYPE + COMMA_SEP
+//                + Sell.KEY_COURSEID + INT_TYPE + COMMA_SEP
+//                + Sell.KEY_COURSENAME + TEXT_TYPE + COMMA_SEP
+//                + Sell.KEY_PRICE + INT_TYPE + COMMA_SEP
+//                + Sell.KEY_PRESSS + TEXT_TYPE + COMMA_SEP
+//                + Sell.KEY_IS_SELLING + TEXT_TYPE + COMMA_SEP
+//                + Sell.KEY_IS_SOLD + TEXT_TYPE +  COMMA_SEP
+//                + Sell.KEY_ADD_TIME + TEXT_TYPE + COMMA_SEP
+//                + Sell.KEY_UPDATE_TIME + TEXT_TYPE + COMMA_SEP
+//                + Sell.KEY_IS_DEL + TEXT_TYPE +  COMMA_SEP
+//                + Sell.KEY_BID  + INT_TYPE //+ COMMA_SEP
+                + ")";
+
+
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_SELL_TABLE);
         db.execSQL(tableCreate.toString());
+        db.execSQL(CREATE_CART_TABLE);
+
     }
 
     // Upgrading database
@@ -88,6 +108,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + User.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Sell.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + BookEntity.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Cart.TABLE_NAME);
+
         // Create tables again
         onCreate(db);
     }
@@ -165,6 +187,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         if (cursor.moveToFirst()) {
             do {
                 SellBook book = new SellBook();
+                book._id = cursor.getInt(0);
                 book.username = cursor.getString(1);
                 book.bookname = cursor.getString(2);
                 book.courseid = cursor.getInt(3);
@@ -172,10 +195,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 book.price = cursor.getInt(5);
                 book.press = cursor.getString(6);
                 book.is_selling =  (cursor.getString(7) == "true" )? true : false;
-//                book.is_sold = cursor.getBlob(8);
+                book.is_sold = (cursor.getString(8) == "true" )? true : false;
                 book.add_time = cursor.getString(9);
                 book.update_time = cursor.getString(10);
-//                book.is_del = cursor.getBlob(11);
+                book.is_del = (cursor.getString(11) == "true" )? true : false;
                 book.bid = cursor.getInt(12);
                 list.add(book);
             } while(cursor.moveToNext());
@@ -188,9 +211,40 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
     public void deleteShopData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        // Delete All Rows
         db.delete(Sell.TABLE_NAME, null, null);
         db.close();
+    }
+
+    public void changeSelling(int id ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+//        String update_str = "UPDATE " + Sell.TABLE_NAME + " SET " + Sell.KEY_IS_SELLING + " = false WHERE "
+//                + Sell.KEY_ID + "=" + Integer.toString(id);
+//        db.execSQL(update_str);
+        ContentValues cv = new ContentValues();
+        cv.put(Sell.KEY_IS_SELLING, false);
+        db.update(Sell.TABLE_NAME, cv, Sell.KEY_ID + "=" + Integer.toString(id), null);
+    }
+
+    public void changeSold(int id ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+//        String update_str = "UPDATE " + Sell.TABLE_NAME + " SET " + Sell.KEY_IS_SOLD + " = true WHERE "
+//                + Sell.KEY_ID + "=" + Integer.toString(id);
+//        db.execSQL(update_str);
+        ContentValues cv = new ContentValues();
+        cv.put(Sell.KEY_IS_SOLD, true);
+        db.update(Sell.TABLE_NAME,cv, Sell.KEY_ID + "=" + Integer.toString(id), null);
+    }
+
+    /**
+     * add in cart
+     * @param _id
+     */
+
+    public void addInCart(int _id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv =new ContentValues();
+        cv.put(Cart.KEY_SELLID, _id);
+        db.insert(Cart.TABLE_NAME,null,cv);
     }
 
     public long addData(List<BookEntity> be){
@@ -212,6 +266,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         //db.endTransaction();
         return param;
     }
+
     public List<BookEntity> getCoursesAll(){
         List<BookEntity> It=new ArrayList<BookEntity>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -311,6 +366,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             do {
                 tmp = new SellBook();
 //                tmp.setData();
+                tmp._id = cursor.getInt(0);
                 tmp.username = cursor.getString(1);
                 tmp.bookname = cursor.getString(2);
                 tmp.courseid = cursor.getInt(3);
@@ -318,10 +374,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 tmp.price = cursor.getInt(5);
                 tmp.press = cursor.getString(6);
                 tmp.is_selling =  (cursor.getString(7) == "true" )? true : false;
-//                book.is_sold = cursor.getBlob(8);
+                tmp.is_sold = (cursor.getString(8) == "true" )? true : false;
                 tmp.add_time = cursor.getString(9);
                 tmp.update_time = cursor.getString(10);
-//                book.is_del = cursor.getBlob(11);
+                tmp.is_del = (cursor.getString(11) == "true" )? true : false;
                 tmp.bid = cursor.getInt(12);
                 list.add(tmp);
             } while (cursor.moveToNext());

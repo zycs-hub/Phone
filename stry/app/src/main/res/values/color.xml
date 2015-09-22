@@ -11,6 +11,8 @@
     <color name="accent_700">#4CAF50</color>
     <color name="black_trans80">#14000000</color>
 
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
 
     <color name="blue_grey">#455A64</color>
     <color name="red">#F44336</color>

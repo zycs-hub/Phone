@@ -15,8 +15,4 @@
         android:topLeftRadius="@dimen/indicator_corner_radius"
         android:topRightRadius="@dimen/indicator_corner_radius" />
 
-<<<<<<< HEAD
 </shape><!-- From: file:/Users/wendy/Project/Phone/stry/libraries/PullToRefreshLibrary/src/main/res/drawable/indicator_bg_bottom.xml --><!-- From: file:/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/drawable/indicator_bg_bottom.xml -->
-=======
-</shape><!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/PullToRefreshLibrary/src/main/res/drawable/indicator_bg_bottom.xml --><!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/drawable/indicator_bg_bottom.xml -->
->>>>>>> 61fd3b53bb3a77cf303f5f74f54c870dbc6fbf88

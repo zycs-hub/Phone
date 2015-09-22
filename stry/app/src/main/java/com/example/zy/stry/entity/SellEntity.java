@@ -30,14 +30,15 @@ public class SellEntity {
 
     public static class SellBook {
         public String username, bookname, coursename, press, add_time, update_time;
-        public int courseid, price, bid;
+        public int _id, courseid, price, bid;
         public boolean is_selling, is_sold, is_del;
         public SellBook() {
-            setData("", "", -1, "", -1, "", false, false, "", "", false, -1);
+            setData(-1, "", "", -1, "", -1, "", false, false, "", "", false, -1);
         }
-        public void setData(String _username, String _bookname, int _courseid, String _coursename,
+        public void setData(int id, String _username, String _bookname, int _courseid, String _coursename,
                         int _price, String _press, boolean _is_selling, boolean _is_sold, String _add_time,
                         String _update_time, boolean _is_del, int _bid) {
+            _id = id;
             username = _username;
             bookname = _bookname;
             courseid = _courseid;

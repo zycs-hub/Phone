@@ -40,6 +40,7 @@ public class BookDetailActivity extends AppCompatActivity {
     FrameLayout fab;
     ImageButton fabBtn;
     View fabShadow;
+    int _id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class BookDetailActivity extends AppCompatActivity {
         });
 
         bookname =  getIntent().getStringExtra("book");
+        _id = getIntent().getIntExtra("_id", -1);
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(bookname);
 
@@ -107,11 +109,11 @@ public class BookDetailActivity extends AppCompatActivity {
                 job.execSQL("update courses set  isSelected=1 where book=?", new String[]{na});
                 感觉 where 后写 ID 比较好 唯一确定 书
 
-
-
                  */
+                //将当前物品编号加入购物车表内
+                MainActivity.db.addInCart(_id);
                 Log.d("CLICK", "FAB CLICK");
-                Toast.makeText(getBaseContext(), "FAB Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "已加入购物车", Toast.LENGTH_SHORT).show();
 
             }
         });
