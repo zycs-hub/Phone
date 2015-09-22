@@ -41,6 +41,12 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Parallax Tabs");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.Mc_detail_viewpager);
         setupViewPager(viewPager);
