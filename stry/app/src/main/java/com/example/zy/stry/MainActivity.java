@@ -1,15 +1,15 @@
 package com.example.zy.stry;
 
+import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.lib.NetWorkChecker;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -21,16 +21,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.zy.stry.entity.BookEntity;
-import com.example.zy.stry.lib.PullToZoomListViewEx;
 import com.example.zy.stry.lib.TabsAdapter;
 import com.example.zy.stry.lib.User;
 import com.example.zy.stry.util.LogStatusGlobla;
 import com.example.zy.stry.util.MyBuyAdapter;
-import com.example.zy.stry.util.MySellAdapter;
-import com.example.zy.stry.util.My_DB;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.List;
@@ -49,14 +45,15 @@ public class MainActivity extends AppCompatActivity {
     * -4 未绑定教务处
     */
 
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
     private TabsAdapter myAdapter;
     private TabLayout mIndicator ;
     private Toolbar toolbar;
     SharedPreferences settings;
     SharedPreferences.Editor prefEditor;
 
-
+    static DatabaseHandler db;
+    static FragmentManager fmg;
 
     private NetWorkChecker netWorkChecker = null;
     private User user = null;
@@ -66,35 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "MyPrefs";
 
     private LayoutInflater inflater = null;
-    private RelativeLayout Bmain_body_lin = null;
-    private ListView buy_page_list = null;
-    private ListView sell_page_list = null;
-    private PullToZoomListViewEx listView = null;
-    private View v = null;
-    private View v1 = null;
-    private MyBuyAdapter ma = null;
-    private MySellAdapter ma3=null;
-    private MySellAdapter mb=null;
 
-    My_DB db = null;
-    SQLiteDatabase job = null;
-    private List<BookEntity> lt2 = null;
-    private List<BookEntity> lt3=null;
-
-    private MyBuyAdapter ma2 = null;
-    private Button sell = null;
-    private Button buy = null;
-    private Button self = null;
-
-    private Button sh_btn=null;
-    private EditText sh_e=null;
-    private ListView sh_lv=null;
-    private char flag;
-
-
-    private Button tv_login=null;
-    private final Handler hanMain = null;
-    private LinearLayout BLinearLayout1=null;
     private Toast toast;
 
 
@@ -116,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         hvNetwork = netWorkChecker.isOnline();
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefEditor = settings.edit();
+        db = new DatabaseHandler(getApplicationContext());
+        fmg = getSupportFragmentManager();
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 
 

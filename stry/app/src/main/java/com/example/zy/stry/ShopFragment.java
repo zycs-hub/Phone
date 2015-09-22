@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,6 +40,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+
+
 /**
  * Created by wendy on 15-8-30.
  */
@@ -51,6 +52,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     private ArrayList<SellEntity.SellBook> mData = new ArrayList<>();
     private List mStrings = new ArrayList();
     private PullToRefreshListView mPullRefreshListView;
+    DatabaseHandler db;
 
     private static String KEY_SUCCESS = "success";
     public static String KEY_USERNAME = "username";
@@ -67,6 +69,11 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     public static String KEY_BID = "bid";
 
 
+    private static final String TEXT_TYPE = " TEXT ";
+    private static final String INT_TYPE = " INTEGER ";
+    private static final String BOOL_TYPE = " BLOB ";
+    private static final String COMMA_SEP = " , ";
+
 
     // This event fires 1st, before creation of fragment or any views
     // The onAttach method is called when the Fragment instance is associated with an Activity.
@@ -76,9 +83,11 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         super.onAttach(activity);
         this.listener = (FragmentActivity) activity;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = MainActivity.db;
          setHasOptionsMenu(true);
     }
 
@@ -126,7 +135,6 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         if(MainActivity.hvNetwork) {
             new GetData().execute();
         } else {
-            DatabaseHandler db = new DatabaseHandler(getActivity());
             mData =  db.getShopData();
             for(int i = 0; i < mData.size(); i++) {
                 mStrings.add(mData.get(i).bookname);
@@ -149,6 +157,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                 Book book =new Book();
                 Intent intent1 = new Intent(getActivity(), BookDetailActivity.class);
                 intent1.putExtra("book", mStrings.get(position).toString());
+                intent1.putExtra("_id", mData.get(position)._id);
                 startActivity(intent1);
             }
         });
@@ -177,6 +186,9 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         }
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("");
+        searchView.setSubmitButtonEnabled(true);
+//
+
         super.onCreateOptionsMenu(menu,inflater);
     }
 
@@ -224,14 +236,13 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
                 if (json.getString(KEY_SUCCESS) != null) {
                     // Store user details in SQLite Database
-                    DatabaseHandler db = new DatabaseHandler(getActivity());
                     db.deleteShopData();
                     JSONArray json_books = json.getJSONArray("goods");
                     int len = json_books.length();
                     for (int i = 0; i < len; i++) {
                         JSONObject oj = json_books.getJSONObject(i);
                         SellEntity.SellBook data = new SellEntity.SellBook();
-                        data.setData(oj.getString(KEY_USERNAME), oj.getString(KEY_BOOKNAME),
+                        data.setData(i + 1, oj.getString(KEY_USERNAME), oj.getString(KEY_BOOKNAME),
                                 oj.getInt(KEY_COURSEID), oj.getString(KEY_COURSENAME),
                                 oj.getInt(KEY_PRICE), oj.getString(KEY_PRESSS), oj.getBoolean(KEY_IS_SELLING),
                                 oj.getBoolean(KEY_IS_SOLD), oj.getString(KEY_ADD_TIME),
@@ -239,8 +250,10 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                         db.addSell(data.username, data.bookname, data.courseid, data.coursename,
                                 data.price, data.press, data.is_selling, data.is_sold, data.add_time,
                                 data.update_time, data.is_del, data.bid);
-                        mData.add(data);
-                        mStrings.add(data.bookname);
+                        if(data.is_selling == true && data.is_sold == false) {
+                            mData.add(data);
+                            mStrings.add(data.bookname);
+                        }
                     }
                 } else {
                     Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();

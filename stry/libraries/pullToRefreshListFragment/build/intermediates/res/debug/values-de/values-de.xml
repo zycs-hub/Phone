@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/values-de/values-de.xml -->
+    <!-- From: file:/Users/wendy/Project/Phone/stry/libraries/pullToRefreshListFragment/build/intermediates/exploded-aar/stry.libraries/PullToRefreshLibrary/unspecified/res/values-de/values-de.xml -->
     <eat-comment/>
     <string name="pull_to_refresh_pull_label">Ziehen zum Aktualisieren…</string>
     <string name="pull_to_refresh_refreshing_label">Laden…</string>

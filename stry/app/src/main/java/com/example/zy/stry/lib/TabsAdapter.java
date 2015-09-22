@@ -1,5 +1,6 @@
 package com.example.zy.stry.lib;
 
+import com.example.zy.stry.Login;
 import com.example.zy.stry.MyCenterFragment;
 import com.example.zy.stry.ProfileFragment;
 import com.example.zy.stry.R;
@@ -9,20 +10,25 @@ import com.viewpagerindicator.IconPagerAdapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 
 /**
  * Created by wendy on 15-8-26.
  */
 public class TabsAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
     public static final String[] TITLES = new String[] { "商城",  "货架", "个人" };
-    private static final int[] ICONS = new int[] {
+    public static final int[] ICONS = new int[] {
             R.drawable.ic_img_user_default,
             R.drawable.ic_img_user_default,
             R.drawable.ic_img_user_default,
     };
+    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    private FragmentManager mfm;
 
     public TabsAdapter(FragmentManager fm) {
         super(fm);
+        mfm = fm;
     }
 
     @Override
@@ -34,6 +40,18 @@ public class TabsAdapter extends FragmentPagerAdapter implements IconPagerAdapte
             case 1:
                 return new MyCenterFragment();
             case 2:
+//                Fragment frg2 = null;
+//                if (frg2 == null)
+//                {
+//                    frg2 = ProfileFragment(new ProfileFragmentListener() {
+//                        public void onSwitchToLoginFragment() {
+//                            mfm.beginTransaction().remove(frg2).commit();
+//                            frg2 = new Login();
+//                            notifyDataSetChanged();
+//                        }
+//                    });
+//                }
+//                return frg2;
                 return new ProfileFragment();
         }
 
@@ -55,6 +73,27 @@ public class TabsAdapter extends FragmentPagerAdapter implements IconPagerAdapte
     {
         // get item count - equal to number of tabtitles
         return 3;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
+    }
+
+    public interface ProfileFragmentListener {
+        void onSwitchToNextFragment();
     }
 
 }
