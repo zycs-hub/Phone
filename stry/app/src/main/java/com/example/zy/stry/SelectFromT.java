@@ -166,7 +166,7 @@ public class SelectFromT extends Activity {
                // saveAll();
                 //main_body_lin.removeAllViews();
                 db.close();
-                Intent intent_1 = new Intent(SelectFromT.this, MyCenterFragment.class);
+                Intent intent_1 = new Intent(SelectFromT.this, MainActivity.class);
                 startActivity(intent_1);
                 finish();
             }

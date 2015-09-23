@@ -3,6 +3,7 @@ package com.example.zy.stry;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -36,6 +37,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.example.zy.stry.BooksFragment;
 import com.example.zy.stry.entity.Book;
+import com.example.zy.stry.entity.BookEntity;
+import com.example.zy.stry.lib.DatabaseHandler;
+import com.example.zy.stry.util.UserbookGlobla;
 import com.example.zy.stry.widget.BackHandledFragment;
 import com.example.zy.stry.widget.RecyclerItemClickListener;
 
@@ -54,6 +58,7 @@ public class ChooseActivity extends AppCompatActivity  {
     private ProgressBar mProgressBar;
     private FloatingActionButton mFabButton;
 
+    String bookname;
     //private static final int ANIM_DURATION_FAB = 400;
 
 
@@ -76,6 +81,13 @@ public class ChooseActivity extends AppCompatActivity  {
                 onBackPressed();
             }
         });
+
+//        　∧__∧
+//        　( ●ω●)
+//        　｜つ／(＿＿＿
+//        ／└-(＿＿＿_／
+
+        bookname =  getIntent().getStringExtra("book");
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -121,6 +133,7 @@ public class ChooseActivity extends AppCompatActivity  {
                     }
                 }).show();
         startFABAnimation();
+        doSearch(bookname);
 
     }
 
@@ -181,8 +194,9 @@ public class ChooseActivity extends AppCompatActivity  {
     private RecyclerItemClickListener.OnItemClickListener onItemClickListener = new RecyclerItemClickListener.OnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
-            /*
+
             Book book = mAdapter.getBook(position);
+            /*
             Intent intent = new Intent(getActivity(), BookDetailActivity.class);
             intent.putExtra("book", book);
 
@@ -192,7 +206,24 @@ public class ChooseActivity extends AppCompatActivity  {
 
             ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
             */
-            Toast.makeText(getApplicationContext(), "待完成", Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(getApplicationContext(), "图片已存", Toast.LENGTH_SHORT).show();
+
+//            　∧__∧
+//            　( ●ω●)
+//            　｜つ／(＿＿＿
+//            ／└-(＿＿＿_／
+
+            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+            SQLiteDatabase job=db.getReadableDatabase();
+            //这里应该有个确定对话框
+
+            //应该是下面一条但是存image 但好像不能存网址，因为有 冒号 ：，待解决
+            //job.execSQL("update courses set  image="+book.getImages().getLarge()+" where book=?", new String[]{bookname});
+            job.execSQL("update courses set  image=" + book.getId() + " where book=?", new String[]{bookname});
+            for (BookEntity be : UserbookGlobla.lts)
+                if (be.getBook().equals(bookname))
+                    be.image=book.getImages().getLarge();
 
         }
     };

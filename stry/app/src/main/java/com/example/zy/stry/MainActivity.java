@@ -4,6 +4,7 @@ import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.lib.NetWorkChecker;
 
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefEditor = settings.edit();
         db = new DatabaseHandler(getApplicationContext());
+        //SQLiteDatabase job=db.getWritableDatabase();
+        //db.onUpgrade(job,0,1);
         fmg = getSupportFragmentManager();
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 

@@ -72,14 +72,21 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 .append(" book TEXT , ")
                 .append(" isSelected INTEGER , ")
                 .append(" isTaking INTEGER , ")
-                .append(" Images INTEGER ")
-                .append(" courseid INTEGER")
+                .append(" courseid INTEGER , ")
+                .append(" origprice TEXT , ")//书后定价
+                .append(" price TEXT , ")
+                .append(" author TEXT , ")
+                .append(" publisher TEXT , ")
+                .append(" pages TEXT , " )
+                .append(" image TEXT , ")
+                .append(" remarks TEXT , ")//备注
+                .append(" damage TEXT  ")//damage
                 .append(" )");
         //System.out.println(tableCreate.toString());
 
         String CREATE_CART_TABLE = "CREATE TABLE " + Cart.TABLE_NAME + "("
                 + Cart.KEY_ID + " INTEGER PRIMARY KEY,"
-                + Cart.KEY_SELLID + INT_TYPE + COMMA_SEP
+                + Cart.KEY_SELLID + INT_TYPE //+ COMMA_SEP
 //                + Sell.KEY_BOOKNAME + TEXT_TYPE + COMMA_SEP
 //                + Sell.KEY_COURSEID + INT_TYPE + COMMA_SEP
 //                + Sell.KEY_COURSENAME + TEXT_TYPE + COMMA_SEP
@@ -267,6 +274,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return param;
     }
 
+
     public List<BookEntity> getCoursesAll(){
         List<BookEntity> It=new ArrayList<BookEntity>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -279,7 +287,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 use.setBook(cr.getString(0));
                 use.isSelected(cr.getInt(1));
                 use.isTaking(cr.getInt(2));
-                use.courseid(cr.getInt(4));
+                use.courseid(cr.getInt(3));
+                use.origprice=(cr.getString(4));
+                use.price=(cr.getString(5));
+                use.author=(cr.getString(6));
+                use.publisher=(cr.getString(7));
+                use.pages=(cr.getString(8));
+                use.image=(cr.getString(9));
+                use.remarks=(cr.getString(10));
+                use.damage=(cr.getString(11));
                 It.add(use);
             } while (cr.moveToNext());
         }

@@ -31,9 +31,11 @@ public class BookEntity implements Serializable {
     public String coursenum=null;
     public String course_status=null;
 
-    public String username=null, bookname=null, coursename=null, press=null, add_time=null, update_time=null;
-    public int courseid=0, price=0, bid=0;
+    public String username=null, bookname=null, coursename=null, press=null, add_time=null, update_time=null,author,origprice
+            ,price,publisher,pages,damage,image,remarks;
+    public int courseid=0,  bid=0;
     public boolean is_selling=false, is_sold=false, is_del=false;
+
 
 
 
@@ -60,6 +62,7 @@ public class BookEntity implements Serializable {
     public void courseid(int id){
         courseid = id;
     }
+
 
 
 

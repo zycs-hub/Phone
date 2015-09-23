@@ -23,7 +23,9 @@ import android.widget.Toast;
 import android.support.v7.graphics.Palette;
 
 
+import com.bumptech.glide.Glide;
 import com.example.zy.stry.fragment.MCDetailFragment;
+import com.example.zy.stry.util.UserbookGlobla;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,9 @@ import java.util.List;
  * Created by zy on 15/9/21.
  */
 public class MyCenterBookDetailActivity extends AppCompatActivity {
+    String bookname;
+    int position;
+    ImageView header=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +53,15 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+//
+//        　∧__∧
+//        　( ●ω●)
+//        　｜つ／(＿＿＿
+//        ／└-(＿＿＿_／
+
+        bookname =  getIntent().getStringExtra("book");
+        position =  getIntent().getIntExtra("position", 0);
+
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.Mc_detail_viewpager);
         setupViewPager(viewPager);
@@ -58,8 +72,15 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.Mc_detail_collasp_toolbar);
         //collapsingToolbarLayout.setTitleEnabled(false);
+        collapsingToolbarLayout.setTitle(bookname);
 
-        ImageView header = (ImageView) findViewById(R.id.Mc_detail_head_image);
+         header = (ImageView) findViewById(R.id.Mc_detail_head_image);
+
+        if (UserbookGlobla.lts.get(position).image!=null)
+        Glide.with(header.getContext())
+                .load(UserbookGlobla.lts.get(position).image)
+                .fitCenter()
+                .into(header);
 
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
 //                R.drawable.header);
@@ -115,9 +136,10 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new MCDetailFragment(), "infor");
-        adapter.addFrag(new MCDetailFragment(), "message");
+        adapter.addFrag(new MCDetailFragment(), "infor",bookname);
+        adapter.addFrag(new MCDetailFragment(), "message",bookname);
        // adapter.addFrag(new DummyFragment(getResources().getColor(R.color.button_material_dark)), "MOUSE");
         viewPager.setAdapter(adapter);
     }
@@ -142,7 +164,10 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFrag(Fragment fragment, String title) {
+        public void addFrag(Fragment fragment, String title,String bookname) {
+            Bundle args = new Bundle();
+            args.putSerializable("book", bookname);
+            fragment.setArguments(args);
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
@@ -189,4 +214,14 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 //            return view;
 //        }
 //    }
+@Override
+public void onStart() {
+    super.onStart();
+    if (UserbookGlobla.lts.get(position).image!=null)
+        Glide.with(header.getContext())
+                .load(UserbookGlobla.lts.get(position).image)
+                .fitCenter()
+                .into(header);
+
+}
 }

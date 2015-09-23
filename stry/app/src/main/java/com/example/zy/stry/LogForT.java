@@ -73,7 +73,7 @@ public class LogForT extends Activity {
                                 ///job.execSQL("DROP TABLE IF EXISTS books");
                                 DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
-                                db.deleteCourses();
+                                //db.deleteCourses();
                                 long param = db.addData(BookGlobla.lts);
                                // if (param != BookGlobla.lts.size()) Toast.makeText(LogForT.this, "err", Toast.LENGTH_LONG).show();
                                 //Bundle data = new Bundle();

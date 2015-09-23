@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.zy.stry.ChooseActivity;
+import com.example.zy.stry.MyCenterBookDetailActivity;
 import com.example.zy.stry.R;
 
 /**
@@ -22,6 +23,13 @@ public class MCDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //        　∧__∧
+//        　( ●ω●)
+//        　｜つ／(＿＿＿
+//        ／└-(＿＿＿_／
+        Bundle bundle = this.getArguments();
+        final String book = bundle.getString("book");
+
 
 
         View view = inflater.inflate(R.layout.fragment_mcd_infor, container, false);
@@ -30,9 +38,15 @@ public class MCDetailFragment extends Fragment {
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view){
+            //           ∧__∧
+            //        　( ●ω●)
+            //        　｜つ／(＿＿＿
+            //        ／└-(＿＿＿_／
+
 
                 Intent intent = new Intent(getActivity(), ChooseActivity.class);
+                intent.putExtra("book", book);
                 startActivity(intent);
 
             }

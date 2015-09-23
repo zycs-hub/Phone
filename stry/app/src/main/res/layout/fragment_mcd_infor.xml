@@ -460,9 +460,7 @@
                 <!--android:textSize="16sp" />-->
 
         <!--</RelativeLayout>-->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="100dp" />
+
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

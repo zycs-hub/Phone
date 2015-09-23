@@ -1,5 +1,22 @@
 # Phone
 
+可以从chooseActivity 里把豆瓣数据存入数据库了，但image 不能存，好像是因为 不能存网页中的 冒号
+
+设了个全局变量 UserbookGlobla 替换 mycenteractivity的 book_for_sell
+代码写的完全没考虑性能T－T
+改豆瓣数据数据的路径 mycenteractivity－> mycenterbookdetailactivity -> mcdfragment -> chooseactivity
+在传递 信息的位置标
+
+   ∧__∧
+　( ●ω●)
+　｜つ／(＿＿＿
+／└-(＿＿＿_／
+
+你看怎么改远程的
+
+
+
+
 MainActivity
 
     完成大部分功能，包含，商场，货架等大部分界面

@@ -21,8 +21,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.Book;
 import com.example.zy.stry.entity.BookEntity;
+import com.example.zy.stry.entity.UserEntity;
 import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.util.BookGlobla;
 import com.example.zy.stry.util.MyAdapter;
@@ -33,6 +35,7 @@ import java.util.List;
 
 
 import com.example.zy.stry.util.My_DB;
+import com.example.zy.stry.util.UserbookGlobla;
 import com.example.zy.stry.widget.DividerItemDecoration;
 import com.example.zy.stry.widget.RecyclerItemClickListener;
 
@@ -82,8 +85,10 @@ public class MyCenterFragment extends Fragment {
             }
             if (lt!=null)
                 for (BookEntity book : lt){
-                    book_for_sell.add(book);
+                    UserbookGlobla.lts=lt;
+                    //book_for_sell.add(book);
                 }
+            lt=null;
         }
 
 
@@ -112,16 +117,26 @@ public class MyCenterFragment extends Fragment {
     private RecyclerItemClickListener.OnItemClickListener onItemClickListener = new RecyclerItemClickListener.OnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
-            Book book =new Book();//mAdapter.getBook(position);
+
+//            　 ∧__∧
+//            　( ●ω●)
+//            　｜つ／(＿＿＿
+//            ／└-(＿＿＿_／
+
+            String book ;//mAdapter.getBook(position);
+            book = UserbookGlobla.lts.get(position).getBook();
+            //book = book_for_sell.get(position).getBook();
             Intent intent1 = new Intent(getActivity(), MyCenterBookDetailActivity.class);
             intent1.putExtra("book", book);
+            intent1.putExtra("position", position);
+            startActivity(intent1);
 
             //ActivityOptionsCompat options =
             //        ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
             //                view.findViewById(R.id.ivBook), getString(R.string.transition_book_img));
 
             //ActivityCompat.startActivity(getActivity(), intent1, null/*options.toBundle()*/);
-            startActivity(intent1);
+
 
             /*
             switch (position) {
@@ -200,19 +215,35 @@ public class MyCenterFragment extends Fragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            BookEntity book = book_for_sell.get(position);
+            BookEntity book = UserbookGlobla.lts.get(position);
+            //BookEntity book = book_for_sell.get(position);
             holder.tvTitle.setText(book.getBook());
             holder.tvDesc.setText(new Integer(book.courseid).toString());
+            if (UserbookGlobla.lts.get(position).image!=null)
+            Glide.with(holder.ivBook.getContext())
+                    .load(UserbookGlobla.lts.get(position).image)
+                    .fitCenter()
+                    .into(holder.ivBook);
 
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
-            return book_for_sell.size();
+            return UserbookGlobla.lts.size();
         }
         public BookEntity getBook(int pos) {
-            return book_for_sell.get(pos);
+            return UserbookGlobla.lts.get(pos);
         }
+        public void update() {
+            notifyDataSetChanged();
+        }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mAdapter.update();
+
     }
 }
