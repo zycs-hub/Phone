@@ -19,7 +19,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp" >
 
             <!--<ImageView-->
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp" >
 
             <!--<ImageView-->
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp" >
 
             <!--<ImageView-->
@@ -117,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp" >
 
             <!--<ImageView-->
@@ -141,12 +141,12 @@
 
 
         <RelativeLayout
-            android:id="@+id/re_erweima"
+            android:id="@+id/addmore"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp"
             >
 
@@ -183,7 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp" >
 
             <!--<ImageView-->
@@ -216,7 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp" >
 
             <!--<ImageView-->
@@ -248,7 +248,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp" >
 
             <!--<ImageView-->
@@ -280,7 +280,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp" >
 
             <!--<ImageView-->
@@ -312,7 +312,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
-            android:clickable="false"
+            android:clickable="true"
             android:paddingLeft="12dp" >
 
             <!--<ImageView-->
@@ -460,6 +460,9 @@
                 <!--android:textSize="16sp" />-->
 
         <!--</RelativeLayout>-->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="100dp" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

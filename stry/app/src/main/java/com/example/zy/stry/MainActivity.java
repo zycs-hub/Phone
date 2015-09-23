@@ -121,36 +121,36 @@ public class MainActivity extends AppCompatActivity {
 
 //        hanMain.sendEmptyMessage(-1);
 
-        final  Handler hanMain = new Handler() {
-
-            @Override
-            public void handleMessage(Message msg) {
-
-                //more1 = (LinearLayout)findViewById(R.id.more1);
-                //more1t =(TextView)findViewById(R.id.more1t);
-                switch (msg.what) {
-                    case 1:
-                    case 2:
-                    case 3:
-                        //more1.setVisibility(View.GONE);
-                        break;
-                    case 4:
-                        // more1.setVisibility(View.VISIBLE);
-                        break;//数据库空 list else 显示数据库
-                    case -1:
-                        //more1.setVisibility(View.VISIBLE);
-                        //more1t.setText("登录显示更多");
-                        break;//清空数据库，1页登录，2页登录 3页登录 注册
-                    case -4:
-                        //more1.setVisibility(View.VISIBLE);
-                        //more1t.setText("绑定教务处显示个性推荐");
-                        break;//1页 绑定 2页绑定 3页 隐藏
-                    default:
-                        break;
-                }
-
-            }
-        };
+//        final  Handler hanMain = new Handler() {
+//
+//            @Override
+//            public void handleMessage(Message msg) {
+//
+//                //more1 = (LinearLayout)findViewById(R.id.more1);
+//                //more1t =(TextView)findViewById(R.id.more1t);
+//                switch (msg.what) {
+//                    case 1:
+//                    case 2:
+//                    case 3:
+//                        //more1.setVisibility(View.GONE);
+//                        break;
+//                    case 4:
+//                        // more1.setVisibility(View.VISIBLE);
+//                        break;//数据库空 list else 显示数据库
+//                    case -1:
+//                        //more1.setVisibility(View.VISIBLE);
+//                        //more1t.setText("登录显示更多");
+//                        break;//清空数据库，1页登录，2页登录 3页登录 注册
+//                    case -4:
+//                        //more1.setVisibility(View.VISIBLE);
+//                        //more1t.setText("绑定教务处显示个性推荐");
+//                        break;//1页 绑定 2页绑定 3页 隐藏
+//                    default:
+//                        break;
+//                }
+//
+//            }
+//        };
 
         //db = new My_DB(MainActivity.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
         //job = db.getReadableDatabase();
@@ -158,10 +158,10 @@ public class MainActivity extends AppCompatActivity {
         //BookGlobla.lts=lt;
 
 
-        if (LogStatusGlobla.getLogStatus() == -1) {
-            //  ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
-            //  new Thread(thr).start();
-        }
+//        if (LogStatusGlobla.getLogStatus() == -1) {
+//            //  ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
+//            //  new Thread(thr).start();
+//        }
 
 
         //more1 = (LinearLayout)findViewById(R.id.more1);

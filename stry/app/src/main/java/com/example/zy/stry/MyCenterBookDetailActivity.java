@@ -39,8 +39,9 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.Mc_detail_toolbar);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar()!=null){
         getSupportActionBar().setTitle("Parallax Tabs");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);}
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
