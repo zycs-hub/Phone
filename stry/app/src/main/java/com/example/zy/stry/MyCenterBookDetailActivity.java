@@ -35,8 +35,9 @@ import java.util.List;
  */
 public class MyCenterBookDetailActivity extends AppCompatActivity {
     String bookname;
-    int position;
+    private int mposition;
     ImageView header=null;
+    ViewPagerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +46,8 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.Mc_detail_toolbar);
         setSupportActionBar(toolbar);
         if(getSupportActionBar()!=null){
-        getSupportActionBar().setTitle("Parallax Tabs");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);}
+            getSupportActionBar().setTitle("Parallax Tabs");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);}
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +61,7 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 //        ／└-(＿＿＿_／
 
         bookname =  getIntent().getStringExtra("book");
-        position =  getIntent().getIntExtra("position", 0);
+        mposition =  getIntent().getIntExtra("position", -1);
 
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.Mc_detail_viewpager);
@@ -74,13 +75,13 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         //collapsingToolbarLayout.setTitleEnabled(false);
         collapsingToolbarLayout.setTitle(bookname);
 
-         header = (ImageView) findViewById(R.id.Mc_detail_head_image);
+        header = (ImageView) findViewById(R.id.Mc_detail_head_image);
 
-        if (UserbookGlobla.lts.get(position).image!=null)
-        Glide.with(header.getContext())
-                .load(UserbookGlobla.lts.get(position).image)
-                .fitCenter()
-                .into(header);
+        if (UserbookGlobla.lts.get(mposition).image!=null)
+            Glide.with(header.getContext())
+                    .load(UserbookGlobla.lts.get(mposition).image)
+                    .fitCenter()
+                    .into(header);
 
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
 //                R.drawable.header);
@@ -137,10 +138,10 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new MCDetailFragment(), "infor",bookname);
-        adapter.addFrag(new MCDetailFragment(), "message",bookname);
-       // adapter.addFrag(new DummyFragment(getResources().getColor(R.color.button_material_dark)), "MOUSE");
+         adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new MCDetailFragment(), "infor",bookname,mposition);
+        adapter.addFrag(new MCDetailFragment(), "message",bookname,mposition);
+        // adapter.addFrag(new DummyFragment(getResources().getColor(R.color.button_material_dark)), "MOUSE");
         viewPager.setAdapter(adapter);
     }
 
@@ -164,9 +165,10 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFrag(Fragment fragment, String title,String bookname) {
+        public void addFrag(Fragment fragment, String title,String bookname,int position) {
             Bundle args = new Bundle();
             args.putSerializable("book", bookname);
+            args.putSerializable("position", position);
             fragment.setArguments(args);
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
@@ -176,9 +178,14 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+        public MCDetailFragment update() {
+            return (MCDetailFragment)getItem(0);
+
+        }
     }
 
-//    public static class DummyFragment extends Fragment {
+
+    //    public static class DummyFragment extends Fragment {
 //        int color;
 //        SimpleRecyclerAdapter adapter;
 //
@@ -214,14 +221,20 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 //            return view;
 //        }
 //    }
-@Override
-public void onStart() {
-    super.onStart();
-    if (UserbookGlobla.lts.get(position).image!=null)
-        Glide.with(header.getContext())
-                .load(UserbookGlobla.lts.get(position).image)
-                .fitCenter()
-                .into(header);
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (UserbookGlobla.lts.get(mposition).image!=null)
+            Glide.with(header.getContext())
+                    .load(UserbookGlobla.lts.get(mposition).image)
+                    .fitCenter()
+                    .into(header);
+        //if (adapter.update()!=null)
+//        adapter.update().update(position);
 
-}
+            if (adapter.update()!=null)
+        adapter.update().update(mposition);
+
+
+    }
 }

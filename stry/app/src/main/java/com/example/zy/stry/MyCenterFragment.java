@@ -180,7 +180,10 @@ public class MyCenterFragment extends Fragment {
             // each data item is just a string in this case
             public ImageView ivBook;
             public TextView tvTitle;
-            public TextView tvDesc;
+            public TextView book;
+            public TextView price;
+            public TextView author;
+            public TextView message;
 
 
             public int position;
@@ -189,7 +192,10 @@ public class MyCenterFragment extends Fragment {
                 super(v);
                 ivBook = (ImageView) v.findViewById(R.id.vBook);
                 tvTitle = (TextView) v.findViewById(R.id.vTitle);
-                tvDesc = (TextView) v.findViewById(R.id.vDesc);
+                book = (TextView) v.findViewById(R.id.book);
+                price = (TextView) v.findViewById(R.id.price);
+                message = (TextView) v.findViewById(R.id.message);
+                author = (TextView) v.findViewById(R.id.author);
             }
         }
 
@@ -218,12 +224,19 @@ public class MyCenterFragment extends Fragment {
             BookEntity book = UserbookGlobla.lts.get(position);
             //BookEntity book = book_for_sell.get(position);
             holder.tvTitle.setText(book.getBook());
-            holder.tvDesc.setText(new Integer(book.courseid).toString());
-            if (UserbookGlobla.lts.get(position).image!=null)
+            if (book.image!=null)
             Glide.with(holder.ivBook.getContext())
-                    .load(UserbookGlobla.lts.get(position).image)
+                    .load(book.image)
                     .fitCenter()
                     .into(holder.ivBook);
+            if (book.bookname!=null)
+                holder.book.setText("书 名："+book.bookname);
+            if (book.author!=null)
+                holder.author.setText("作 者："+book.author);
+            if (book.price!=null)
+                holder.price.setText("价 格："+book.price+"元");
+            //if (book.price!=null)
+                holder.message.setVisibility(View.GONE);
 
         }
 
@@ -242,8 +255,8 @@ public class MyCenterFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        mAdapter.update();
+        mAdapter= new MyAdapter(getActivity());
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 }

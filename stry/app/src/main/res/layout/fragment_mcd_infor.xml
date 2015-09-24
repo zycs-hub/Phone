@@ -2,6 +2,7 @@
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_c"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -14,7 +15,7 @@
         android:orientation="vertical"
         android:clickable="false">
         <RelativeLayout
-            android:id="@+id/re_friends"
+            android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="20dp"
@@ -39,7 +40,8 @@
                 android:layout_marginLeft="20dp"
                 android:text="售价"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:id="@+id/tprice" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -49,7 +51,7 @@
 
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/re_yaoyiyao1"
+            android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -72,7 +74,8 @@
                 android:layout_marginLeft="20dp"
                 android:text="地址"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:id="@+id/taddress" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -81,7 +84,7 @@
                 android:background="#dadada" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/re_yaoyiyaog"
+            android:id="@+id/damage"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -104,7 +107,8 @@
                 android:layout_marginLeft="20dp"
                 android:text="破碎程度"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:id="@+id/tdamage" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -113,7 +117,7 @@
                 android:background="#dadada" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/re_yaoyiyaoy"
+            android:id="@+id/remark"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -136,7 +140,8 @@
                 android:layout_marginLeft="20dp"
                 android:text="备注"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:id="@+id/tremarks" />
         </RelativeLayout>
 
 
@@ -179,7 +184,7 @@
                 android:background="#dadada" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/re_yaeoyiuyrao"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -202,7 +207,8 @@
                 android:layout_marginLeft="20dp"
                 android:text="书名"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:id="@+id/tname" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -212,7 +218,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/re_yaoyiyao12"
+            android:id="@+id/author"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -235,7 +241,8 @@
                 android:layout_marginLeft="20dp"
                 android:text="作者"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:id="@+id/tauthor" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -244,7 +251,7 @@
                 android:background="#dadada" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/re_yaoyiyayo"
+            android:id="@+id/publish"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -267,7 +274,8 @@
                 android:layout_marginLeft="20dp"
                 android:text="出版社"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:id="@+id/tpublish" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -276,7 +284,7 @@
                 android:background="#dadada" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/re_yaoyiyuao"
+            android:id="@+id/oprice"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -299,7 +307,8 @@
                 android:layout_marginLeft="20dp"
                 android:text="原价"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:id="@+id/toprice" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -308,7 +317,7 @@
                 android:background="#dadada" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/re_yaoyiuyao"
+            android:id="@+id/page"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -331,7 +340,8 @@
                 android:layout_marginLeft="20dp"
                 android:text="页数"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:id="@+id/tpage" />
         </RelativeLayout>
 
 
