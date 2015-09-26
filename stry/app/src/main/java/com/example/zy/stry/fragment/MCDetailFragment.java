@@ -171,11 +171,10 @@ public class MCDetailFragment extends Fragment {
         try {
             if (UserbookGlobla.lts.get(position).price!=null)
                 tprice.setText("售 价："+UserbookGlobla.lts.get(position).price);
-
             if (UserbookGlobla.lts.get(position).damage!=null)
-                tdamage.setText("地 址："+UserbookGlobla.lts.get(position).damage);
+                tdamage.setText("破损程度："+UserbookGlobla.lts.get(position).damage);
             if (UserbookGlobla.lts.get(position).remarks!=null)
-                tremarks.setText("破损程度："+UserbookGlobla.lts.get(position).remarks);
+                tremarks.setText("备 注："+UserbookGlobla.lts.get(position).remarks);
             if (UserbookGlobla.lts.get(position).bookname!=null)
                 tname.setText("书 名："+UserbookGlobla.lts.get(position).bookname);
             if (UserbookGlobla.lts.get(position).author!=null)
@@ -185,7 +184,7 @@ public class MCDetailFragment extends Fragment {
             if (UserbookGlobla.lts.get(position).pages!=null)
                 tpage.setText("页 数："+UserbookGlobla.lts.get(position).pages);
             if (UserbookGlobla.lts.get(position).origprice!=null)
-                toprice.setText("页 数："+UserbookGlobla.lts.get(position).origprice);
+                toprice.setText("原 价："+UserbookGlobla.lts.get(position).origprice);
 
         }catch (Exception e){
             e.printStackTrace();

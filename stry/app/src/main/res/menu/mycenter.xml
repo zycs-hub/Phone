@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/readd"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="教务处重选"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/addnew"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="教务处添加新书"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/rechoice"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="未卖重选"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/self_defined"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="自定义添加"
+        app:showAsAction="never"/>
+</menu>
