@@ -21,15 +21,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.zy.stry.adapter.ListAdapter;
 import com.example.zy.stry.entity.Book;
 import com.example.zy.stry.entity.SellEntity;
 import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.DatabaseHandler;
-import com.example.zy.stry.lib.ListAdapter;
-import com.example.zy.stry.lib.TabsAdapter;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
 import com.handmark.pulltorefresh.library.extras.SoundPullEventListener;
 
 import org.json.JSONArray;
@@ -40,10 +38,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-
-
 /**
- * Created by wendy on 15-8-30.
+ * Created by wendy on 15-9-27.
  */
 public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefreshListener<ListView> {
     private LinkedList<String> mListItems;
@@ -69,11 +65,6 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     public static String KEY_BID = "bid";
 
 
-    private static final String TEXT_TYPE = " TEXT ";
-    private static final String INT_TYPE = " INTEGER ";
-    private static final String BOOL_TYPE = " BLOB ";
-    private static final String COMMA_SEP = " , ";
-
 
     // This event fires 1st, before creation of fragment or any views
     // The onAttach method is called when the Fragment instance is associated with an Activity.
@@ -88,7 +79,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = MainActivity.db;
-         setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -106,8 +97,6 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         ((AppCompatActivity) getActivity()).getSupportActionBar();
         //activity.setSupportActionBar(toolbar);
         //activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
 
         // Get PullToRefreshListView from Fragment
         mPullRefreshListView = (PullToRefreshListView) rootView.findViewById(R.id.pull_refresh_list);
@@ -147,9 +136,9 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
          * Add Sound Event Listener
          */
         SoundPullEventListener<ListView> soundListener = new SoundPullEventListener<ListView>(getActivity());
-        soundListener.addSoundEvent(State.PULL_TO_REFRESH,R.raw.pull_event);
-        soundListener.addSoundEvent(State.RESET,R.raw.reset_sound);
-        soundListener.addSoundEvent(State.REFRESHING, R.raw.refreshing_sound);
+        soundListener.addSoundEvent(PullToRefreshBase.State.PULL_TO_REFRESH,R.raw.pull_event);
+        soundListener.addSoundEvent(PullToRefreshBase.State.RESET,R.raw.reset_sound);
+        soundListener.addSoundEvent(PullToRefreshBase.State.REFRESHING, R.raw.refreshing_sound);
         mPullRefreshListView.setOnPullEventListener(soundListener);
         mPullRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,

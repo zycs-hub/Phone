@@ -4,33 +4,23 @@ import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.lib.NetWorkChecker;
 
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import com.example.zy.stry.entity.BookEntity;
-import com.example.zy.stry.lib.TabsAdapter;
+
+import com.example.zy.stry.adapter.TabsAdapter;
 import com.example.zy.stry.lib.User;
-import com.example.zy.stry.util.LogStatusGlobla;
-import com.example.zy.stry.util.MyBuyAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+
 import android.widget.Toast;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     static DatabaseHandler db;
     static FragmentManager fmg;
+    public static Calendar c = Calendar.getInstance();
+    public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     private NetWorkChecker netWorkChecker = null;
     private User user = null;
@@ -62,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int MAIN_ACTIVITY = 100;
     public static boolean hvNetwork = false;
     public static final String PREFS_NAME = "MyPrefs";
-
-    private LayoutInflater inflater = null;
 
     private Toast toast;
 
@@ -87,6 +77,16 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefEditor = settings.edit();
         db = new DatabaseHandler(getApplicationContext());
+
+
+        db.getWritableDatabase().execSQL("DROP TABLE cart");
+
+        String CREATE_CART_TABLE = "CREATE TABLE cart ("
+                + "id_" + " INTEGER PRIMARY KEY , "
+                + "sell_id INTEGER , add_time TEXT )";
+
+
+        db.getWritableDatabase().execSQL(CREATE_CART_TABLE);
         //SQLiteDatabase job=db.getWritableDatabase();
         //db.onUpgrade(job,0,1);
         fmg = getSupportFragmentManager();
@@ -155,8 +155,6 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        };
 
-        //db = new My_DB(MainActivity.this, My_DB.MY_DB_MANE, null, My_DB.MY_DB_VERSION);
-        //job = db.getReadableDatabase();
         //List<BookEntity> lt = db.getUserAll(job);
         //BookGlobla.lts=lt;
 
@@ -165,148 +163,6 @@ public class MainActivity extends AppCompatActivity {
 //            //  ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
 //            //  new Thread(thr).start();
 //        }
-
-
-        //more1 = (LinearLayout)findViewById(R.id.more1);
-        //more1t =(TextView)findViewById(R.id.more1t);
-
-//        BLinearLayout1=(LinearLayout)findViewById(R.id.BLinearLayout1);
-
-
-        //取在售的BookEntity
-        // if(!lt.isEmpty()){
-        //   BookGlobla.lts=lt;
-        // }
-        //界面2显示信息
-        // else{
-        //}
-//        inflater = getLayoutInflater();
-//        // btn_s=(Button) findViewById(R.id.btn_s);
-//        //main_tv1=(TextView)findViewById(R.id.main_tv1);
-//
-//        Bmain_body_lin = (RelativeLayout) findViewById(R.id.Bmain_body_line);
-//        v = inflater.inflate(R.layout.activity_buy_page, null);
-//        v1 = inflater.inflate(R.layout.activity_sell_page, null);
-//
-//        buy_page_list = (ListView) v.findViewById(R.id.buy_page_list);
-//        sell_page_list=(ListView)v1.findViewById(R.id.sell_page_list);
-//        listView = (PullToZoomListViewEx) v2.findViewById(R.id.listview);
-//        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) v.findViewById(R.id.swipe);
-//       // final TextView rndNum = (TextView) v3.findViewById(R.id.rndNum);
-
-//
-//        listView.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, adapterData));
-//        listView.getPullRootView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.e("zhuwenwu", "position = " + position);
-//                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.e("zhuwenwu", "position = " + position);
-//                if (position==0){
-//                    Intent intent = new Intent(MainActivity.this, LogForT.class);
-//                    startActivity(intent);
-//                }
-//                //Toast.makeText(MainActivity.this, "123", Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
-//
-//        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(localDisplayMetrics);
-//        int mScreenHeight = localDisplayMetrics.heightPixels;
-//        int mScreenWidth = localDisplayMetrics.widthPixels;
-//        AbsListView.LayoutParams localObject = new AbsListView.LayoutParams(mScreenWidth, (int) (9.0F * (mScreenWidth / 16.0F)));
-//        listView.setHeaderLayoutParams(localObject);
-//
-//        ma = new MyBuyAdapter(CourseGlobla.lts, MainActivity.this);
-//        buy_page_list.setAdapter(ma);
-//
-//
-//        mb=new MySellAdapter(BookGlobla.lts,MainActivity.this);
-//        sell_page_list.setAdapter(mb);
-//
-//        Bmain_body_lin.addView(v);
-//
-//        flag='b';
-//
-
-//
-//        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                swipeView.setRefreshing(true);
-//                Log.d("Swipe", "Refreshing Number");
-//                (new Handler()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        swipeView.setRefreshing(false);
-//                        double f = Math.random();
-//                        //rndNum.setText(String.valueOf(f));
-//                    }
-//                }, 3000);
-//            }
-//        });
-//
-//
-//        sell = (Button) findViewById(R.id.btn_sell);
-//        buy = (Button) findViewById(R.id.btn_buy);
-//        self =(Button)findViewById(R.id.btn_self);
-//        sell.setOnClickListener(new OnClickListener() {
-//            public void onClick(View v0) {
-//                BLinearLayout1.setVisibility(View.VISIBLE);
-//
-//                ActionBar actionBar = getActionBar();
-//                actionBar.show();
-//                search_b.setText("搜索");
-//                Bmain_body_lin.removeAllViews();
-//                Bmain_body_lin.addView(v1);
-//                sell.setBackgroundResource(R.drawable.gree_background);
-//                buy.setBackgroundResource(R.drawable.white_bankground);
-//                self.setBackgroundResource(R.drawable.white_bankground);
-//                flag='b';
-//
-//            }
-//        });
-//        buy.setOnClickListener(new OnClickListener() {
-//            public void onClick(View v0) {
-//                BLinearLayout1.setVisibility(View.VISIBLE);
-//                ActionBar actionBar = getActionBar();
-//                actionBar.show();
-//                //actionBar.
-//                //actionBar.setDisplayShowTitleEnabled(false);
-//                //actionBar.setElevation(100);
-//                //actionBar.setHideOffset(0);
-//                Bmain_body_lin.removeAllViews();
-//                search_b.setText("搜索");
-//                // Bmain_body_lin.addView(v);
-//                sell.setBackgroundResource(R.drawable.white_bankground);
-//                buy.setBackgroundResource(R.drawable.gree_background);
-//                self.setBackgroundResource(R.drawable.white_bankground);
-//
-//                // List<String> lt= new ArrayList<>();  //=db.getUserAll(job);
-//               // if(!CourseGlobla.lts.isEmpty()){
-//
-//
-//                    mb=new MySellAdapter(BookGlobla.lts,MainActivity.this);
-//                    sell_page_list.setAdapter(mb);
-//                    Bmain_body_lin.addView(v);
-//               // }
-//               // else{
-//               // }
-//                flag='s';
-//
-//            }
-//        });
-//
-
-//        //tv_login=(Button)findViewById(R.id.tv_login);
-
 
     }
     void showToast(String msg) {

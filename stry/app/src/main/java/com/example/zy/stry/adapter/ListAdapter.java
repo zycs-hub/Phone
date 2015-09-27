@@ -1,4 +1,4 @@
-package com.example.zy.stry.lib;
+package com.example.zy.stry.adapter;
 
 import android.content.Context;
 import android.content.Intent;

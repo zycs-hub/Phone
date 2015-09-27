@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by wendy on 15-9-22.
  */
-public class Account extends Fragment implements View.OnClickListener {
+public class AccountFragment extends Fragment implements View.OnClickListener {
     private PullToZoomListViewEx listView = null;
     private View rootView;
     private Button login_bnt;
@@ -78,7 +78,7 @@ public class Account extends Fragment implements View.OnClickListener {
             case R.id.left:
                 User user = new User();
                 user.logoutUser(getActivity());
-                ft.replace(R.id.fragment_profile, new Login());
+                ft.replace(R.id.fragment_3, new Login());
                 ft.commit();
                 break;
             case R.id.login:

@@ -1,10 +1,9 @@
-package com.example.zy.stry.lib;
+package com.example.zy.stry.adapter;
 
-import com.example.zy.stry.Login;
-import com.example.zy.stry.MyCenterFragment;
-import com.example.zy.stry.ProfileFragment;
+import com.example.zy.stry.Fragment1;
+import com.example.zy.stry.Fragment2;
+import com.example.zy.stry.Fragment3;
 import com.example.zy.stry.R;
-import com.example.zy.stry.ShopFragment;
 import com.viewpagerindicator.IconPagerAdapter;
 
 import android.support.v4.app.Fragment;
@@ -17,7 +16,7 @@ import android.view.ViewGroup;
  * Created by wendy on 15-8-26.
  */
 public class TabsAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
-    public static final String[] TITLES = new String[] { "商城",  "货架", "个人" };
+    public static final String[] TITLES = new String[] { "商城",  "管理", "个人" };
     public static final int[] ICONS = new int[] {
             R.drawable.ic_img_user_default,
             R.drawable.ic_img_user_default,
@@ -36,9 +35,9 @@ public class TabsAdapter extends FragmentPagerAdapter implements IconPagerAdapte
 
         switch (index) {
             case 0:
-                return new ShopFragment();
+                return new Fragment1();
             case 1:
-                return new MyCenterFragment();
+                return new Fragment2();
             case 2:
 //                Fragment frg2 = null;
 //                if (frg2 == null)
@@ -52,7 +51,7 @@ public class TabsAdapter extends FragmentPagerAdapter implements IconPagerAdapte
 //                    });
 //                }
 //                return frg2;
-                return new ProfileFragment();
+                return new Fragment3();
         }
 
         return null;

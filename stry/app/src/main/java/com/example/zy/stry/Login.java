@@ -4,7 +4,6 @@ import com.example.zy.stry.lib.*;
 
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -101,16 +100,16 @@ public class Login extends Fragment implements View.OnClickListener {
 //                    int id = MainActivity.viewPager.getCurrentItem();
 //                    TabsAdapter adapter = ((TabsAdapter) MainActivity.viewPager.getAdapter());
 //                    frg = adapter.getRegisteredFragment(id);
-//                    frg = MainActivity.fmg.findFragmentById(R.id.fragment_profile);
+//                    frg = MainActivity.fmg.findFragmentById(R.id.fragment_3);
                     final FragmentTransaction ft = MainActivity.fmg.beginTransaction();
-                    ft.replace(R.id.fragment_profile, new Account());
+                    ft.replace(R.id.fragment_3, new AccountFragment());
 //                    ft.detach(frg);
 //                    if (frg == null) {
-//                        ft.add(R.id.fragment_profile, new ProfileFragment());
+//                        ft.add(R.id.fragment_3, new ProfileFragment());
 //                    } else {
 //                        ft.attach(frg);
 //                    }
-                    ft.commit();
+                    ft.commitAllowingStateLoss();
                 }
                 break;
             case R.id.register:

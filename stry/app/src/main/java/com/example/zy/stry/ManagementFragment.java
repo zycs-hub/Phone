@@ -3,12 +3,8 @@ package com.example.zy.stry;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,25 +12,19 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.zy.stry.entity.Book;
 import com.example.zy.stry.entity.BookEntity;
-import com.example.zy.stry.entity.UserEntity;
 import com.example.zy.stry.lib.DatabaseHandler;
-import com.example.zy.stry.util.BookGlobla;
-import com.example.zy.stry.util.MyAdapter;
-import com.example.zy.stry.util.MySellAdapter;
+import com.example.zy.stry.adapter.MySellAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-import com.example.zy.stry.util.My_DB;
 import com.example.zy.stry.util.UserbookGlobla;
 import com.example.zy.stry.widget.DividerItemDecoration;
 import com.example.zy.stry.widget.RecyclerItemClickListener;
@@ -42,7 +32,7 @@ import com.example.zy.stry.widget.RecyclerItemClickListener;
 /**
  * Created by wendy on 15-8-26.
  */
-public class MyCenterFragment extends Fragment {
+public class ManagementFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private String[] myDataset;

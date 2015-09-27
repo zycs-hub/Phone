@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +26,9 @@ import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.Book;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -111,9 +114,18 @@ public class BookDetailActivity extends AppCompatActivity {
 
                  */
                 //将当前物品编号加入购物车表内
-                MainActivity.db.addInCart(_id);
-                Log.d("CLICK", "FAB CLICK");
+
+                String formattedDate = MainActivity.df.format(MainActivity.c.getTime());
+
+                MainActivity.db.addInCart(_id, formattedDate);
+//                Log.d("CLICK", "FAB CLICK");
+
                 Toast.makeText(getBaseContext(), "已加入购物车", Toast.LENGTH_SHORT).show();
+                final FragmentTransaction ft = MainActivity.fmg.beginTransaction();
+                ft.replace(R.id.fragment_1,  new CartFragment());
+                ft.addToBackStack(null);
+                ft.commitAllowingStateLoss();
+                finish();
 
             }
         });

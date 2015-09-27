@@ -29,11 +29,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
     private static final String TEXT_TYPE = " TEXT ";
     private static final String INT_TYPE = " INTEGER ";
-    private static final String BOOL_TYPE = " BLOB ";
     private static final String COMMA_SEP = " , ";
-
-    public static final String QUERY_USER_ALL = "SELECT * FROM courses";
-
 
 
     public DatabaseHandler(Context context) {
@@ -86,7 +82,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
         String CREATE_CART_TABLE = "CREATE TABLE " + Cart.TABLE_NAME + "("
                 + Cart.KEY_ID + " INTEGER PRIMARY KEY,"
-                + Cart.KEY_SELLID + INT_TYPE //+ COMMA_SEP
+                + Cart.KEY_SELLID + INT_TYPE + COMMA_SEP
 //                + Sell.KEY_BOOKNAME + TEXT_TYPE + COMMA_SEP
 //                + Sell.KEY_COURSEID + INT_TYPE + COMMA_SEP
 //                + Sell.KEY_COURSENAME + TEXT_TYPE + COMMA_SEP
@@ -94,7 +90,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 //                + Sell.KEY_PRESSS + TEXT_TYPE + COMMA_SEP
 //                + Sell.KEY_IS_SELLING + TEXT_TYPE + COMMA_SEP
 //                + Sell.KEY_IS_SOLD + TEXT_TYPE +  COMMA_SEP
-//                + Sell.KEY_ADD_TIME + TEXT_TYPE + COMMA_SEP
+                + Cart.KEY_ADD_TIME + TEXT_TYPE //+ COMMA_SEP
 //                + Sell.KEY_UPDATE_TIME + TEXT_TYPE + COMMA_SEP
 //                + Sell.KEY_IS_DEL + TEXT_TYPE +  COMMA_SEP
 //                + Sell.KEY_BID  + INT_TYPE //+ COMMA_SEP
@@ -243,15 +239,17 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     }
 
     /**
-     * add in cart
+     *  add in cart
      * @param _id
+     * @param curtime
      */
 
-    public void addInCart(int _id) {
+    public void addInCart(int _id, String curtime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv =new ContentValues();
         cv.put(Cart.KEY_SELLID, _id);
-        db.insert(Cart.TABLE_NAME,null,cv);
+        cv.put(Cart.KEY_ADD_TIME, curtime);
+        db.insert(Cart.TABLE_NAME, null, cv);
     }
 
     public long addData(List<BookEntity> be){
@@ -318,6 +316,31 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         }
         cr.close();
         db.close();
+        return It;
+    }
+
+
+    public List<SellBook> getCart(){
+        List<SellBook> It = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        SellBook tmp = null;
+        String selectQuery = "SELECT  * FROM " + Cart.TABLE_NAME;
+        Cursor cr=db.rawQuery(selectQuery, null);
+        if (cr.moveToFirst()) {
+            do {
+                tmp = new SellBook();
+                int sid = cr.getInt(1);
+                String tmpQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " Where " + Sell.KEY_ID + " = ?";
+                Cursor cr2 = db.rawQuery(tmpQuery,new String[]{Integer.toString(sid)});
+                if(cr2.moveToFirst()) {
+                    tmp.setData(cr2.getInt(0), cr2.getString(1), cr2.getString(2), cr2.getInt(3), cr2.getString(4),
+                            cr2.getInt(5), cr2.getString(6), (cr2.getString(7) == "true" )? true : false,
+                            (cr2.getString(8) == "true" )? true : false, cr2.getString(9),cr2.getString(10),
+                            (cr2.getString(11) == "true" )? true : false, cr2.getInt(12));
+                    It.add(tmp);
+                }
+            } while (cr.moveToNext());
+        }
         return It;
     }
 
