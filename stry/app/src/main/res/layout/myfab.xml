@@ -20,6 +20,7 @@
         android:background="@drawable/fab_selector"
         android:cropToPadding="true"
         android:padding="20dp"
+        android:tint="@color/textColorPrimary"
         android:src="@drawable/ic_action_add"
         android:stateListAnimator="@animator/fab_elevation_selector" />
 

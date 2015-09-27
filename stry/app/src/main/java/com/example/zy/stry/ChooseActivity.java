@@ -137,6 +137,7 @@ public class ChooseActivity extends AppCompatActivity  {
                     }
                 }).show();
         startFABAnimation();
+        if (UBposition!=-1)
         doSearch(bookname);
 
     }
@@ -224,6 +225,16 @@ public class ChooseActivity extends AppCompatActivity  {
 //            　( ●ω●)
 //            　｜つ／(＿＿＿
 //            ／└-(＿＿＿_／
+                            if (UBposition == -1) {
+                                SelfDefineActivity.mbook.image = book.getImages().getLarge();
+                                SelfDefineActivity.mbook.bookname = book.getTitle();
+                                if (book.getAuthor().length > 0)
+                                    SelfDefineActivity.mbook.author=book.getAuthor()[0];
+                                SelfDefineActivity.mbook.publisher = book.getPublisher();
+                                SelfDefineActivity.mbook.origprice =book.getPrice();
+                                SelfDefineActivity.mbook.pages = book.getPages();
+                                return;
+                            }
 
                             DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                             SQLiteDatabase job=db.getReadableDatabase();

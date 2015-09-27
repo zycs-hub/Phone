@@ -36,7 +36,6 @@ public class SelectFromT extends Activity {
     private View v = null;
     private MyAdapter ma=null;
     DatabaseHandler db=null;
-    List<BookEntity> lt=null;
 
     private BookOperarion bookOperator;
     SharedPreferences shared_preferences;
@@ -58,23 +57,12 @@ public class SelectFromT extends Activity {
 
 
         db = new DatabaseHandler(getApplicationContext());
-        lt= db.getCoursesAll();
         //long param = db.addDate(lt, job);
         //lt= db.getUserAll(job);
         // get need user book
         // is selling true false unknown
         // find unknown
 
-        if(lt.isEmpty()){
-            //BookGlobla=lt;
-            Intent intent_=new Intent(SelectFromT.this, MainActivity.class);
-            startActivity(intent_);
-            finish();
-        }
-        else{
-            //ThreadBooksMessage str =new ThreadBooksMessage(han,result.getString("name"),result.getString("password"),"Override");
-            //new Thread(str).start();
-        }
 
 
         inflater = getLayoutInflater();
@@ -112,14 +100,14 @@ public class SelectFromT extends Activity {
                 job=db.getReadableDatabase();
                 int n = ma.getCount();
                 for (int i = 0; i < n; i++) {
-                    String na = lt.get(i).getBook();
-                    String courseid = Integer.toString(lt.get(i).courseid);
+                    String na = BookGlobla.lts.get(i).getBook();
+                    String courseid = Integer.toString(BookGlobla.lts.get(i).courseid);
                     if (page_list.isItemChecked(i)) {
                         books_data += courseid + ',' + na;
                         if (i != n - 1) {
                             books_data += '\n';
                         }
-                        for (BookEntity u : lt) {
+                        for (BookEntity u : BookGlobla.lts) {
                             //u.isSelected(1);
 
                             // try {
@@ -134,7 +122,7 @@ public class SelectFromT extends Activity {
                             //}
                             //page_list.setItemChecked(i, true);
                         }
-                        db.addSell(username, na, lt.get(i).courseid, na, -1, null ,false,false,null,null,false,-1);
+                        db.addSell(username, na, BookGlobla.lts.get(i).courseid, na, -1, null ,false,false,null,null,false,-1);
                     } else{
                         job.execSQL("update courses set  isSelected=-1 where book=?", new String[]{na});
                     }

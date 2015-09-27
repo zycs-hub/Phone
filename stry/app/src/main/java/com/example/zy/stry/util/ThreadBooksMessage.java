@@ -14,9 +14,9 @@ import java.util.List;
 public class ThreadBooksMessage implements Runnable {
     private Handler han = null;
     private String name, password;
-    private String purpose = "";
+    private int purpose;
 
-    public ThreadBooksMessage(Handler han, String name, String password, String purpose ) {
+    public ThreadBooksMessage(Handler han, String name, String password, int purpose ) {
         super();
         this.han = han;
         this.name = name;
@@ -40,7 +40,7 @@ public class ThreadBooksMessage implements Runnable {
                 han.sendEmptyMessage(-1);
                 break;
             case "log" :
-                if (purpose.equals("Override")) {
+                if (purpose==0) {
                     BookGlobla.lts = XMLParser.getBookEntitys(GetInputStream.View("grade", name, password));
                     BookGlobla.lts.addAll(XMLParser.getCourse(GetInputStream.View("curriculum", name, password)));
                     han.sendEmptyMessage(1);

@@ -197,17 +197,58 @@ public class XMLParser {
     }
     static void parseForInfo(String text) throws IOException{
         String patternString =
-                "<td class=\"fieldName\" width=\"180\">\\s*(.+)\\s*</td>";
+                "<td align=\"left\" width=\"275\">\\s*(.+)\\s*</td>";
         Pattern pattern = Pattern.compile(patternString,
                 Pattern.CASE_INSENSITIVE  );  //  Pattern.MULTILINE
-        Matcher matcher = pattern.matcher( text);
+        Matcher matcher = pattern.matcher(text);
         List<String> list = new ArrayList<>();
+        int ca = 0;
         while (matcher.find()) {
-                String course = matcher.group(1);
-                //if(!isNumeric(course,0)&&!isNumeric(course,1))
-                list.add("-----"+course+"++++++\n");
+            String find = matcher.group(1);
+            switch (ca){
+                case 0:
+                    //UserbookGlobla.user.student_ID=find;
+                    ++ca;
+                    break;
+                case 1:
+                    UserbookGlobla.user.name=find;
+                    ++ca;
+                    break;
+                default:
+                    ++ca;
+                    break;
+            }
+            parseForInfo2(text);
         }
-        System.out.println(list);
     }
+    static void parseForInfo2(String text) throws IOException{
+        String patternString =
+                "<td align=\"left\" width=\"275\">\\s*(.+)\\s*</td>";
+        Pattern pattern = Pattern.compile(patternString,
+                Pattern.CASE_INSENSITIVE  );  //  Pattern.MULTILINE
+        Matcher matcher = pattern.matcher(text);
+        int ca = 0;
+        while (matcher.find()) {
+            String find = matcher.group(1);
+            switch (ca){
+                default:
+                    ++ca;
+                    break;
+                case 23:
+                    UserbookGlobla.user.faculty=find;
+                    ++ca;
+                    break;
+                case 24:
+                    UserbookGlobla.user.major=find;
+                    ++ca;
+                    break;
+                case 26:
+                    UserbookGlobla.user.grade=find;
+                    ++ca;
+                    break;
+            }
+        }
+    }
+
 
 }
