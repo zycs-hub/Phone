@@ -5,13 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-<<<<<<< HEAD:stry/app/src/main/java/com/example/zy/stry/ManagementFragment.java
-=======
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
->>>>>>> 75f7cd408245c8ac223081ee7c5b219f93b4829d:stry/app/src/main/java/com/example/zy/stry/MyCenterFragment.java
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +30,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.lib.DatabaseHandler;
+import com.example.zy.stry.util.BookGlobla;
 import com.example.zy.stry.adapter.MySellAdapter;
 
 import java.lang.ref.WeakReference;
@@ -42,11 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-<<<<<<< HEAD:stry/app/src/main/java/com/example/zy/stry/ManagementFragment.java
-=======
-import com.example.zy.stry.util.My_DB;
 import com.example.zy.stry.util.ThreadBooksMessage;
->>>>>>> 75f7cd408245c8ac223081ee7c5b219f93b4829d:stry/app/src/main/java/com/example/zy/stry/MyCenterFragment.java
 import com.example.zy.stry.util.UserbookGlobla;
 import com.example.zy.stry.widget.DividerItemDecoration;
 import com.example.zy.stry.widget.RecyclerItemClickListener;
@@ -54,23 +46,20 @@ import com.example.zy.stry.widget.RecyclerItemClickListener;
 /**
  * Created by wendy on 15-8-26.
  */
-<<<<<<< HEAD:stry/app/src/main/java/com/example/zy/stry/ManagementFragment.java
 public class ManagementFragment extends Fragment {
-=======
-public class MyCenterFragment extends Fragment {
     static class IncomingHandler extends Handler {
-        private final WeakReference<MyCenterFragment> mService;
+        private final WeakReference<ManagementFragment> mService;
         private int status;
 
 
-        IncomingHandler(MyCenterFragment service,int status) {
-            mService = new WeakReference<MyCenterFragment>(service);
+        IncomingHandler(ManagementFragment service,int status) {
+            mService = new WeakReference<ManagementFragment>(service);
             this.status=status;
         }
 
         @Override
         public void handleMessage(Message msg) {
-            MyCenterFragment service = mService.get();
+            ManagementFragment service = mService.get();
             if (service != null) {
                 switch (msg.what) {
                     case -1:
@@ -110,7 +99,6 @@ public class MyCenterFragment extends Fragment {
         }
     }
     private  MaterialDialog dialog=null;
->>>>>>> 75f7cd408245c8ac223081ee7c5b219f93b4829d:stry/app/src/main/java/com/example/zy/stry/MyCenterFragment.java
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private String[] myDataset;
@@ -183,7 +171,6 @@ public class MyCenterFragment extends Fragment {
                 intent.putExtra("bookName", book_for_sell.get(i).toString());
                 intent.putExtra("position", i);
                 startActivity(intent);
-
             }
         });
         */
@@ -353,7 +340,6 @@ public class MyCenterFragment extends Fragment {
                     intent = new Intent(getActivity(), RecycleViewActivity.class);
                     startActivity(intent);
                     break;
-
                 case 1:
                     intent = new Intent(getActivity(), EditTextFLActivity.class);
                     startActivity(intent);
@@ -366,7 +352,6 @@ public class MyCenterFragment extends Fragment {
                     intent = new Intent(getActivity(), AppBarDetailActivity.class);
                     startActivity(intent);
                     break;
-
                 case 4:
                     intent = new Intent(getActivity(), BottomTabActivity.class);
                     startActivity(intent);
@@ -456,7 +441,7 @@ public class MyCenterFragment extends Fragment {
             else
                 holder.price.setText("价 格：");
             //if (book.price!=null)
-                holder.message.setVisibility(View.GONE);
+            holder.message.setVisibility(View.GONE);
 
         }
 
@@ -479,4 +464,5 @@ public class MyCenterFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
     }
+
 }
