@@ -111,6 +111,15 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         // Set a listener to be invoked when the list should be refreshed.
         mPullRefreshListView.setOnRefreshListener(this);
 
+        mPullRefreshListView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
+
+            @Override
+            public void onLastItemVisible() {
+                Toast.makeText(getActivity(), "End of List!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         // You can also just use mPullRefreshListFragment.getListView()
         ListView actualListView = mPullRefreshListView.getRefreshableView();
 
@@ -145,8 +154,8 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                                     int position, long id) {
                 Book book =new Book();
                 Intent intent1 = new Intent(getActivity(), BookDetailActivity.class);
-                intent1.putExtra("book", mStrings.get(position).toString());
-                intent1.putExtra("_id", mData.get(position)._id);
+                intent1.putExtra("book", mStrings.get(position - 1).toString());
+                intent1.putExtra("_id", mData.get(position - 1)._id);
                 startActivity(intent1);
             }
         });

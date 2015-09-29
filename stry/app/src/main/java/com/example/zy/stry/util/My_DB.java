@@ -56,7 +56,7 @@ public class My_DB extends SQLiteOpenHelper {
         while(cr.moveToNext()){
             use =new BookEntity();
             use.setBook(cr.getString(0));
-            use.isSelected(cr.getInt(1));
+            use.setSelected(cr.getInt(1));
             use.isTaking(cr.getInt(2));
             It.add(use);
         }
