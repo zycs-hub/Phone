@@ -16,6 +16,7 @@ import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.util.My_DB;
 import com.example.zy.stry.util.ThreadBooksMessage;
 import com.example.zy.stry.util.BookGlobla;
+import com.example.zy.stry.util.UserbookGlobla;
 
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -71,6 +72,8 @@ public class LogForT extends Activity {
                                 //job = db.getReadableDatabase();
                                 //db.onUpgrade(job,0,0);
                                 ///job.execSQL("DROP TABLE IF EXISTS books");
+                                UserbookGlobla.user.student_ID=nameString;
+                                UserbookGlobla.user.password=passwordString;
                                 DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
                                 db.deleteCourses();
@@ -104,6 +107,7 @@ public class LogForT extends Activity {
                     bt.setVisibility(View.VISIBLE);
                     return;
                 }
+
                 ///////////////////////////////////////////////////////////////////
                 ThreadBooksMessage str = new ThreadBooksMessage(han, nameString, passwordString, 0);
                 new Thread(str).start();

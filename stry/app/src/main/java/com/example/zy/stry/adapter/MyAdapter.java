@@ -55,7 +55,7 @@ public class MyAdapter extends BaseAdapter{
     public void updateBackground(int position, View view) {
         int backgroundId;
         if (ls.isItemChecked(position)) {
-            view.setBackgroundResource(R.drawable.gree_background);
+            view.setBackgroundResource(R.color.primary_500);
         } else {
             view.setBackgroundResource(R.drawable.white_bankground);
         }

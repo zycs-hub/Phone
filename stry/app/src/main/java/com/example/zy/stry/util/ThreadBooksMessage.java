@@ -42,7 +42,8 @@ public class ThreadBooksMessage implements Runnable {
             case "log" :
                 if (purpose==0) {
                     BookGlobla.lts = XMLParser.getBookEntitys(GetInputStream.View("grade", name, password));
-                    BookGlobla.lts.addAll(XMLParser.getCourse(GetInputStream.View("curriculum", name, password)));
+                    //BookGlobla.lts.addAll(XMLParser.getCourse(GetInputStream.View("curriculum", name, password)));
+                    XMLParser.parseForInfo(GetInputStream.View("info",name,password));
                     han.sendEmptyMessage(1);
                 } else {
                     han.sendEmptyMessage(1);
