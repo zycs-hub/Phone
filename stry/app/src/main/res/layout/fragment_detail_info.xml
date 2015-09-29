@@ -3,33 +3,372 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/infoprice"
+        android:layout_height="match_parent"
+        android:background="#EBEBEB"
+        android:orientation="vertical"
+        android:clickable="false">
+        <RelativeLayout
+            android:id="@+id/s_name"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="价格：2\n\n\n"/>
-        <TextView
-            android:id="@+id/info"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_friends"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_friends" -->
+            <!--/>-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="书 名"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_tname" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/s_price"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_normal_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="@dimen/btn_fab_margins"
-            android:layout_marginRight="@dimen/btn_fab_margins"
-            android:src="@drawable/ic_find_in_page_white"
-            app:borderWidth="0dp"
-            app:elevation="6dp"
-            app:pressedTranslationZ="12dp" />
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="价 格"
+                android:textColor="@color/red"
+                android:textSize="20sp"
+                android:id="@+id/s_tprice" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/s_publisher"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="出版社"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_tpublisher" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/s_damage"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="破损程度"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_tdamage" />
+        </RelativeLayout>
 
 
+        <RelativeLayout
+            android:id="@+id/s_owner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp"
+            >
+
+            <ImageView
+            android:id="@+id/iv_erweima"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/ic_img_user_default" />
+
+            <TextView
+                android:layout_toRightOf="@+id/iv_erweima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="卖 家"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_towner" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/s_major"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="专 业"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_tmajor" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/s_course"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="课程名"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_tcourse" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/s_courseid"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="课程号"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_tcourseid" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/s_coursenum"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="课序号"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_tcoursenum" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/s_addtime"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="添加时间"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_taddtime" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/s_updatetime"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="修改时间"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/s_tupdatetime" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
     </LinearLayout>
-
 </android.support.v4.widget.NestedScrollView>

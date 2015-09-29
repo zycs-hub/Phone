@@ -32,28 +32,28 @@ public class BookDetailInfo extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail_info, null);
-        setUpFAB(view);
+        //setUpFAB(view);
 
-        final TextView infoprice = (TextView) view.findViewById(R.id.infoprice);
-        TextView info = (TextView) view.findViewById(R.id.info);
-        info.setText("\n\n\n\n\n\n\n\n\n\n\n\n\n");
-        infoprice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new MaterialDialog.Builder(getActivity())
-                        .title("输入价格")
-                                //.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)
-                        .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                // Do something
-                                if (!TextUtils.isEmpty(input)) {
-                                    infoprice.setText("\n价格：" + input + "\n");
-                                }
-                            }
-                        }).show();
-            }
-        });
+//        final TextView infoprice = (TextView) view.findViewById(R.id.infoprice);
+//        TextView info = (TextView) view.findViewById(R.id.info);
+//        info.setText("\n\n\n\n\n\n\n\n\n\n\n\n\n");
+//        infoprice.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                new MaterialDialog.Builder(getActivity())
+//                        .title("输入价格")
+//                                //.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)
+//                        .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
+//                            @Override
+//                            public void onInput(MaterialDialog dialog, CharSequence input) {
+//                                // Do something
+//                                if (!TextUtils.isEmpty(input)) {
+//                                    infoprice.setText("\n价格：" + input + "\n");
+//                                }
+//                            }
+//                        }).show();
+//            }
+//        });
         //tvInfo.setText(getArguments().getString("info"));
 //        tvInfo.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -64,26 +64,26 @@ public class BookDetailInfo extends Fragment {
 
         return view;
     }
-    private void setUpFAB(View view) {
-        mFabButton = (FloatingActionButton) view.findViewById(R.id.fab_normal_info);
-        mFabButton.setVisibility(View.GONE);
-        mFabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new MaterialDialog.Builder(getActivity())
-                        .title(R.string.search)
-                                //.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)
-                        .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                // Do something
-                                if (!TextUtils.isEmpty(input)) {
-                                   // doSearch(input.toString());
-                                }
-                            }
-                        }).show();
-            }
-        });
-    }
+//    private void setUpFAB(View view) {
+//        mFabButton = (FloatingActionButton) view.findViewById(R.id.fab_normal_info);
+//        mFabButton.setVisibility(View.GONE);
+//        mFabButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                new MaterialDialog.Builder(getActivity())
+//                        .title(R.string.search)
+//                                //.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)
+//                        .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
+//                            @Override
+//                            public void onInput(MaterialDialog dialog, CharSequence input) {
+//                                // Do something
+//                                if (!TextUtils.isEmpty(input)) {
+//                                   // doSearch(input.toString());
+//                                }
+//                            }
+//                        }).show();
+//            }
+//        });
+//    }
 
 }
