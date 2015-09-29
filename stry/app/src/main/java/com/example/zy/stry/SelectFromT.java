@@ -20,6 +20,8 @@ import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.adapter.MyAdapter;
 import com.example.zy.stry.util.BookGlobla;
 import com.example.zy.stry.entity.BookEntity;
+import com.example.zy.stry.util.UserbookGlobla;
+
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
@@ -39,6 +41,8 @@ public class SelectFromT extends Activity {
 
     private BookOperarion bookOperator;
     SharedPreferences shared_preferences;
+    SharedPreferences.Editor prefEditor;
+
 
     private SQLiteDatabase job =null;
 
@@ -58,7 +62,7 @@ public class SelectFromT extends Activity {
 
         db = new DatabaseHandler(getApplicationContext());
         //long param = db.addDate(lt, job);
-        //lt= db.getUserAll(job);
+        List<BookEntity> lt= db.getCoursesAll();
         // get need user book
         // is selling true false unknown
         // find unknown
@@ -77,6 +81,8 @@ public class SelectFromT extends Activity {
         main_body_lin.addView(v);
 
 
+
+
         page_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -90,6 +96,21 @@ public class SelectFromT extends Activity {
 
         shared_preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         username = shared_preferences.getString("username", null);
+
+        prefEditor = shared_preferences.edit();
+        if (UserbookGlobla.user.name!=null)
+            prefEditor.putString("name", UserbookGlobla.user.name);
+        if (UserbookGlobla.user.faculty!=null)
+            prefEditor.putString("faculty", UserbookGlobla.user.faculty);
+        if (UserbookGlobla.user.major!=null)
+            prefEditor.putString("major", UserbookGlobla.user.major);
+        if (UserbookGlobla.user.grade!=null)
+            prefEditor.putString("grade", UserbookGlobla.user.grade);
+        if (UserbookGlobla.user.student_ID!=null)
+            prefEditor.putString("student_ID", UserbookGlobla.user.student_ID);
+        if (UserbookGlobla.user.password!=null)
+            prefEditor.putString("password_T", UserbookGlobla.user.password);
+        prefEditor.apply();
 
 
 
@@ -148,6 +169,7 @@ public class SelectFromT extends Activity {
                // saveAll();
                 //main_body_lin.removeAllViews();
                 db.close();
+                BookGlobla.lts=null;
                 Intent intent_1 = new Intent(SelectFromT.this, MainActivity.class);
                 startActivity(intent_1);
                 finish();

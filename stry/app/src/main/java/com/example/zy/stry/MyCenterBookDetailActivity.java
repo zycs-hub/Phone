@@ -24,10 +24,13 @@ import android.support.v7.graphics.Palette;
 
 
 import com.bumptech.glide.Glide;
+import com.example.zy.stry.fragment.MCDeMessFragment;
 import com.example.zy.stry.fragment.MCDetailFragment;
 import com.example.zy.stry.util.UserbookGlobla;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -38,6 +41,7 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
     private int mposition;
     ImageView header=null;
     ViewPagerAdapter adapter;
+    FloatingActionButton action_on,action_stop,action_done,action_off;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +50,6 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.Mc_detail_toolbar);
         setSupportActionBar(toolbar);
         if(getSupportActionBar()!=null){
-            getSupportActionBar().setTitle("Parallax Tabs");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);}
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +57,11 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        action_on = (FloatingActionButton) findViewById(R.id.action_on);
+        action_off = (FloatingActionButton) findViewById(R.id.action_off);
+        action_done = (FloatingActionButton) findViewById(R.id.action_done);
+        action_stop = (FloatingActionButton) findViewById(R.id.action_stop);
+        setUpListern();
 //
 //        　∧__∧
 //        　( ●ω●)
@@ -97,6 +105,10 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 //                collapsingToolbarLayout.setStatusBarScrimColor(vibrantDarkColor);
 //            }
 //        });
+        action_done.setVisibility(View.GONE);
+        action_on.setVisibility(View.VISIBLE);
+        action_off.setVisibility(View.VISIBLE);
+        action_stop.setVisibility(View.GONE);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -106,14 +118,19 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 
                 switch (tab.getPosition()) {
                     case 0:
+                        action_done.setVisibility(View.GONE);
+                        action_on.setVisibility(View.VISIBLE);
+                        action_off.setVisibility(View.VISIBLE);
+                        action_stop.setVisibility(View.GONE);
                         showToast("One");
                         break;
                     case 1:
-                        showToast("Two");
+                        action_done.setVisibility(View.VISIBLE);
+                        action_on.setVisibility(View.GONE);
+                        action_off.setVisibility(View.GONE);
+                        action_stop.setVisibility(View.VISIBLE);
 
-                        break;
-                    case 2:
-                        showToast("Three");
+                        showToast("Two");
 
                         break;
                 }
@@ -140,7 +157,7 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 
          adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new MCDetailFragment(), "infor",bookname,mposition);
-        adapter.addFrag(new MCDetailFragment(), "message",bookname,mposition);
+        adapter.addFrag(new MCDeMessFragment(), "message",bookname,mposition);
         // adapter.addFrag(new DummyFragment(getResources().getColor(R.color.button_material_dark)), "MOUSE");
         viewPager.setAdapter(adapter);
     }
@@ -182,6 +199,10 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
             return (MCDetailFragment)getItem(0);
 
         }
+        public MCDeMessFragment update1() {
+            return (MCDeMessFragment)getItem(1);
+
+        }
     }
 
 
@@ -221,9 +242,66 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 //            return view;
 //        }
 //    }
+    private void setUpListern(){
+        action_off.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                int min = c.get(Calendar.MINUTE);
+                int hour =c.get(Calendar.HOUR);
+                UserbookGlobla.lts.get(mposition).message.add(0,"m"+"物品已下架");
+                UserbookGlobla.lts.get(mposition).message.add(0,"t"+Integer.toString(hour)+":"+Integer.toString(min));
+
+                adapter.update1().upd();
+                //actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+        });
+        action_on.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                int min = c.get(Calendar.MINUTE);
+                int hour =c.get(Calendar.HOUR);
+                UserbookGlobla.lts.get(mposition).message.add(0,"m"+"物品已上架");
+                UserbookGlobla.lts.get(mposition).message.add(0,"t"+Integer.toString(hour)+":"+Integer.toString(min));
+
+                adapter.update1().upd();
+
+                //actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+        });
+        action_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                int min = c.get(Calendar.MINUTE);
+                int hour =c.get(Calendar.HOUR);
+                UserbookGlobla.lts.get(mposition).message.add(0,"m"+"已取消交易，物品已重新上架");
+                UserbookGlobla.lts.get(mposition).message.add(0,"t"+Integer.toString(hour)+":"+Integer.toString(min));
+
+                adapter.update1().upd();
+
+                //actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+        });
+        action_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                int min = c.get(Calendar.MINUTE);
+                int hour =c.get(Calendar.HOUR);
+                UserbookGlobla.lts.get(mposition).message.add(0,"m"+"交易已结束，点击“你的交易”查看交易纪录");
+                UserbookGlobla.lts.get(mposition).message.add(0,"t"+Integer.toString(hour)+":"+Integer.toString(min));
+
+                adapter.update1().upd();
+
+                //actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+        });
+    }
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         if (UserbookGlobla.lts.get(mposition).image!=null)
             Glide.with(header.getContext())
                     .load(UserbookGlobla.lts.get(mposition).image)
@@ -234,7 +312,5 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 
             if (adapter.update()!=null)
         adapter.update().update(mposition);
-
-
     }
 }

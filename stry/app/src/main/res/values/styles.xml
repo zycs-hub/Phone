@@ -1,5 +1,6 @@
 <resources>
 
+    <style name="ssss" parent="Theme.AppCompat.NoActionBar"></style>
     <style name="MyTheme" parent="Base.MyTheme"></style>
 
     <style name="Base.MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">

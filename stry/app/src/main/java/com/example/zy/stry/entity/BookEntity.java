@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class BookEntity implements Serializable {
             ,price,publisher,pages,damage,image,remarks;
     public int courseid=0,  bid=0;
     public boolean is_selling=false, is_sold=false, is_del=false;
+    public List<String> message=new ArrayList<>();
 
 
 

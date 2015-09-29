@@ -78,13 +78,15 @@ public class ManagementFragment extends Fragment {
                         break;
                     case 1: {
                         service.getCourse(status);
-                        if(BookGlobla.lts==null)
+                        if(BookGlobla.lts==null||BookGlobla.lts.size()==0)
                             switch (status){
                                 case 1:
                                     Toast.makeText(service.getActivity(), "无新书", Toast.LENGTH_LONG).show();
+                                    service.cancelProgress();
                                     return;
                                 case 0:
                                     Toast.makeText(service.getActivity(), "无课程", Toast.LENGTH_LONG).show();
+                                    service.cancelProgress();
                                     return;
                             }
                         Intent intent = new Intent(service.getActivity(), SelectFromT.class);
@@ -101,7 +103,6 @@ public class ManagementFragment extends Fragment {
     private  MaterialDialog dialog=null;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private String[] myDataset;
     private MyAdapter mAdapter;
     DatabaseHandler db = null;
     SharedPreferences shared_preferences;
@@ -109,6 +110,9 @@ public class ManagementFragment extends Fragment {
 
     public static final String PREFS_NAME = "MyPrefs";
     private String username;
+    private String student_ID;
+    private String password_T;
+
 
 
     ListView my_center_list =null;
@@ -137,6 +141,8 @@ public class ManagementFragment extends Fragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         shared_preferences = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
         username = shared_preferences.getString("username", null);
+        student_ID=shared_preferences.getString("student_ID", null);
+        password_T=shared_preferences.getString("password_T", null);
 
         // specify an adapter (see also next example)
         if(username != null) {
@@ -188,11 +194,17 @@ public class ManagementFragment extends Fragment {
     * */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.mycenter, menu);
-        MenuItem readd = menu.findItem(R.id.readd);
-        MenuItem addnew = menu.findItem(R.id.addnew);
-        MenuItem rechoice = menu.findItem(R.id.rechoice);
-        MenuItem self_defined = menu.findItem(R.id.self_defined);
+        if (student_ID!=null) {
+            inflater.inflate(R.menu.mycenter, menu);
+            MenuItem readd = menu.findItem(R.id.readd);
+            MenuItem addnew = menu.findItem(R.id.addnew);
+            MenuItem rechoice = menu.findItem(R.id.rechoice);
+            MenuItem self_defined = menu.findItem(R.id.self_defined);
+        }
+        else {
+            inflater.inflate(R.menu.log_t, menu);
+        }
+
 
 
 //
@@ -232,6 +244,12 @@ public class ManagementFragment extends Fragment {
                 startActivity(intent);
                 cancelProgress();
                 break;
+            case R.id.logt:
+                showProgress();
+                Intent intent_t = new Intent(getActivity(), LogForT.class);
+                startActivity(intent_t);
+                cancelProgress();
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -243,19 +261,21 @@ public class ManagementFragment extends Fragment {
         switch (status) {
             case 0:
                 db.deleteCourses();
+                long param = db.addData(BookGlobla.lts);
                 break;
-            case 1: {
-
-                for (int i = 0, len = UserbookGlobla.lts.size(); i < len; i++)
-                    for (int j = 0, leng = lt.size(); i < leng; i++)
-                        if (UserbookGlobla.lts.get(i).coursenum == lt.get(j).coursenum) {
+            case 1:
+                for (int i = 0, len = BookGlobla.lts.size(); i < len; i++)
+                    for (int j = 0, leng = lt.size(); j < leng; j++)
+                        if (BookGlobla.lts.get(i).courseid == lt.get(j).courseid) {
                             lt.remove(j);
+                            BookGlobla.lts.remove(i);
+                            --i;
+                            --len;
                             --leng;
                             --j;
+                            break;
                         }
-                BookGlobla.lts=lt;
-            }
-            break;
+                break;
             case 2:
                 for (int i = 0, len = lt.size(); i < len; i++) {
                     if (lt.get(i).isSelected() == 1)
@@ -263,7 +283,7 @@ public class ManagementFragment extends Fragment {
                     --len;
                     --i;
                 }
-                if (lt == null) {
+                if (lt.size()==0) {
                     Toast.makeText(getActivity(), "无未选择书", Toast.LENGTH_LONG).show();
                     cancelProgress();
                     return;
@@ -273,12 +293,12 @@ public class ManagementFragment extends Fragment {
                     startActivity(intent);
                     cancelProgress();
                 }
-                db.close();
         }
+        db.close();
     }
     private void login(int status){
         IncomingHandler myHandler = new IncomingHandler(this,status);
-        ThreadBooksMessage str = new ThreadBooksMessage(myHandler, UserbookGlobla.user.student_ID, UserbookGlobla.user.password, 0);
+        ThreadBooksMessage str = new ThreadBooksMessage(myHandler, student_ID, password_T, 0);
         new Thread(str).start();
     }
     private void showProgress(){
@@ -303,7 +323,7 @@ public class ManagementFragment extends Fragment {
                         // Do something
                         if (!TextUtils.isEmpty(input)) {
                             if(UserbookGlobla.user.student_ID==null) return;
-                            UserbookGlobla.user.student_ID=input.toString();
+                            UserbookGlobla.user.password=input.toString();
                             login(0);
                         }
                     }
@@ -380,7 +400,6 @@ public class ManagementFragment extends Fragment {
             public TextView message;
 
 
-            public int position;
 
             public ViewHolder(View v) {
                 super(v);
