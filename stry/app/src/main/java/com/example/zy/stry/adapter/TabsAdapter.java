@@ -3,12 +3,15 @@ package com.example.zy.stry.adapter;
 import com.example.zy.stry.Fragment1;
 import com.example.zy.stry.Fragment2;
 import com.example.zy.stry.Fragment3;
+import com.example.zy.stry.MainActivity;
+import com.example.zy.stry.ManagementFragment;
 import com.example.zy.stry.R;
 import com.viewpagerindicator.IconPagerAdapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 

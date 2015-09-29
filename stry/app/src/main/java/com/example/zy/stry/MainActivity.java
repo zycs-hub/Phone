@@ -6,7 +6,9 @@ import com.example.zy.stry.lib.NetWorkChecker;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -78,15 +80,15 @@ public class MainActivity extends AppCompatActivity {
         prefEditor = settings.edit();
         db = new DatabaseHandler(getApplicationContext());
 
-
-        db.getWritableDatabase().execSQL("DROP TABLE cart");
-
-        String CREATE_CART_TABLE = "CREATE TABLE cart ("
-                + "id_" + " INTEGER PRIMARY KEY , "
-                + "sell_id INTEGER , add_time TEXT )";
-
-
-        db.getWritableDatabase().execSQL(CREATE_CART_TABLE);
+//
+//        db.getWritableDatabase().execSQL("DROP TABLE cart");
+//
+//        String CREATE_CART_TABLE = "CREATE TABLE cart ("
+//                + "id_" + " INTEGER PRIMARY KEY , "
+//                + "sell_id INTEGER , add_time TEXT )";
+//
+//
+//        db.getWritableDatabase().execSQL(CREATE_CART_TABLE);
         //SQLiteDatabase job=db.getWritableDatabase();
         //db.onUpgrade(job,0,1);
         fmg = getSupportFragmentManager();
@@ -169,9 +171,35 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
     public void onBackPressed() {
-        quitToast();
+
+        int count = fmg.getBackStackEntryCount();
+
+        if (count == 0) {
+            quitToast();
+            super.onBackPressed();
+            //additional code
+        } else {
+            showToast("后退");
+            FragmentManager.BackStackEntry backEntry= fmg.getBackStackEntryAt(count - 1);
+//            String str=backEntry.getName();
+//            Fragment fragment=fmg.findFragmentByTag(str);
+//            FragmentTransaction ft = MainActivity.fmg.beginTransaction();
+//            ft.detach();
+
+//                ft.add(R.id.fragment_2, new ManagementFragment());
+//            ft.addToBackStack("navigation");
+//            ft.commitAllowingStateLoss();
+            fmg.popBackStack();
+        }
+
     }
+
+//
+//    public void onBackPressed() {
+//
+//    }
     /*
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         System.out.println(keyCode + "...." + event.getKeyCode());

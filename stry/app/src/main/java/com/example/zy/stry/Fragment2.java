@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * Created by wendy on 15-9-27.
@@ -30,14 +31,17 @@ public class Fragment2 extends Fragment {
         }
 
         FragmentTransaction ft = MainActivity.fmg.beginTransaction();
-        ft.replace(R.id.fragment_2, new ManagementFragment());
+        ft.replace(R.id.fragment_2, new Fragment2Navigation());
+//        ft.add(R.id.fragment_2, new Fragment2Navigation());
         ft.commitAllowingStateLoss();
+
         return rootView;
     }
 
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
     }
 }

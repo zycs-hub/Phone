@@ -1,32 +1,32 @@
 package com.example.zy.stry;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.text.format.DateUtils;
-import android.view.Gravity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.entity.CartEntity;
 import com.example.zy.stry.entity.SellEntity;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.example.zy.stry.lib.BookOperarion;
+import com.example.zy.stry.lib.Config;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,14 +34,15 @@ import java.util.List;
  */
 public class CartFragment extends Fragment  {
     private View rootView;
-    TextView textName;
+    ListView mlistView;
+    Button bntConfirm;
+
 
     SharedPreferences shared_preferences;
 
-    private LinkedList<String> mListItems;
-    private PullToRefreshListView mPullRefreshListView;
-    private ArrayAdapter<String> mAdapter;
-    private List<SellEntity.SellBook> lst;
+    private ArrayList<BookEntity> mListItems;
+    private ArrayAdapter<BookEntity> mAdapter;
+    private String lst;
     private List mStrings;
 
     public static final String PREFS_NAME = "MyPrefs";
@@ -52,57 +53,67 @@ public class CartFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mStrings = new ArrayList();
+        mStrings = new ArrayList<>();
+        mListItems = new ArrayList();
+        lst = "";
+        FragmentManager fm = getFragmentManager();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 //        rootView = new PullToRefreshExpandableListView(getActivity());
         rootView = inflater.inflate(R.layout.fragment_cart, container, false);
+        bntConfirm = (Button) rootView.findViewById(R.id.bnt_confirm);
+
 
 //        FragmentTransaction ft = MainActivity.fmg.beginTransaction();
 
         shared_preferences = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
         username = shared_preferences.getString("username", null);
-        mPullRefreshListView = (PullToRefreshListView) rootView.findViewById(R.id.pull_refresh_list);
 
         // Set a listener to be invoked when the list should be refreshed.
-        mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+
+        mlistView = (ListView) rootView.findViewById(R.id.listView);
+//        actualListView.setTextFilterEnabled(true);
+
+        this.GetData();
+
+//        mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.checkbox, mListItems);
+
+        mAdapter = new CartAdapter(getActivity(), mListItems);
+
+
+
+        mlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                String label = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(),
-                        DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-
-                // Update the LastUpdatedLabel
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-
-                // Do work to refresh the list here.
-                new GetDataTask().execute();
+            public void onItemClick(AdapterView<?> parent, View item,
+                                    int position, long id) {
+                BookEntity cart_item = mAdapter.getItem(position);
+                cart_item.toggleChecked();
+                ViewHolder viewHolder = (ViewHolder) item.getTag();
+                boolean check = (cart_item.isSelected() == 0 ? false : true);
+                viewHolder.getCheckBox().setChecked(check);
             }
         });
 
-        // Add an end-of-list listener
-        mPullRefreshListView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
 
+
+        ArrayList<BookEntity> planetList = new ArrayList<BookEntity>();
+        planetList.addAll(mListItems);
+
+        // Set our custom array adapter as the ListView's adapter.
+        mlistView.setAdapter(mAdapter);
+//        mlistView.setChoiceMode(mlistView.CHOICE_MODE_MULTIPLE);
+//        checkbox.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) getActivity());
+        bntConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLastItemVisible() {
-                Toast.makeText(getActivity(), "End of List!", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                (new Thread(new BuyTask())).start();
             }
         });
 
-        ListView actualListView = mPullRefreshListView.getRefreshableView();
-
-        textName = (TextView) rootView.findViewById(R.id.bookname);
-
-
-        new GetDataTask().execute();
-
-        mListItems = new LinkedList<String>();
-
-        mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mListItems);
-
-        actualListView.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -115,70 +126,175 @@ public class CartFragment extends Fragment  {
         super.onSaveInstanceState(outState);
     }
 
+//    @Override
+//    public void onItemClick(AdapterView arg0, View v, int position, long arg3) {
+//        // TODO Auto-generated method stub
+//        CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
+////        TextView tv = (TextView) v.findViewById(R.id.textView1);
+//        cb.performClick();
+////        if (cb.isChecked()) {
+////            Toast.makeText(getActivity(),mListItems.get(position) ,Toast.LENGTH_LONG).show();
+////
+////        } else if (!cb.isChecked()) {
+////        }
+//    }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
 
+    void GetData() {
+        mStrings.clear();
+        mListItems.clear();
 
-    private class GetDataTask extends AsyncTask<Void, Void, String[]> {
+        SQLiteDatabase db = MainActivity.db.getReadableDatabase();
+        BookEntity tmp = null;
+//        String formattedDate = MainActivity.df.format(MainActivity.c.getTime());
 
-        @Override
-        protected String[] doInBackground(Void... params) {
-            // Simulates a background job.
-            try {
-                Thread.sleep(4000);
-                mStrings.clear();
+        String selectQuery = "SELECT  * FROM " + CartEntity.Cart.TABLE_NAME;
 
-                List<SellEntity.SellBook> It = new ArrayList<>();
-                SQLiteDatabase db = MainActivity.db.getReadableDatabase();
-                SellEntity.SellBook tmp = null;
-                String formattedDate = MainActivity.df.format(MainActivity.c.getTime());
-
-                String selectQuery = "SELECT  * FROM " + CartEntity.Cart.TABLE_NAME + " WHERE " + CartEntity.Cart.KEY_ADD_TIME + " LIKE '" + formattedDate + "%'";
-                Cursor cr=db.rawQuery(selectQuery, null);
+//        String selectQuery = "SELECT  * FROM " + CartEntity.Cart.TABLE_NAME + " WHERE " + CartEntity.Cart.KEY_ADD_TIME + " LIKE '" + formattedDate + "%'";
+        Cursor cr=db.rawQuery(selectQuery, null);
 //                String KEY_ADD_TIME = CartEntity.Cart.KEY_ADD_TIME;
-                String KEY_SELLID = CartEntity.Cart.KEY_SELLID;
+        String KEY_SELLID = CartEntity.Cart.KEY_SELLID;
 //                Cursor cr= db.query(CartEntity.Cart.TABLE_NAME, new String[]{KEY_SELLID}, "add_time LIKE '?'", new String[]{formattedDate + "%"}, null, null, null);
 //                Cursor cr= db.query(CartEntity.Cart.TABLE_NAME, null, KEY_ADD_TIME + " LIKE '?'", new String[]{formattedDate + "%"}, null, null, null);
 
-                if (cr.moveToFirst()) {
-                    do {
-                        tmp = new SellEntity.SellBook();
-                        int a = cr.getColumnIndex(KEY_SELLID);
-                        int sid = cr.getInt(a);
-                        String tmpQuery = "SELECT  * FROM " + SellEntity.Sell.TABLE_NAME + " Where " + SellEntity.Sell.KEY_ID + " = ?";
-                        Cursor cr2 = db.rawQuery(tmpQuery,new String[]{Integer.toString(sid)});
-                        if(cr2.moveToFirst()) {
-                            tmp.setData(cr2.getInt(0), cr2.getString(1), cr2.getString(2), cr2.getInt(3), cr2.getString(4),
-                                    cr2.getInt(5), cr2.getString(6), (cr2.getString(7) == "true" )? true : false,
-                                    (cr2.getString(8) == "true" )? true : false, cr2.getString(9),cr2.getString(10),
-                                    (cr2.getString(11) == "true" )? true : false, cr2.getInt(12));
-                            mStrings.add(tmp.bookname);
-                            It.add(tmp);
-                        }
-                    } while (cr.moveToNext());
+        if (cr.moveToFirst()) {
+            do {
+                tmp = new BookEntity();
+                int a = cr.getColumnIndex(KEY_SELLID);
+                int sid = cr.getInt(a);
+                String tmpQuery = "SELECT  * FROM " + SellEntity.Sell.TABLE_NAME + " Where " + SellEntity.Sell.KEY_ID + " = ?";
+                Cursor cr2 = db.rawQuery(tmpQuery,new String[]{Integer.toString(sid)});
+                if(cr2.moveToFirst()) {
+                    tmp.setData(cr2.getInt(0), cr2.getString(1), cr2.getString(2), cr2.getInt(3), cr2.getString(4),
+                            cr2.getInt(5), cr2.getString(6), (cr2.getString(7) == "true") ? true : false,
+                            (cr2.getString(8) == "true") ? true : false, cr2.getString(9), cr2.getString(10),
+                            (cr2.getString(11) == "true") ? true : false, cr2.getInt(12));
+                    mStrings.add(tmp.bookname);
+                    mListItems.add(tmp);
                 }
-            } catch (InterruptedException e) {
-            }
-            return (String[])mStrings.toArray(new String[mStrings.size()]);
+            } while (cr.moveToNext());
+        }
+    }
+
+    private static class ViewHolder {
+        private CheckBox checkBox ;
+        private TextView textView ;
+        public ViewHolder() {}
+        public ViewHolder( TextView textView, CheckBox checkBox ) {
+            this.checkBox = checkBox ;
+            this.textView = textView ;
+        }
+        public CheckBox getCheckBox() {
+            return checkBox;
+        }
+        public void setCheckBox(CheckBox checkBox) {
+            this.checkBox = checkBox;
+        }
+        public TextView getTextView() {
+            return textView;
+        }
+        public void setTextView(TextView textView) {
+            this.textView = textView;
+        }
+    }
+
+    public class CartAdapter extends ArrayAdapter<BookEntity> {
+
+        private LayoutInflater inflater;
+        private List<BookEntity> mList;
+        private Context context;
+
+
+        public CartAdapter(Context context,List<BookEntity> mList) {
+            super(context, R.layout.checkbox, mList);
+            // Cache the LayoutInflate to avoid asking for a new one each time.
+            inflater = LayoutInflater.from(context) ;
+            this.mList = mList;
+            this.context = context;
         }
 
         @Override
-        protected void onPostExecute(String[] result) {
-            mListItems.addAll(mStrings);
-            mAdapter.notifyDataSetChanged();
+        public View getView(int position, View convertView, ViewGroup parent) {
 
-            // Call onRefreshComplete when the list has been refreshed.
-            mPullRefreshListView.onRefreshComplete();
+            CheckBox checkBox ;
+            TextView textView ;
 
-            super.onPostExecute(result);
+            BookEntity item =  mList.get(position);
+//            BookEntity item;
+//            item =  new BookEntity();
+//
+            if(convertView == null) {
+
+                convertView = inflater.inflate(R.layout.checkbox, null);
+
+                textView = (TextView) convertView.findViewById( R.id.name );
+                checkBox = (CheckBox) convertView.findViewById( R.id.check_box );
+
+                convertView.setTag( new ViewHolder(textView,checkBox) );
+
+                // If CheckBox is toggled, update the planet it is tagged with.
+                checkBox.setOnClickListener( new View.OnClickListener() {
+                    public void onClick(View v) {
+                        CheckBox cb = (CheckBox) v ;
+                        BookEntity item = (BookEntity) cb.getTag();
+                        int tmp = (cb.isChecked() == false ? 0 : 1);
+                        item.setSelected(tmp);
+                    }
+                });
+
+            } else {
+                ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+                checkBox = viewHolder.getCheckBox() ;
+                textView = viewHolder.getTextView() ;
+            }
+
+            // Tag the CheckBox with the Planet it is displaying, so that we can
+            // access the planet in onClick() when the CheckBox is toggled.
+            checkBox.setTag(item);
+
+            // Display planet data
+            boolean tmp = (item.isSelected() == 0 ? false : true);
+            checkBox.setChecked(tmp);
+            textView.setText((String) mStrings.get(position) );
+
+            return convertView;
         }
     }
 
 
+    class BuyTask implements Runnable {
+        public void run() {
+            lst = "";
+            for (BookEntity item : mListItems) {
+                if (item.isSelected() != 0) {
+                    lst += item.getSellid() + '\n';
+                }
 
+            }
 
+            if (lst != "") {
+
+                BookOperarion bookOpt = new BookOperarion();
+                try {
+
+                    JSONObject json = bookOpt.buyBooks(username, lst.substring(0,lst.length() - 1));
+
+                    if (json.getString(Config.KEY_SUCCESS) != null) {
+                    } else {
+
+                    }
+                } catch (Exception e) {
+                    System.out.println("Exception : " + e.getMessage());
+                }
+            }
+        }
+
+    }
 
 }
 

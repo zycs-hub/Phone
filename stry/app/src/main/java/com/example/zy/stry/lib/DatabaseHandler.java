@@ -283,7 +283,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             do {
                 use = new BookEntity();
                 use.setBook(cr.getString(0));
-                use.isSelected(cr.getInt(1));
+                use.setSelected(cr.getInt(1));
                 use.isTaking(cr.getInt(2));
                 use.courseid(cr.getInt(3));
                 use.origprice=(cr.getString(4));

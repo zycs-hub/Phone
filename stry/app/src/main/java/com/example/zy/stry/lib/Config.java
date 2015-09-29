@@ -10,9 +10,15 @@ public class Config {
     private static String LOG_URL = "http://bookt.sinaapp.com/phone/login/";
     public static String REGIST_URL = "http://bookt.sinaapp.com/phone/register/";
     private static String ADD_SELL_URL = "http://bookt.sinaapp.com/phone/addSaleBook";
+    private static String BUY_URL = "http://bookt.sinaapp.com/phone/buy/";
+//    private static String BUY_URL = "http://192.168.12.24:8080/phone/buy/";
+
+
 
 
     public static String LOGIN_INFO_ERROR = "用户名或密码不正确";
+    public static String KEY_SUCCESS = "success";
+
 
     public static String getHomeUrl() {
         return HOME_URL;
@@ -22,5 +28,8 @@ public class Config {
     }
     public static  String getAddSellUrl() {
         return ADD_SELL_URL;
+    }
+    public static String getBuyUrl() {
+        return BUY_URL;
     }
 }
