@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -83,7 +85,7 @@ public class ChooseActivity extends AppCompatActivity  {
 //        ／└-(＿＿＿_／
 
         bookname =  getIntent().getStringExtra("book");
-//        bid = getIntent().getIntExtra("bookid", 0);
+        bid = getIntent().getIntExtra("bookid", 0);
         UBposition = getIntent().getIntExtra("position",-1);
 
 
@@ -224,7 +226,7 @@ public class ChooseActivity extends AppCompatActivity  {
                             String price = book.getPrice();
                             final String pages = book.getPages();
 
-                            final String tmp = "image," + img+"\nauthor," + author + "\npress," + publisher + "\norigprice," + price + "\npages," +pages;
+                            final String tmp = "image," + img + "\nauthor," + author + "\npress," + publisher + "\norigprice," + price + "\npages," + pages;
 
 
                             if (UBposition == -1) {
@@ -252,6 +254,19 @@ public class ChooseActivity extends AppCompatActivity  {
                             job.execSQL("update courses set  pages=? where book=?", new String[]{pages, bookname});
 
 
+                            final Handler handler = new Handler() {
+                                @Override
+                                public void handleMessage(final Message msgs) {
+                                    //write your code hear which give error
+                                    switch (msgs.what) {
+                                        case 1:
+                                            Toast.makeText(getApplication(), "w已存", Toast.LENGTH_SHORT).show();
+                                            break;
+                                        case -1:
+                                            Toast.makeText(getApplicationContext(), "错误", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            };
 
                             db.close();
 
@@ -263,14 +278,14 @@ public class ChooseActivity extends AppCompatActivity  {
                                         shared_preferences = getApplicationContext().getSharedPreferences(PREFS_NAME, getApplicationContext().MODE_PRIVATE);
                                         username = shared_preferences.getString("username", null);
                                         if (username != null) {
-                                            JSONObject json = bookOpt.editBook(username,Integer.toString(UserbookGlobla.lts.get(UBposition).bid) ,tmp);
+                                            JSONObject json = bookOpt.editBook(username, Integer.toString(UserbookGlobla.lts.get(UBposition).bid), tmp);
 
                                             if (json.getString(Config.KEY_SUCCESS) != null) {
-                                                Toast.makeText(getApplication(), "已存", Toast.LENGTH_SHORT).show();
+                                                handler.sendEmptyMessage(1);
 
 
                                             } else {
-                                                Toast.makeText(getApplicationContext(), "错误", Toast.LENGTH_SHORT).show();
+                                                handler.sendEmptyMessage(-1);
                                             }
                                         }
 
