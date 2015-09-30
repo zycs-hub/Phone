@@ -60,6 +60,8 @@ public class Login extends Fragment implements View.OnClickListener {
         }
         InputStream inputStream = null;
 
+
+
         inputName = (EditText) rootView.findViewById(R.id.username);
         inputPass = (EditText) rootView.findViewById(R.id.password);
         //      regist login_button clicker event;
@@ -102,6 +104,7 @@ public class Login extends Fragment implements View.OnClickListener {
 //                    frg = adapter.getRegisteredFragment(id);
 //                    frg = MainActivity.fmg.findFragmentById(R.id.fragment_3);
                     final FragmentTransaction ft = MainActivity.fmg.beginTransaction();
+                    Fragment3.collapsingToolbar.setTitle("登录教务处");
                     ft.replace(R.id.fragment_3, new AccountFragment());
 //                    ft.detach(frg);
 //                    if (frg == null) {

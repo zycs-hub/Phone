@@ -2,9 +2,9 @@
 <resources>
 
     <!--Indigo 500-->
-    <color name="primary_500">#2196F3</color>
+    <color name="primary_500">#87CEEB</color>
     <!--Indigo 700-->
-    <color name="primary_700">#87CEEB</color>
+    <color name="primary_700">#2196F3</color>
     <!--Pink 500-->
     <color name="accent_500">#8BC34A</color>
     <!--Pink 700-->

@@ -46,7 +46,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_account, container, false);
-            listView = (PullToZoomListViewEx) rootView.findViewById(R.id.listview);
         }
 
         shared_preferences = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
@@ -60,11 +59,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         if( username != null) {
             left_bnt.setText("登出");
             login_bnt.setText("登入教务处");
-            adapterData.add(username);
+            //adapterData.add(username);
         }
 
-        listView.setAdapter(new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, (String[]) adapterData.toArray(new String[adapterData.size()])));
+//        listView.setAdapter(new ArrayAdapter<String>(getActivity(),
+//                android.R.layout.simple_list_item_1, (String[]) adapterData.toArray(new String[adapterData.size()])));
 
 
 
