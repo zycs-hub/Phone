@@ -106,6 +106,7 @@ public class ManagementFragment extends Fragment {
     private MyAdapter mAdapter;
     DatabaseHandler db = null;
     SharedPreferences shared_preferences;
+    int flag=1;
 
 
     public static final String PREFS_NAME = "MyPrefs";
@@ -157,6 +158,26 @@ public class ManagementFragment extends Fragment {
                     UserbookGlobla.lts=lt;
                     //book_for_sell.add(book);
                 }
+            if (flag==1){
+                flag++;
+                DatabaseHandler db;
+                List<BookEntity> lts;
+                db = new DatabaseHandler(getActivity());
+                lts = db.getCoursesAll();
+                for (int i = 0, len = UserbookGlobla.lts.size(); i < len; i++)
+                    for (int j = 0, leng = lts.size(); j < leng; j++)
+                        if (UserbookGlobla.lts.get(i).courseid == lts.get(j).courseid) {
+                            UserbookGlobla.lts.get(i).image=lts.get(j).image;
+                            UserbookGlobla.lts.get(i).author=lts.get(j).author;
+                            UserbookGlobla.lts.get(i).publisher=lts.get(j).publisher;
+                            UserbookGlobla.lts.get(i).pages=lts.get(j).pages;
+                            lts.remove(j);
+                            --leng;
+                            --j;
+
+                            break;
+                        }
+            }
             lt=null;
         }
 
@@ -209,7 +230,7 @@ public class ManagementFragment extends Fragment {
 
 //
 
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -399,6 +420,8 @@ public class ManagementFragment extends Fragment {
             public TextView price;
             public TextView author;
             public TextView message;
+            public TextView dot;
+            public TextView date;
 
 
 
@@ -410,6 +433,9 @@ public class ManagementFragment extends Fragment {
                 price = (TextView) v.findViewById(R.id.price);
                 message = (TextView) v.findViewById(R.id.message);
                 author = (TextView) v.findViewById(R.id.author);
+                dot = (TextView) v.findViewById(R.id.dot);
+
+                date = (TextView) v.findViewById(R.id.data);
             }
         }
 
@@ -461,7 +487,18 @@ public class ManagementFragment extends Fragment {
             else
                 holder.price.setText("价 格：");
             //if (book.price!=null)
+            if (book.message.size()!=0&& !book.message.get(0).equals("m无消息")) {
+                holder.message.setVisibility(View.VISIBLE);
+                holder.message.setText(book.message.get(1).substring(1));
+                holder.dot.setVisibility(View.VISIBLE);
+                holder.date.setVisibility(View.VISIBLE);
+                holder.date.setText(book.message.get(0).substring(1));
+            }
+            else {
             holder.message.setVisibility(View.GONE);
+
+            holder.dot.setVisibility(View.GONE);
+            holder.date.setVisibility(View.GONE);}
 
         }
 

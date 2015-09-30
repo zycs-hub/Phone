@@ -40,7 +40,7 @@ public class CartFragment extends Fragment  {
 
     SharedPreferences shared_preferences;
 
-    private ArrayList<BookEntity> mListItems;
+    public static ArrayList<BookEntity> mListItems;
     private ArrayAdapter<BookEntity> mAdapter;
     private String lst;
     private List mStrings;

@@ -53,36 +53,7 @@ public class Fragment1 extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
 
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-        }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        }
-        searchView.setIconifiedByDefault(false);
-        searchView.setQueryHint("");
-        searchView.setSubmitButtonEnabled(true);
-//
-
-        super.onCreateOptionsMenu(menu,inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home:
-                getActivity().onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     @Override

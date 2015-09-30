@@ -17,7 +17,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:background="@color/primary_700"
+            android:background="@color/primary_500"
             android:id="@+id/vBook"
             android:transitionName="@string/transition_book_img"
             android:layout_width="90dp"

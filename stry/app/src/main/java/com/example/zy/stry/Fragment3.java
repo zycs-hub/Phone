@@ -28,6 +28,7 @@ import com.example.zy.stry.util.UserbookGlobla;
 public class Fragment3 extends Fragment {
     private View rootView;
     SharedPreferences shared_preferences;
+    MyAdapter mAdapter;
     public static CollapsingToolbarLayout collapsingToolbar;
     RecyclerView recyclerView;
     int mutedColor = R.attr.colorPrimary;
@@ -80,7 +81,13 @@ public class Fragment3 extends Fragment {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        MyAdapter mAdapter= new MyAdapter(getActivity());
+        try {
+            mAdapter= new MyAdapter(getActivity());
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         recyclerView.setAdapter(mAdapter);
         head.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -107,6 +114,8 @@ public class Fragment3 extends Fragment {
             public TextView price;
             public TextView author;
             public TextView message;
+            public TextView dot;
+            public TextView date;
 
 
 
@@ -118,6 +127,10 @@ public class Fragment3 extends Fragment {
                 price = (TextView) v.findViewById(R.id.price);
                 message = (TextView) v.findViewById(R.id.message);
                 author = (TextView) v.findViewById(R.id.author);
+                dot = (TextView) v.findViewById(R.id.dot);
+
+                date = (TextView) v.findViewById(R.id.data);
+
             }
         }
 
@@ -143,19 +156,20 @@ public class Fragment3 extends Fragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            BookEntity book = UserbookGlobla.lts.get(position);
+            BookEntity book = CartFragment.mListItems.get(position);
             //BookEntity book = book_for_sell.get(position);
             holder.tvTitle.setText(book.getBook());
             if (book.getBook()!=null)
                 holder.tvTitle.setText(book.getBook());
             else
                 holder.tvTitle.setText(book.bookname);
-            if (book.image!=null)
-                Glide.with(holder.ivBook.getContext())
-                        .load(book.image)
-                        .fitCenter()
-                        .into(holder.ivBook);
-            else holder.ivBook.setImageDrawable(null);
+//            if (book.image!=null)
+//                Glide.with(holder.ivBook.getContext())
+//                        .load(book.image)
+//                        .fitCenter()
+//                        .into(holder.ivBook);
+//            else
+                holder.ivBook.setVisibility(View.GONE);
             if (book.bookname!=null)
                 holder.book.setText("书 名：" + book.bookname);
             else
@@ -170,16 +184,18 @@ public class Fragment3 extends Fragment {
                 holder.price.setText("价 格：");
             //if (book.price!=null)
             holder.message.setVisibility(View.GONE);
+            holder.date.setVisibility(View.GONE);
+            holder.dot.setVisibility(View.GONE);
 
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
-            return UserbookGlobla.lts.size();
+            return CartFragment.mListItems==null ? 0: CartFragment.mListItems.size();
         }
         public BookEntity getBook(int pos) {
-            return UserbookGlobla.lts.get(pos);
+            return CartFragment.mListItems.get(pos);
         }
         public void update() {
             notifyDataSetChanged();
@@ -190,5 +206,16 @@ public class Fragment3 extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            mAdapter= new MyAdapter(getActivity());
+            recyclerView.setAdapter(mAdapter);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

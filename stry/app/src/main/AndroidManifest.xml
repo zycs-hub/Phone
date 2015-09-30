@@ -80,6 +80,10 @@
             android:name=".SelfDefineActivity"
             android:theme="@style/MyTheme">
         </activity>
+        <activity
+            android:name=".SetUserInfActivity"
+            android:theme="@style/MyTheme">
+        </activity>
 
 
     </application>
