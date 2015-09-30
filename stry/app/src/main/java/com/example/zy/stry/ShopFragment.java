@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.Book;
 import com.example.zy.stry.entity.SellEntity;
 import com.example.zy.stry.lib.BookOperarion;
@@ -326,6 +327,10 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                 viewHolder.s_price = (TextView) convertView.findViewById(R.id.s_price);
 //                viewHolder.message = (TextView) convertView.findViewById(R.id.message);
                 viewHolder.s_owner = (TextView) convertView.findViewById(R.id.s_owner);
+                viewHolder.s_major = (TextView) convertView.findViewById(R.id.s_major);
+                viewHolder.s_course = (TextView) convertView.findViewById(R.id.s_course);
+
+
 
 
                 convertView.setTag(viewHolder);
@@ -334,10 +339,27 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
             }
 
-            viewHolder.s_title.setText(item.coursename);
+
+//            if (item.image!=null)
+//                Glide.with(viewHolder.s_image.getContext())
+//                    .load(item.image)
+//                    .fitCenter()
+//                    .into(viewHolder.s_image);
+            if (item.bookname==null){
+                viewHolder.s_title.setText("课程名："+item.coursename);
+                viewHolder.s_course.setVisibility(View.GONE);
+            }else{
+                viewHolder.s_title.setText(item.bookname);
+                viewHolder.s_course.setText("课程名："+item.coursename);
+            }
+
 //            viewHolder.book.setText(item.bookname);
-            viewHolder.s_price.setText(Integer.toString(item.price));
-            viewHolder.s_owner.setText(item.username);
+            viewHolder.s_price.setText("价格："+Integer.toString(item.price));
+            viewHolder.s_owner.setText("卖家："+item.username);
+//            if (item.major!=null)
+//                viewHolder.s_major.setText(item.major);
+//            else
+                viewHolder.s_major.setVisibility(View.GONE);
 
             return convertView;
         }
@@ -350,6 +372,8 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             TextView s_price;
 //            TextView message;
             TextView s_owner;
+            TextView s_major;
+            TextView s_course;
 
             public ImageView getS_Image() {
                 return s_image;
