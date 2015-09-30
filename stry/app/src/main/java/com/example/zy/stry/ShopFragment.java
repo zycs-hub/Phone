@@ -153,6 +153,9 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                 Intent intent1 = new Intent(getActivity(), BookDetailActivity.class);
                 intent1.putExtra("book", mStrings.get(position - 1).toString());
                 intent1.putExtra("_id", mData.get(position - 1)._id);
+                Bundle mBundle = new Bundle();
+                mBundle.putSerializable("data", mData.get(position - 1));
+                intent1.putExtras(mBundle);
                 startActivity(intent1);
             }
         });

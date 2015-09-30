@@ -58,7 +58,7 @@
             >
         </activity>
         <activity android:name=".BookDetailActivity"
-            android:theme="@style/DrawerLayoutTheme"
+            android:theme="@style/MyTheme"
             >
         </activity>
         <activity android:name=".ShowMessageActivity"

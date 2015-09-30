@@ -1,5 +1,6 @@
 package com.example.zy.stry;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -24,6 +25,7 @@ import com.example.zy.stry.R;
 import com.example.zy.stry.DetailFragment;
 import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.Book;
+import com.example.zy.stry.entity.SellEntity;
 
 
 import java.text.SimpleDateFormat;
@@ -44,6 +46,7 @@ public class BookDetailActivity extends AppCompatActivity {
     ImageButton fabBtn;
     View fabShadow;
     int _id;
+    SellEntity.SellBook data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +62,23 @@ public class BookDetailActivity extends AppCompatActivity {
             }
         });
 
-        bookname =  getIntent().getStringExtra("book");
-        _id = getIntent().getIntExtra("_id", -1);
+        Intent intent = getIntent();
+        bookname =  intent.getStringExtra("book");
+        _id = intent.getIntExtra("_id", -1);
+        Bundle bundle = intent.getExtras();
+        data =(SellEntity.SellBook)bundle.getSerializable("data");
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(bookname);
 
         ImageView ivImage = (ImageView) findViewById(R.id.ivImage);
-        if (mBook==null|| mBook.getImage()==null|| mBook.getImages().getLarge()==null)
+
+        //if (data.image==null)
         ivImage.setImageResource(R.drawable.splash01);
-        else
-        Glide.with(ivImage.getContext())
-                .load(mBook.getImages().getLarge())
-                .fitCenter()
-                .into(ivImage);
+//        else
+//        Glide.with(ivImage.getContext())
+//                .load(mBook.getImages().getLarge())
+//                .fitCenter()
+//                .into(ivImage);
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(mViewPager);
@@ -134,7 +141,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager mViewPager) {
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(BookDetailInfo.newInstance(mBook.getSummary()), "内容简介");
+        adapter.addFragment(BookDetailInfo.newInstance(data), "内容简介");
         //adapter.addFragment(DetailFragment.newInstance(mBook.getAuthor_intro()), "消息");
         //adapter.addFragment(DetailFragment.newInstance(mBook.getCatalog()), "目录");
         mViewPager.setAdapter(adapter);

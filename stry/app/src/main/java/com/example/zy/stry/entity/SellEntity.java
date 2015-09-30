@@ -2,6 +2,8 @@ package com.example.zy.stry.entity;
 
 import android.provider.BaseColumns;
 
+import java.io.Serializable;
+
 /**
  * Created by wendy on 15-9-5.
  */
@@ -28,7 +30,7 @@ public class SellEntity {
         public static final String KEY_BID = "bid";
     }
 
-    public static class SellBook {
+    public static class SellBook implements Serializable {
         public String username, bookname, coursename, press, add_time, update_time;
         public int _id, courseid, price, bid;
         public boolean is_selling, is_sold, is_del;
