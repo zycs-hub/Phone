@@ -1,36 +1,25 @@
 package com.example.zy.stry;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,13 +27,14 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
-import com.example.zy.stry.BooksFragment;
 import com.example.zy.stry.entity.Book;
-import com.example.zy.stry.entity.BookEntity;
+import com.example.zy.stry.lib.BookOperarion;
+import com.example.zy.stry.lib.Config;
 import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.util.UserbookGlobla;
-import com.example.zy.stry.widget.BackHandledFragment;
 import com.example.zy.stry.widget.RecyclerItemClickListener;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,11 +51,13 @@ public class ChooseActivity extends AppCompatActivity  {
     private FloatingActionButton mFabButton;
 
     String bookname;
+    int bid;
     int UBposition;
     //private static final int ANIM_DURATION_FAB = 400;
+    SharedPreferences shared_preferences;
 
-
-
+    public static final String PREFS_NAME = "MyPrefs";
+    private String username = null;
     private static final int ANIM_DURATION_FAB = 400;
 
     @Override
@@ -91,6 +83,7 @@ public class ChooseActivity extends AppCompatActivity  {
 //        ／└-(＿＿＿_／
 
         bookname =  getIntent().getStringExtra("book");
+//        bid = getIntent().getIntExtra("bookid", 0);
         UBposition = getIntent().getIntExtra("position",-1);
 
 
@@ -107,11 +100,6 @@ public class ChooseActivity extends AppCompatActivity  {
         mRecyclerView.setAdapter(mAdapter);
 
         setUpFAB();
-
-
-
-
-
 
 
 
@@ -220,37 +208,84 @@ public class ChooseActivity extends AppCompatActivity  {
             */
 
 
-
 //            　∧__∧
 //            　( ●ω●)
 //            　｜つ／(＿＿＿
 //            ／└-(＿＿＿_／
+
+
+                            final String img = book.getImages().getLarge();
+                            final String title = book.getTitle();
+                            String author = "";
+                            if (book.getAuthor().length > 0) {
+                                author = book.getAuthor()[0];
+                            }
+                            final String publisher = book.getPublisher();
+                            String price = book.getPrice();
+                            final String pages = book.getPages();
+
+                            final String tmp = "image," + img+"\nauthor," + author + "\npress," + publisher + "\norigprice," + price + "\npages," +pages;
+
+
                             if (UBposition == -1) {
-                                SelfDefineActivity.mbook.image = book.getImages().getLarge();
-                                SelfDefineActivity.mbook.bookname = book.getTitle();
+                                SelfDefineActivity.mbook.image = img;
+                                SelfDefineActivity.mbook.bookname = title;
                                 if (book.getAuthor().length > 0)
-                                    SelfDefineActivity.mbook.author=book.getAuthor()[0];
-                                SelfDefineActivity.mbook.publisher = book.getPublisher();
-                                SelfDefineActivity.mbook.origprice =book.getPrice();
-                                SelfDefineActivity.mbook.pages = book.getPages();
+                                    SelfDefineActivity.mbook.author = author;
+                                SelfDefineActivity.mbook.publisher = publisher;
+                                SelfDefineActivity.mbook.origprice = price;
+                                SelfDefineActivity.mbook.pages = pages;
                                 return;
                             }
 
                             DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-                            SQLiteDatabase job=db.getReadableDatabase();
+                            SQLiteDatabase job = db.getReadableDatabase();
                             //这里应该有个确定对话框
 
                             //应该是下面一条但是存image 但好像不能存网址，因为有 冒号 ：，待解决
                             //job.execSQL("update courses set  image="+book.getImages().getLarge()+" where book=?", new String[]{bookname});
-                            job.execSQL("update courses set  image=? where book=?", new String[]{book.getImage(), bookname});
+                            job.execSQL("update courses set  image=? where book=?", new String[]{img, bookname});
+                            if (book.getAuthor().length > 0)
+                                job.execSQL("update courses set  author=? where book=?", new String[]{author, bookname});
+                            job.execSQL("update courses set  publisher=? where book=?", new String[]{publisher, bookname});
+                            job.execSQL("update courses set  origprice=? where book=?", new String[]{price, bookname});
+                            job.execSQL("update courses set  pages=? where book=?", new String[]{pages, bookname});
+
+
+
                             db.close();
-                            UserbookGlobla.lts.get(UBposition).image=book.getImages().getLarge();
-                            UserbookGlobla.lts.get(UBposition).bookname=book.getTitle();
-                            if (book.getAuthor().length>0)
-                                UserbookGlobla.lts.get(UBposition).author=book.getAuthor()[0];
-                            UserbookGlobla.lts.get(UBposition).publisher=book.getPublisher();
-                            UserbookGlobla.lts.get(UBposition).origprice=book.getPrice();
-                            UserbookGlobla.lts.get(UBposition).pages=book.getPages();
+
+                            new Thread(new Runnable() {
+                                public void run() {
+                                    try {
+
+                                        BookOperarion bookOpt = new BookOperarion();
+                                        shared_preferences = getApplicationContext().getSharedPreferences(PREFS_NAME, getApplicationContext().MODE_PRIVATE);
+                                        username = shared_preferences.getString("username", null);
+                                        if (username != null) {
+                                            JSONObject json = bookOpt.editBook(username,Integer.toString(UserbookGlobla.lts.get(UBposition).bid) ,tmp);
+
+                                            if (json.getString(Config.KEY_SUCCESS) != null) {
+                                                Toast.makeText(getApplication(), "已存", Toast.LENGTH_SHORT).show();
+
+
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "错误", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                    } catch (Exception e) {
+                                        System.out.println("Exception : " + e.getMessage());
+                                    }
+                                }
+                            }).start();
+
+                            UserbookGlobla.lts.get(UBposition).image = img;
+                            UserbookGlobla.lts.get(UBposition).bookname = title;
+                            UserbookGlobla.lts.get(UBposition).author = author;
+                            UserbookGlobla.lts.get(UBposition).publisher = publisher;
+                            UserbookGlobla.lts.get(UBposition).origprice = price;
+                            UserbookGlobla.lts.get(UBposition).pages = book.getPages();
 
                         }
                     }).show();
@@ -329,7 +364,7 @@ public class ChooseActivity extends AppCompatActivity  {
                                                        int viewType) {
             // create a new view
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.book_item, parent, false);
+                    .inflate(R.layout.item_book, parent, false);
             //v.setBackgroundResource(mBackground);
             // set the view's size, margins, paddings and layout parameters
             ViewHolder vh = new ViewHolder(v);

@@ -344,6 +344,7 @@ public class ManagementFragment extends Fragment {
             //book = book_for_sell.get(position).getBook();
             Intent intent1 = new Intent(getActivity(), MyCenterBookDetailActivity.class);
             intent1.putExtra("book", book);
+            intent1.putExtra("bid", UserbookGlobla.lts.get(position).bid);
             intent1.putExtra("position", position);
             startActivity(intent1);
 
@@ -423,7 +424,7 @@ public class ManagementFragment extends Fragment {
                                                        int viewType) {
             // create a new view
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.courses_item, parent, false);
+                    .inflate(R.layout.item_courses, parent, false);
             //v.setBackgroundResource(mBackground);
             // set the view's size, margins, paddings and layout parameters
             ViewHolder vh = new ViewHolder(v);

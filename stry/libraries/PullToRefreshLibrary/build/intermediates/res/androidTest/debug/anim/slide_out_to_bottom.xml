@@ -19,4 +19,4 @@
     android:duration="@android:integer/config_longAnimTime"
     android:fromYDelta="0"
     android:toYDelta="100%p" />
-<!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/PullToRefreshLibrary/src/main/res/anim/slide_out_to_bottom.xml --><!-- From: file:/Users/zy/Desktop/Phone/stry/libraries/PullToRefreshLibrary/build/intermediates/bundles/debug/res/anim/slide_out_to_bottom.xml -->
+<!-- From: file:/Users/wendy/Project/Phone/stry/libraries/PullToRefreshLibrary/src/main/res/anim/slide_out_to_bottom.xml --><!-- From: file:/Users/wendy/Project/Phone/stry/libraries/PullToRefreshLibrary/build/intermediates/bundles/debug/res/anim/slide_out_to_bottom.xml -->

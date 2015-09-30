@@ -156,7 +156,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * */
     public void addSell(String username, String bookname, int courseid, String coursename,
                         int price, String press, boolean is_selling, boolean is_sold,
-                        String add_time, String update_time, boolean is_del, int anInt) {
+                        String add_time, String update_time, boolean is_del, int bid) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -171,7 +171,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         values.put(Sell.KEY_ADD_TIME, add_time);
         values.put(Sell.KEY_UPDATE_TIME, update_time);
         values.put(Sell.KEY_IS_DEL, is_del);
-        values.put(Sell.KEY_BID, 0);
+        values.put(Sell.KEY_BID, bid);
         db.insert(Sell.TABLE_NAME, null, values);
     }
 
@@ -311,6 +311,16 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 use = new BookEntity();
                 use.setBook(cr.getString(2));
                 use.courseid(cr.getInt(3));
+                use.bid = cr.getInt(12);
+                String tmpQuery = "SELECT  * FROM course WHERE courseid =?";
+                Cursor cursor=db.rawQuery(selectQuery,new String[]{Integer.toString(use.courseid)});
+                if (cursor.moveToFirst()) {
+                    use.origprice = cursor.getString(4);
+                    use.author = cursor.getString(6);
+                    use.publisher = cursor.getString(7);
+                    use.pages = cursor.getString(8);
+                    use.image = cursor.getString(9);
+                }
                 It.add(use);
             } while (cr.moveToNext());
         }

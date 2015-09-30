@@ -18,10 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zy.stry.adapter.ListAdapter;
 import com.example.zy.stry.entity.Book;
 import com.example.zy.stry.entity.SellEntity;
 import com.example.zy.stry.lib.BookOperarion;
@@ -43,7 +45,7 @@ import java.util.List;
  */
 public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefreshListener<ListView> {
     private LinkedList<String> mListItems;
-    private ListAdapter mAdapter;
+    private ShopAdapter  mAdapter;
     private FragmentActivity listener;
     private ArrayList<SellEntity.SellBook> mData = new ArrayList<>();
     private List mStrings = new ArrayList();
@@ -111,13 +113,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         // Set a listener to be invoked when the list should be refreshed.
         mPullRefreshListView.setOnRefreshListener(this);
 
-        mPullRefreshListView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
 
-            @Override
-            public void onLastItemVisible() {
-                Toast.makeText(getActivity(), "End of List!", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         // You can also just use mPullRefreshListFragment.getListView()
@@ -139,8 +135,8 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             }
         }
         mListItems.addAll(mStrings);
-        mAdapter=new ListAdapter(getActivity(),mData);
-
+//        mAdapter=new ListAdapter(getActivity(),mData);
+        mAdapter = new ShopAdapter(getActivity());
         /**
          * Add Sound Event Listener
          */
@@ -283,6 +279,88 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
+    private class ShopAdapter extends ArrayAdapter<SellEntity.SellBook>{
+        private LayoutInflater inflater;
+        private Context context;
+
+
+        public ShopAdapter(Context context) {
+            super(context, R.layout.item_book);
+            // Cache the LayoutInflate to avoid asking for a new one each time.
+            inflater = LayoutInflater.from(context) ;
+            this.context = context;
+        }
+
+
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public SellEntity.SellBook getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder viewHolder = null;
+
+            SellEntity.SellBook item = mData.get(position);
+
+
+            if(convertView == null){
+                viewHolder = new ViewHolder();
+                convertView = inflater.inflate(R.layout.item_shop, null);
+                viewHolder.s_image = (ImageView) convertView.findViewById(R.id.s_image);
+                viewHolder.s_title = (TextView) convertView.findViewById(R.id.s_title);
+//                viewHolder.book = (TextView) convertView.findViewById(R.id.book);
+//                viewHolder.author = (TextView) convertView.findViewById(R.id.author);
+                viewHolder.s_price = (TextView) convertView.findViewById(R.id.s_price);
+//                viewHolder.message = (TextView) convertView.findViewById(R.id.message);
+                viewHolder.s_owner = (TextView) convertView.findViewById(R.id.s_owner);
+
+
+                convertView.setTag(viewHolder);
+            }else{
+                viewHolder = (ViewHolder) convertView.getTag();
+
+            }
+
+            viewHolder.s_title.setText(item.coursename);
+//            viewHolder.book.setText(item.bookname);
+            viewHolder.s_price.setText(Integer.toString(item.price));
+            viewHolder.s_owner.setText(item.username);
+
+            return convertView;
+        }
+
+        class ViewHolder{
+            ImageView s_image;
+            TextView s_title;
+            TextView book;
+//            TextView author;
+            TextView s_price;
+//            TextView message;
+            TextView s_owner;
+
+            public ImageView getS_Image() {
+                return s_image;
+            }
+
+            public TextView gets_title() {
+                return s_title;
+            }
+        }
+    }
+
 
 
 }

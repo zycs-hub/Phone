@@ -11,16 +11,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.support.v7.graphics.Palette;
 
 
 import com.bumptech.glide.Glide;
@@ -39,6 +34,7 @@ import java.util.List;
 public class MyCenterBookDetailActivity extends AppCompatActivity {
     String bookname;
     private int mposition;
+    int bid;
     ImageView header=null;
     ViewPagerAdapter adapter;
     FloatingActionButton action_on,action_stop,action_done,action_off;
@@ -70,6 +66,7 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 
         bookname =  getIntent().getStringExtra("book");
         mposition =  getIntent().getIntExtra("position", -1);
+        bid = getIntent().getIntExtra("bid", -1);
 
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.Mc_detail_viewpager);
@@ -156,8 +153,8 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
 
          adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new MCDetailFragment(), "infor",bookname,mposition);
-        adapter.addFrag(new MCDeMessFragment(), "message",bookname,mposition);
+        adapter.addFrag(new MCDetailFragment(), "infor",bookname,mposition, bid);
+        adapter.addFrag(new MCDeMessFragment(), "message",bookname,mposition, bid);
         // adapter.addFrag(new DummyFragment(getResources().getColor(R.color.button_material_dark)), "MOUSE");
         viewPager.setAdapter(adapter);
     }
@@ -182,9 +179,10 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFrag(Fragment fragment, String title,String bookname,int position) {
+        public void addFrag(Fragment fragment, String title,String bookname,int position, int bid) {
             Bundle args = new Bundle();
             args.putSerializable("book", bookname);
+            args.putSerializable("bookid", bid);
             args.putSerializable("position", position);
             fragment.setArguments(args);
             mFragmentList.add(fragment);

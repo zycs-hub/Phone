@@ -42,6 +42,7 @@ public class MCDetailFragment extends Fragment {
         Bundle bundle = this.getArguments();
         final String book = bundle.getString("book");
         final int position = bundle.getInt("position");
+        final int bid = bundle.getInt("bookid");
 
 
 
@@ -75,6 +76,7 @@ public class MCDetailFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity(), ChooseActivity.class);
                 intent.putExtra("book", book);
+                intent.putExtra("bookid",bid);
                 intent.putExtra("position", position);
                 startActivity(intent);
 

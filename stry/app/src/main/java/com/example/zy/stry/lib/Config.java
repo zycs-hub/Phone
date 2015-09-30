@@ -12,6 +12,9 @@ public class Config {
     private static String ADD_SELL_URL = "http://bookt.sinaapp.com/phone/addSaleBook";
     private static String BUY_URL = "http://bookt.sinaapp.com/phone/buy/";
 //    private static String BUY_URL = "http://192.168.12.24:8080/phone/buy/";
+    private static String EDIT_BOOK_URL = "http://bookt.sinaapp.com/phone/editBook/";
+//    private static String EDIT_BOOK_URL = "http://192.168.13.223:8080/phone/editBook/";
+
 
 
 
@@ -31,5 +34,8 @@ public class Config {
     }
     public static String getBuyUrl() {
         return BUY_URL;
+    }
+    public static String getEditBookUrl() {
+        return EDIT_BOOK_URL;
     }
 }

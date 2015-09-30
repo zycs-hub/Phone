@@ -1,12 +1,9 @@
 package com.example.zy.stry;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,10 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.zy.stry.R;
 import com.example.zy.stry.entity.Book;
 import com.example.zy.stry.widget.RecyclerItemClickListener;
-import com.example.zy.stry.Utils;
 import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
@@ -222,7 +217,7 @@ public class BooksFragment extends Fragment {
                                                        int viewType) {
             // create a new view
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.book_item, parent, false);
+                    .inflate(R.layout.item_book, parent, false);
             //v.setBackgroundResource(mBackground);
             // set the view's size, margins, paddings and layout parameters
             ViewHolder vh = new ViewHolder(v);

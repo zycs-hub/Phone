@@ -42,4 +42,13 @@ public class BookOperarion {
         JSONObject json = jsonParser.postJSONFromUrl(Config.getBuyUrl(), params);
         return json;
     }
+
+    public JSONObject editBook(String username, String bid, String info) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("username", username));
+        params.add(new BasicNameValuePair("bid", bid));
+        params.add(new BasicNameValuePair("editInfo", info));
+        JSONObject json = jsonParser.postJSONFromUrl(Config.getEditBookUrl(), params);
+        return json;
+    }
 }
