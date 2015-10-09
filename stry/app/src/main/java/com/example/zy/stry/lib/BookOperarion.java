@@ -19,36 +19,67 @@ public class BookOperarion {
         jsonParser = new JSONParser();
     }
 
-    public JSONObject getAllSell(){
+    public class getAllSell implements Runnable {
+        public JSONObject json;
+        public getAllSell(){
+        }
 
-        // getting JSON Object
-        JSONObject json = jsonParser.getJSONFromUrl(Config.getHomeUrl());
-        // return json
-        return json;
+        @Override
+        public void run() {
+            json = jsonParser.getJSONFromUrl(Config.getHomeUrl());
+        }
+
     }
 
-    public JSONObject addSellBooks(String username, String books) {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("username", username));
-        params.add(new BasicNameValuePair("books", books));
-        JSONObject json = jsonParser.postJSONFromUrl(Config.getAddSellUrl(), params);
-        return json;
+    public class addSellBooks implements Runnable {
+        public JSONObject json;
+        List<NameValuePair> params;
+
+        public addSellBooks(String username, String books) {
+            params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("books", books));
+        }
+
+        @Override
+        public void run() {
+            json = jsonParser.postJSONFromUrl(Config.getAddSellUrl(), params);
+        }
+
     }
 
-    public JSONObject buyBooks(String username, String buyList) {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("username", username));
-        params.add(new BasicNameValuePair("buyList", buyList));
-        JSONObject json = jsonParser.postJSONFromUrl(Config.getBuyUrl(), params);
-        return json;
+    public class buyBooks implements Runnable {
+        public JSONObject json;
+        List<NameValuePair> params;
+
+        public buyBooks(String username, String buyList) {
+            params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("buyList", buyList));
+        }
+
+        @Override
+        public void run() {
+            json = jsonParser.postJSONFromUrl(Config.getBuyUrl(), params);
+        }
+
     }
 
-    public JSONObject editBook(String username, String bid, String info) {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("username", username));
-        params.add(new BasicNameValuePair("bid", bid));
-        params.add(new BasicNameValuePair("editInfo", info));
-        JSONObject json = jsonParser.postJSONFromUrl(Config.getEditBookUrl(), params);
-        return json;
+    public class editBook implements Runnable {
+        public JSONObject json;
+        List<NameValuePair> params;
+
+        public editBook(String username, String bid, String info) {
+            params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("bid", bid));
+            params.add(new BasicNameValuePair("editInfo", info));
+        }
+
+        @Override
+        public void run() {
+            json = jsonParser.postJSONFromUrl(Config.getEditBookUrl(), params);
+        }
     }
+
 }

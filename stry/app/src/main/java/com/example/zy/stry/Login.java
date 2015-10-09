@@ -2,6 +2,7 @@ package com.example.zy.stry;
 
 import com.example.zy.stry.lib.*;
 
+import android.app.Dialog;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
@@ -91,28 +92,41 @@ public class Login extends Fragment implements View.OnClickListener {
 
                 Integer result = 0;
                 try {
-                    result = new LoginTask().execute().get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                if(result == 1) {
-//                    Fragment frg = null;
-//                    int id = MainActivity.viewPager.getCurrentItem();
-//                    TabsAdapter adapter = ((TabsAdapter) MainActivity.viewPager.getAdapter());
-//                    frg = adapter.getRegisteredFragment(id);
-//                    frg = MainActivity.fmg.findFragmentById(R.id.fragment_3);
-                    final FragmentTransaction ft = MainActivity.fmg.beginTransaction();
-                    Fragment3.collapsingToolbar.setTitle("登录教务处");
-                    ft.replace(R.id.fragment_3, new AccountFragment());
+                    User.loginUser user = new User().new loginUser(username, password);
+
+                    MainActivity.executorService.submit(user);
+                    JSONObject json = user.json;
+
+//                    result = new LoginTask().execute().get();
+                    if (json.getString(KEY_SUCCESS) != null) {
+                    // user successfully logged in
+                    // Store user details in SQLite Database
+                        DatabaseHandler db = new DatabaseHandler(getActivity());
+                        JSONObject json_user = json.getJSONObject("user");
+
+                        // Clear all previous data in database
+                        new User().logoutUser(getActivity());
+                        db.addUser(username, password);
+                        settings = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
+                        prefEditor = settings.edit();
+                        prefEditor.putString("username", username);
+                        prefEditor.apply();
+                        final FragmentTransaction ft = MainActivity.fmg.beginTransaction();
+                        Fragment3.collapsingToolbar.setTitle("登录教务处");
+                        ft.replace(R.id.fragment_3, new AccountFragment());
 //                    ft.detach(frg);
 //                    if (frg == null) {
 //                        ft.add(R.id.fragment_3, new ProfileFragment());
 //                    } else {
 //                        ft.attach(frg);
 //                    }
-                    ft.commitAllowingStateLoss();
+                        ft.commitAllowingStateLoss();
+                    } else {
+                        Toast.makeText(getActivity(), Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("Exception : " + e.getMessage());
                 }
                 break;
             case R.id.register:
@@ -131,53 +145,5 @@ public class Login extends Fragment implements View.OnClickListener {
 //		Log.d(TAG, "TestFragment-----onDestroy");
     }
 
-    class LoginTask extends AsyncTask<Void, Void, Integer> {
-
-        private Exception exception;
-        private ProgressDialog Dialog;
-
-
-        @Override
-        protected Integer doInBackground(Void... params) {
-
-            try {
-                Thread.sleep(2000);
-
-            } catch (InterruptedException e) {
-            }
-
-            User user = new User();
-            try {
-                JSONObject json = user.loginUser(username, password);
-
-                if (json.getString(KEY_SUCCESS) != null) {
-                    // user successfully logged in
-                    // Store user details in SQLite Database
-                    DatabaseHandler db = new DatabaseHandler(getActivity());
-                    JSONObject json_user = json.getJSONObject("user");
-
-                    // Clear all previous data in database
-                    user.logoutUser(getActivity());
-                    db.addUser(username, password);
-                    settings = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
-                    prefEditor = settings.edit();
-                    prefEditor.putString("username", username);
-                    prefEditor.apply();
-                    return 1;
-                } else {
-                    Dialog.show(getActivity(), "",
-                            Config.LOGIN_INFO_ERROR, true);
-                }
-            } catch (Exception e) {
-                this.exception = e;
-            }
-            return 0;
-        }
-
-        protected void onPostExecute() {
-            Dialog.show(getActivity(), "",
-                    "验证用户信息...", true);
-        }
-    }
 }
 

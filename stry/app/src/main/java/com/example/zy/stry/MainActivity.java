@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     static FragmentManager fmg;
     public static Calendar c = Calendar.getInstance();
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    public static ExecutorService executorService = Executors.newFixedThreadPool(5);
+
 
     private NetWorkChecker netWorkChecker = null;
     private User user = null;

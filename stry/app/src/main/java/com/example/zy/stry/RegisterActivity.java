@@ -59,39 +59,32 @@ public class RegisterActivity extends Activity {
 
                 dialog = ProgressDialog.show(RegisterActivity.this, "",
                         "Validating user...", true);
-                new Thread(new Runnable() {
-                    public void run() {
-                        try {
 
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-//                                    tv.setText("Response from Python : " + response);
-                                    dialog.dismiss();
-                                }
-                            });
-                            User user = new User();
-                            JSONObject json = user.registerUser(username, password);
+                try {
 
-//                            System.out.println(json.getString(config.LOGIN_INFO_ERROR));
-                            if (json.getString(KEY_SUCCESS) != null) {
-                                DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-                                JSONObject json_user = json.getJSONObject("user");
+                    User user = new User();
+                    User.registerUser task = user.new registerUser(username, password);
 
-                                // Clear all previous data in database
-                                user.logoutUser(getApplicationContext());
-                                db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_PASS));
-                                // Launch Dashboard Screen
-                                finish();
-                            } else {
-                                Toast.makeText(RegisterActivity.this, Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();
-                            }
+                    MainActivity.executorService.submit(task);
+                    JSONObject json = task.json;
 
-                        } catch (Exception e) {
-                            dialog.dismiss();
-                            System.out.println("Exception : " + e.getMessage());
-                        }
+                    if (json.getString(KEY_SUCCESS) != null) {
+                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+                        JSONObject json_user = json.getJSONObject("user");
+
+                        // Clear all previous data in database
+                        user.logoutUser(getApplicationContext());
+                        db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_PASS));
+                        // Launch Dashboard Screen
+                        finish();
+                    } else {
+                        Toast.makeText(RegisterActivity.this, Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();
                     }
-                }).start();
+
+                } catch (Exception e) {
+                    dialog.dismiss();
+                    System.out.println("Exception : " + e.getMessage());
+                }
             }
         });
 

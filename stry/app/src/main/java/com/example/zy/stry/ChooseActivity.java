@@ -270,30 +270,31 @@ public class ChooseActivity extends AppCompatActivity  {
 
                             db.close();
 
-                            new Thread(new Runnable() {
-                                public void run() {
-                                    try {
+                            shared_preferences = getApplicationContext().getSharedPreferences(PREFS_NAME, getApplicationContext().MODE_PRIVATE);
+                            username = shared_preferences.getString("username", null);
 
-                                        BookOperarion bookOpt = new BookOperarion();
-                                        shared_preferences = getApplicationContext().getSharedPreferences(PREFS_NAME, getApplicationContext().MODE_PRIVATE);
-                                        username = shared_preferences.getString("username", null);
-                                        if (username != null) {
-                                            JSONObject json = bookOpt.editBook(username, Integer.toString(UserbookGlobla.lts.get(UBposition).bid), tmp);
-
-                                            if (json.getString(Config.KEY_SUCCESS) != null) {
-                                                handler.sendEmptyMessage(1);
+                            BookOperarion bookOpt = new BookOperarion();
+                            BookOperarion.editBook task = bookOpt.new editBook(username, Integer.toString(UserbookGlobla.lts.get(UBposition).bid), tmp);
+                            try {
 
 
-                                            } else {
-                                                handler.sendEmptyMessage(-1);
-                                            }
-                                        }
+                                if (username != null) {
+                                    MainActivity.executorService.submit(task);
+                                    JSONObject json = task.json;
 
-                                    } catch (Exception e) {
-                                        System.out.println("Exception : " + e.getMessage());
+                                    if (json.getString(Config.KEY_SUCCESS) != null) {
+                                        handler.sendEmptyMessage(1);
+
+
+                                    } else {
+                                        handler.sendEmptyMessage(-1);
                                     }
                                 }
-                            }).start();
+
+                            } catch (Exception e) {
+                                System.out.println("Exception : " + e.getMessage());
+                            }
+
 
                             UserbookGlobla.lts.get(UBposition).image = img;
                             UserbookGlobla.lts.get(UBposition).bookname = title;

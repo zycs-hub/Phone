@@ -149,22 +149,22 @@ public class SelectFromT extends Activity {
                     }
                 }
                 db.close();
-                new Thread(new Runnable() {
-                    public void run() {
-                        try {
 
-                            JSONObject json = bookOperator.addSellBooks(username, books_data.substring(0, books_data.length() - 1));
-                            if (json.getString("success") != null) {
-                                Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
-                            }
+                BookOperarion book = new BookOperarion();
+                BookOperarion.addSellBooks task = book.new addSellBooks(username, books_data.substring(0, books_data.length() - 1));
 
-                        } catch (Exception e) {
-                            System.out.println("Exception : " + e.getMessage());
-                        }
+                try {
+                    MainActivity.executorService.submit(task);
+                    JSONObject json = task.json;
+                    if (json.getString("success") != null) {
+                        Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
                     }
-                }).start();
+
+                } catch (Exception e) {
+                    System.out.println("Exception : " + e.getMessage());
+                }
 
                // saveAll();
                 //main_body_lin.removeAllViews();

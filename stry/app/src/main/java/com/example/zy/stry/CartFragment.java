@@ -110,7 +110,34 @@ public class CartFragment extends Fragment  {
         bntConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                (new Thread(new BuyTask())).start();
+
+
+                lst = "";
+                for (BookEntity item : mListItems) {
+                    if (item.isSelected() != 0) {
+                        lst += item.getSellid() + '\n';
+                    }
+
+                }
+
+                if (lst != "") {
+
+                    BookOperarion bookOpt = new BookOperarion();
+                    BookOperarion.buyBooks task = bookOpt.new buyBooks(username, lst.substring(0, lst.length() - 1));
+
+                    try {
+
+                        MainActivity.executorService.submit(task);
+                        JSONObject json = task.json;
+
+                        if (json.getString(Config.KEY_SUCCESS) != null) {
+                        } else {
+
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Exception : " + e.getMessage());
+                    }
+                }
             }
         });
 
@@ -267,34 +294,7 @@ public class CartFragment extends Fragment  {
     }
 
 
-    class BuyTask implements Runnable {
-        public void run() {
-            lst = "";
-            for (BookEntity item : mListItems) {
-                if (item.isSelected() != 0) {
-                    lst += item.getSellid() + '\n';
-                }
 
-            }
-
-            if (lst != "") {
-
-                BookOperarion bookOpt = new BookOperarion();
-                try {
-
-                    JSONObject json = bookOpt.buyBooks(username, lst.substring(0,lst.length() - 1));
-
-                    if (json.getString(Config.KEY_SUCCESS) != null) {
-                    } else {
-
-                    }
-                } catch (Exception e) {
-                    System.out.println("Exception : " + e.getMessage());
-                }
-            }
-        }
-
-    }
 
 }
 

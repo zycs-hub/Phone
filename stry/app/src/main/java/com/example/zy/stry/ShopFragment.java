@@ -228,7 +228,9 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             try {
 
                 BookOperarion book = new BookOperarion();
-                JSONObject json = book.getAllSell();
+                BookOperarion.getAllSell task = book.new getAllSell();
+                MainActivity.executorService.submit(task);
+                JSONObject json = task.json;
                 mStrings.removeAll(mStrings);
                 mData.clear();
 

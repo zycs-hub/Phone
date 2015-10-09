@@ -24,39 +24,50 @@ public class User {
         jsonParser = new JSONParser();
     }
 
-    /**
-     * function make Login Request
-     * @param username
-     * @param password
-     * */
-    public JSONObject loginUser(String username, String password){
-        // Building Parameters
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("username", username));
-        params.add(new BasicNameValuePair("password", password));
-        JSONObject json = jsonParser.postJSONFromUrl(Config.getLogUrl(), params);
 
-        // return json
-        // Log.e("JSON", json.toString());
-        return json;
+    public class loginUser implements Runnable{
+        public JSONObject json;
+        private List<NameValuePair> params;
+        /**
+         * function make Login Request
+         * @param username
+         * @param password
+         * */
+        public loginUser(String username, String password) {
+            // Building Parameters
+            params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("password", password));
+        }
+
+        @Override
+        public void run() {
+            json = jsonParser.postJSONFromUrl(Config.getLogUrl(), params);
+        }
     }
 
-    /**
-     * function make Login Request
-     * @param username
-     * @param password
-     * */
-    public JSONObject registerUser(String username, String password){
-        // Building Parameters
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("username", username));
-        params.add(new BasicNameValuePair("password", password));
+    public class registerUser implements Runnable {
+        public JSONObject json;
+        private List<NameValuePair> params;
+        /**
+         * function make Login Request
+         * @param username
+         * @param password
+         * */
+        public registerUser(String username, String password){
+            // Building Parameters
+            params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("password", password));
 
-        // getting JSON Object
-        JSONObject json = jsonParser.postJSONFromUrl(Config.REGIST_URL, params);
-        // return json
-        return json;
+        }
+
+        @Override
+        public void run() {
+            json = jsonParser.postJSONFromUrl(Config.REGIST_URL, params);
+        }
     }
+
 
     /**
      * Function get Login status
