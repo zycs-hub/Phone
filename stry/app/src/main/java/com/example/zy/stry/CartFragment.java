@@ -1,6 +1,5 @@
 package com.example.zy.stry;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -15,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -80,7 +80,7 @@ public class CartFragment extends Fragment  {
 
         this.GetData();
 
-//        mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.checkbox, mListItems);
+//        mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_cart, mListItems);
 
         mAdapter = new CartAdapter(getActivity(), mListItems);
 
@@ -106,7 +106,6 @@ public class CartFragment extends Fragment  {
         // Set our custom array adapter as the ListView's adapter.
         mlistView.setAdapter(mAdapter);
 //        mlistView.setChoiceMode(mlistView.CHOICE_MODE_MULTIPLE);
-//        checkbox.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) getActivity());
         bntConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,7 +155,7 @@ public class CartFragment extends Fragment  {
 //    @Override
 //    public void onItemClick(AdapterView arg0, View v, int position, long arg3) {
 //        // TODO Auto-generated method stub
-//        CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
+//        CheckBox cb = (CheckBox) v.findViewById(R.id.item_cart);
 ////        TextView tv = (TextView) v.findViewById(R.id.textView1);
 //        cb.performClick();
 ////        if (cb.isChecked()) {
@@ -210,23 +209,22 @@ public class CartFragment extends Fragment  {
 
     private static class ViewHolder {
         private CheckBox checkBox ;
-        private TextView textView ;
+        ImageView s_image;
+        TextView s_title;
+        TextView book;
+        //            TextView author;
+        TextView s_price;
+        //            TextView message;
+        TextView s_owner;
+        TextView s_major;
+        TextView s_course;
         public ViewHolder() {}
-        public ViewHolder( TextView textView, CheckBox checkBox ) {
-            this.checkBox = checkBox ;
-            this.textView = textView ;
-        }
+
         public CheckBox getCheckBox() {
             return checkBox;
         }
         public void setCheckBox(CheckBox checkBox) {
             this.checkBox = checkBox;
-        }
-        public TextView getTextView() {
-            return textView;
-        }
-        public void setTextView(TextView textView) {
-            this.textView = textView;
         }
     }
 
@@ -238,7 +236,7 @@ public class CartFragment extends Fragment  {
 
 
         public CartAdapter(Context context,List<BookEntity> mList) {
-            super(context, R.layout.checkbox, mList);
+            super(context, R.layout.item_cart, mList);
             // Cache the LayoutInflate to avoid asking for a new one each time.
             inflater = LayoutInflater.from(context) ;
             this.mList = mList;
@@ -249,23 +247,34 @@ public class CartFragment extends Fragment  {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             CheckBox checkBox ;
-            TextView textView ;
+            ViewHolder viewHolder = null;
+
 
             BookEntity item =  mList.get(position);
 //            BookEntity item;
 //            item =  new BookEntity();
 //
             if(convertView == null) {
+                viewHolder = new ViewHolder();
 
-                convertView = inflater.inflate(R.layout.checkbox, null);
+                convertView = inflater.inflate(R.layout.item_cart, null);
 
-                textView = (TextView) convertView.findViewById( R.id.name );
                 checkBox = (CheckBox) convertView.findViewById( R.id.check_box );
+                viewHolder.checkBox = checkBox;
+                viewHolder.s_image = (ImageView) convertView.findViewById(R.id.s_image);
+                viewHolder.s_title = (TextView) convertView.findViewById(R.id.s_title);
+//                viewHolder.book = (TextView) convertView.findViewById(R.id.book);
+//                viewHolder.author = (TextView) convertView.findViewById(R.id.author);
+                viewHolder.s_price = (TextView) convertView.findViewById(R.id.s_price);
+//                viewHolder.message = (TextView) convertView.findViewById(R.id.message);
+                viewHolder.s_owner = (TextView) convertView.findViewById(R.id.s_owner);
+                viewHolder.s_major = (TextView) convertView.findViewById(R.id.s_major);
+                viewHolder.s_course = (TextView) convertView.findViewById(R.id.s_course);
 
-                convertView.setTag( new ViewHolder(textView,checkBox) );
+                convertView.setTag( viewHolder );
 
                 // If CheckBox is toggled, update the planet it is tagged with.
-                checkBox.setOnClickListener( new View.OnClickListener() {
+                viewHolder.checkBox.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
                         BookEntity item = (BookEntity) cb.getTag();
@@ -275,19 +284,18 @@ public class CartFragment extends Fragment  {
                 });
 
             } else {
-                ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-                checkBox = viewHolder.getCheckBox() ;
-                textView = viewHolder.getTextView() ;
+                viewHolder = (ViewHolder) convertView.getTag();
+                viewHolder.checkBox = viewHolder.getCheckBox() ;
             }
 
             // Tag the CheckBox with the Planet it is displaying, so that we can
             // access the planet in onClick() when the CheckBox is toggled.
-            checkBox.setTag(item);
+            viewHolder.checkBox.setTag(item);
 
             // Display planet data
             boolean tmp = (item.isSelected() == 0 ? false : true);
-            checkBox.setChecked(tmp);
-            textView.setText((String) mStrings.get(position) );
+            viewHolder.checkBox.setChecked(tmp);
+            viewHolder.s_title.setText("课程名：" + mStrings.get(position));
 
             return convertView;
         }

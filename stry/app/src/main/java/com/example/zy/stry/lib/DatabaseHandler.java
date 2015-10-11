@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -398,19 +399,21 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+
+
+
     public List search(String query) {
         SQLiteDatabase db = this.getReadableDatabase();
+
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(Sell.TABLE_NAME);
+
         List<SellBook> list = new ArrayList<>();
         SellBook tmp;
-        String searchQuery = "SELECT * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_BOOKNAME;
-        int len = query.length();
-        for (int i = 0; i < len; i++)  {
-            if(i > 0) {
-                searchQuery += " AND " + Sell.KEY_BOOKNAME;
-            }
-            searchQuery += " LIKE " + "'%" + query.charAt(i) +"%'";
-        }
-        Cursor cursor = db.rawQuery(searchQuery, null);
+
+        Cursor cursor = builder.query(db, null, Sell.KEY_BOOKNAME  + " LIKE ?",
+                new String[] {"%"+query+"%"}, null, null, null);
+
         if (cursor.moveToFirst()) {
             do {
                 tmp = new SellBook();
@@ -430,10 +433,47 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 tmp.bid = cursor.getInt(12);
                 list.add(tmp);
             } while (cursor.moveToNext());
+
         }
         cursor.close();
         db.close();
         return list;
+
+
+
+//        List<SellBook> list = new ArrayList<>();
+//        SellBook tmp;
+//        String searchQuery = "SELECT * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_BOOKNAME;
+//        int len = query.length();
+//        for (int i = 0; i < len; i++)  {
+//            if(i > 0) {
+//                searchQuery += " AND " + Sell.KEY_BOOKNAME;
+//            }
+//            searchQuery += " LIKE " + "'%" + query.charAt(i) +"%'";
+//        }
+//        Cursor cursor = db.rawQuery(searchQuery, null);
+//        if (cursor.moveToFirst()) {
+//            do {
+//                tmp = new SellBook();
+////                tmp.setData();
+//                tmp._id = cursor.getInt(0);
+//                tmp.username = cursor.getString(1);
+//                tmp.bookname = cursor.getString(2);
+//                tmp.courseid = cursor.getInt(3);
+//                tmp.coursename = cursor.getString(4);
+//                tmp.price = cursor.getInt(5);
+//                tmp.press = cursor.getString(6);
+//                tmp.is_selling =  (cursor.getString(7) == "true" )? true : false;
+//                tmp.is_sold = (cursor.getString(8) == "true" )? true : false;
+//                tmp.add_time = cursor.getString(9);
+//                tmp.update_time = cursor.getString(10);
+//                tmp.is_del = (cursor.getString(11) == "true" )? true : false;
+//                tmp.bid = cursor.getInt(12);
+//                list.add(tmp);
+//            } while (cursor.moveToNext());
+//        }
+//        cursor.close();
+//        db.close();return list;
 
     }
 

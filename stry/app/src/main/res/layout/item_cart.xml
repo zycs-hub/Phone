@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="0.5dp"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
+    android:clickable="false"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="6dip" >
+
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false">
+
+        </CheckBox>
+        <ImageView
+            android:id="@+id/s_image"
+            android:transitionName="@string/transition_book_img"
+            android:layout_width="90dp"
+            android:layout_height="120dp"
+            android:background="@color/primary_500" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="top"
+                android:id="@+id/s_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/primary_text"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:id="@+id/s_course"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:text="课 程："
+                android:textColor="@color/secondary_text"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:id="@+id/s_owner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:text="卖 家："
+                android:textColor="@color/secondary_text"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:id="@+id/s_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:text="价 格："
+                android:color="@drawable/abc_btn_radio_to_on_mtrl_000"
+                android:textColor="@color/red"
+                android:textSize="20sp"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:id="@+id/s_major"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:textColor="@color/secondary_text"
+                android:ellipsize="end"
+                android:text="专 业："
+                android:maxLines="1" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

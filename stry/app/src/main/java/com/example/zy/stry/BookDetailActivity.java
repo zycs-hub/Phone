@@ -128,10 +128,10 @@ public class BookDetailActivity extends AppCompatActivity {
 //                Log.d("CLICK", "FAB CLICK");
 
                 Toast.makeText(getBaseContext(), "已加入购物车", Toast.LENGTH_SHORT).show();
-                final FragmentTransaction ft = MainActivity.fmg.beginTransaction();
-                ft.replace(R.id.fragment_1,  new CartFragment());
-                ft.addToBackStack(null);
-                ft.commitAllowingStateLoss();
+//                final FragmentTransaction ft = MainActivity.fmg.beginTransaction();
+//                ft.replace(R.id.fragment_1,  new CartFragment());
+//                ft.addToBackStack(null);
+//                ft.commitAllowingStateLoss();
                 finish();
 
             }
