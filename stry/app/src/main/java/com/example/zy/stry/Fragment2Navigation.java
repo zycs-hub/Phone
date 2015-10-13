@@ -52,7 +52,7 @@ public class Fragment2Navigation extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = MainActivity.fmg.beginTransaction();
-                ft.replace(R.id.fragment_2, new CartFragment());
+                //ft.replace(R.id.fragment_2, new CartFragment());
                 ft.addToBackStack("navigation");
                 ft.commitAllowingStateLoss();
             }
