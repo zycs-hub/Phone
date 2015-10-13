@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,7 +29,6 @@ import com.example.zy.stry.util.UserbookGlobla;
 public class Fragment3 extends Fragment {
     private View rootView;
     SharedPreferences shared_preferences;
-    MyAdapter mAdapter;
     public static CollapsingToolbarLayout collapsingToolbar;
     RecyclerView recyclerView;
     int mutedColor = R.attr.colorPrimary;
@@ -76,19 +76,34 @@ public class Fragment3 extends Fragment {
         }
 
         ft.commit();
-        recyclerView = (RecyclerView)rootView.findViewById(R.id.scrollableview);
 
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        try {
-            mAdapter= new MyAdapter(getActivity());
+        RelativeLayout cart = (RelativeLayout) rootView.findViewById(R.id.cart);
+        RelativeLayout buying = (RelativeLayout) rootView.findViewById(R.id.buying);
+        RelativeLayout bought = (RelativeLayout) rootView.findViewById(R.id.bought);
+        RelativeLayout sold = (RelativeLayout) rootView.findViewById(R.id.sold);
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //           ∧__∧
+                //        　( ●ω●)
+                //        　｜つ／(＿＿＿
+                //        ／└-(＿＿＿_／
 
-        recyclerView.setAdapter(mAdapter);
+
+                Intent intent = new Intent(getActivity(), CartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+
+
+
         head.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent  = new Intent(getActivity(),SetUserInfActivity.class);
@@ -99,108 +114,6 @@ public class Fragment3 extends Fragment {
 
         return rootView;
     }
-    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-        private final int mBackground;
-        private final TypedValue mTypedValue = new TypedValue();
-
-        // Provide a reference to the views for each data item
-        // Complex data items may need more than one view per item, and
-        // you provide access to all the views for a data item in a view holder
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            // each data item is just a string in this case
-            public ImageView ivBook;
-            public TextView tvTitle;
-            public TextView book;
-            public TextView price;
-            public TextView author;
-            public TextView message;
-            public TextView dot;
-            public TextView date;
-
-
-
-            public ViewHolder(View v) {
-                super(v);
-                ivBook = (ImageView) v.findViewById(R.id.vBook);
-                tvTitle = (TextView) v.findViewById(R.id.vTitle);
-                book = (TextView) v.findViewById(R.id.book);
-                price = (TextView) v.findViewById(R.id.price);
-                message = (TextView) v.findViewById(R.id.message);
-                author = (TextView) v.findViewById(R.id.author);
-                dot = (TextView) v.findViewById(R.id.dot);
-
-                date = (TextView) v.findViewById(R.id.data);
-
-            }
-        }
-
-        // Provide a suitable constructor (depends on the kind of dataset)
-        public MyAdapter(Context context) {
-            context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
-            mBackground = mTypedValue.resourceId;
-        }
-
-        @Override
-        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
-            // create a new view
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_courses, parent, false);
-            //v.setBackgroundResource(mBackground);
-            // set the view's size, margins, paddings and layout parameters
-            ViewHolder vh = new ViewHolder(v);
-            return vh;
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-            BookEntity book = CartFragment.mListItems.get(position);
-            //BookEntity book = book_for_sell.get(position);
-            holder.tvTitle.setText(book.getBook());
-            if (book.getBook()!=null)
-                holder.tvTitle.setText(book.getBook());
-            else
-                holder.tvTitle.setText(book.bookname);
-//            if (book.image!=null)
-//                Glide.with(holder.ivBook.getContext())
-//                        .load(book.image)
-//                        .fitCenter()
-//                        .into(holder.ivBook);
-//            else
-                holder.ivBook.setVisibility(View.GONE);
-            if (book.bookname!=null)
-                holder.book.setText("书 名：" + book.bookname);
-            else
-                holder.book.setText("书 名：");
-            if (book.author!=null)
-                holder.author.setText("作 者："+book.author);
-            else
-                holder.author.setText("作 者：");
-            if (book.price!=null)
-                holder.price.setText("价 格："+book.price+"元");
-            else
-                holder.price.setText("价 格：");
-            //if (book.price!=null)
-            holder.message.setVisibility(View.GONE);
-            holder.date.setVisibility(View.GONE);
-            holder.dot.setVisibility(View.GONE);
-
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        @Override
-        public int getItemCount() {
-            return CartFragment.mListItems==null ? 0: CartFragment.mListItems.size();
-        }
-        public BookEntity getBook(int pos) {
-            return CartFragment.mListItems.get(pos);
-        }
-        public void update() {
-            notifyDataSetChanged();
-        }
-    }
 
 
     @Override
@@ -210,12 +123,5 @@ public class Fragment3 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        try {
-            mAdapter= new MyAdapter(getActivity());
-            recyclerView.setAdapter(mAdapter);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }

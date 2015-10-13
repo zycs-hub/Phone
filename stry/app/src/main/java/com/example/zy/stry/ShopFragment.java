@@ -183,7 +183,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         }
         searchView.setIconifiedByDefault(false);
-        searchView.setQueryHint("");
+        searchView.setQueryHint("aaa");
         searchView.setSubmitButtonEnabled(true);
 //
 

@@ -1,5 +1,6 @@
 package com.example.zy.stry;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,8 +34,7 @@ import java.util.List;
 /**
  * Created by wendy on 15-9-25.
  */
-public class CartFragment extends Fragment  {
-    private View rootView;
+public class CartActivity extends Activity {
     ListView mlistView;
     Button bntConfirm;
 
@@ -56,34 +56,27 @@ public class CartFragment extends Fragment  {
         super.onCreate(savedInstanceState);
         mStrings = new ArrayList<>();
         mListItems = new ArrayList();
+        setContentView(R.layout.fragment_cart);
         lst = "";
-        FragmentManager fm = getFragmentManager();
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-//        rootView = new PullToRefreshExpandableListView(getActivity());
-        rootView = inflater.inflate(R.layout.fragment_cart, container, false);
-        bntConfirm = (Button) rootView.findViewById(R.id.bnt_confirm);
+        //FragmentManager fm = getFragmentManager();
+        bntConfirm = (Button) findViewById(R.id.bnt_confirm);
 
 
 //        FragmentTransaction ft = MainActivity.fmg.beginTransaction();
 
-        shared_preferences = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
+        shared_preferences = this.getSharedPreferences(PREFS_NAME, this.MODE_PRIVATE);
         username = shared_preferences.getString("username", null);
 
         // Set a listener to be invoked when the list should be refreshed.
 
-        mlistView = (ListView) rootView.findViewById(R.id.listView);
+        mlistView = (ListView) findViewById(R.id.listView);
 //        actualListView.setTextFilterEnabled(true);
 
         this.GetData();
 
 //        mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_cart, mListItems);
 
-        mAdapter = new CartAdapter(getActivity(), mListItems);
+        mAdapter = new CartAdapter(this, mListItems);
 
 
 
@@ -130,10 +123,9 @@ public class CartFragment extends Fragment  {
                 }
             }
         });
-
-
-        return rootView;
     }
+
+
 
 
 

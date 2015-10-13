@@ -222,14 +222,9 @@ public class ManagementFragment extends Fragment {
             MenuItem rechoice = menu.findItem(R.id.rechoice);
             MenuItem self_defined = menu.findItem(R.id.self_defined);
         }
-        else {
+        else if (username!=null){
             inflater.inflate(R.menu.log_t, menu);
         }
-
-
-
-//
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 

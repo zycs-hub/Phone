@@ -6,6 +6,7 @@ import com.example.zy.stry.Fragment3;
 import com.example.zy.stry.MainActivity;
 import com.example.zy.stry.ManagementFragment;
 import com.example.zy.stry.R;
+import com.example.zy.stry.ShopFragment;
 import com.viewpagerindicator.IconPagerAdapter;
 
 import android.support.v4.app.Fragment;
@@ -18,13 +19,9 @@ import android.view.ViewGroup;
 /**
  * Created by wendy on 15-8-26.
  */
-public class TabsAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
+public class TabsAdapter extends FragmentPagerAdapter  {
     public static final String[] TITLES = new String[] { "商城",  "管理", "个人" };
-    public static final int[] ICONS = new int[] {
-            R.drawable.ic_img_user_default,
-            R.drawable.ic_img_user_default,
-            R.drawable.ic_img_user_default,
-    };
+
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     private FragmentManager mfm;
 
@@ -38,9 +35,9 @@ public class TabsAdapter extends FragmentPagerAdapter implements IconPagerAdapte
 
         switch (index) {
             case 0:
-                return new Fragment1();
+                return new ShopFragment();
             case 1:
-                return new Fragment2();
+                return new ManagementFragment();
             case 2:
 //                Fragment frg2 = null;
 //                if (frg2 == null)
@@ -66,9 +63,6 @@ public class TabsAdapter extends FragmentPagerAdapter implements IconPagerAdapte
         return TITLES[position % TITLES.length];
     }
 
-    @Override public int getIconResId(int position) {
-        return ICONS[position];
-    }
 
     @Override
     public int getCount()

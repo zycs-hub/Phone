@@ -6,4 +6,9 @@
         android:icon="@android:drawable/ic_menu_search"
         android:title="登录教务处"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/self_defined"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="自定义添加"
+        app:showAsAction="never"/>
 </menu>

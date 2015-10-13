@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 int position = tab.getPosition();
                 viewPager.setCurrentItem(position);
                 showToast(TabsAdapter.TITLES[position]);
-                toolbar.setTitle(TabsAdapter.TITLES[position]);
+                //toolbar.setTitle(TabsAdapter.TITLES[position]);
             }
 
             @Override

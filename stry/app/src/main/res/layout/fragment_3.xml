@@ -53,11 +53,12 @@ android:layout_height="match_parent"
 
 </android.support.design.widget.AppBarLayout>
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/scrollableview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <include
+        layout="@layout/f3_context"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 
