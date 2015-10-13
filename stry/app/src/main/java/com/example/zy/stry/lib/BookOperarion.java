@@ -52,10 +52,13 @@ public class BookOperarion {
         public JSONObject json;
         List<NameValuePair> params;
 
-        public buyBooks(String username, String buyList) {
+        public buyBooks(String username, String buyList, String address, String comment) {
             params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("username", username));
             params.add(new BasicNameValuePair("buyList", buyList));
+            params.add(new BasicNameValuePair("address", address));
+            params.add(new BasicNameValuePair("comment", comment));
+
         }
 
         @Override

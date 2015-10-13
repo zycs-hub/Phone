@@ -1,6 +1,7 @@
 package com.example.zy.stry;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -121,21 +122,11 @@ public class CartFragment extends Fragment  {
 
                 if (lst != "") {
 
-                    BookOperarion bookOpt = new BookOperarion();
-                    BookOperarion.buyBooks task = bookOpt.new buyBooks(username, lst.substring(0, lst.length() - 1));
+                    Intent intent = new Intent(getActivity(), OrderActivity.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("books", lst.substring(0, lst.length() - 1));
+                    startActivity(intent);
 
-                    try {
-
-                        MainActivity.executorService.submit(task);
-                        JSONObject json = task.json;
-
-                        if (json.getString(Config.KEY_SUCCESS) != null) {
-                        } else {
-
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Exception : " + e.getMessage());
-                    }
                 }
             }
         });
