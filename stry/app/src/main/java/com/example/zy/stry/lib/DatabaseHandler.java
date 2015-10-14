@@ -220,7 +220,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         db.close();
     }
 
-    public void changeSelling(int id ) {
+    public void changeSelling(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
 //        String update_str = "UPDATE " + Sell.TABLE_NAME + " SET " + Sell.KEY_IS_SELLING + " = false WHERE "
 //                + Sell.KEY_ID + "=" + Integer.toString(id);
@@ -228,6 +228,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ContentValues cv = new ContentValues();
         cv.put(Sell.KEY_IS_SELLING, 0);
         db.update(Sell.TABLE_NAME, cv, Sell.KEY_ID + "=" + Integer.toString(id), null);
+        db.delete(Cart.TABLE_NAME,  Cart.KEY_SELLID + "=" + Integer.toString(id), null);
     }
 
     public void changeSold(int id ) {

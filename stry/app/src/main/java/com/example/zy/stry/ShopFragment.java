@@ -50,7 +50,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     private FragmentActivity listener;
     private ArrayList<SellEntity.SellBook> tmp = new ArrayList<>();
     private ArrayList<SellEntity.SellBook> mData = new ArrayList<>();
-    private List mStrings = new ArrayList();
+    private List mStrings;
     private PullToRefreshListView mPullRefreshListView;
     DatabaseHandler db;
 
@@ -85,6 +85,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         super.onCreate(savedInstanceState);
         db = MainActivity.db;
         setHasOptionsMenu(true);
+        mStrings = new ArrayList();
     }
 
     @Override
@@ -133,10 +134,12 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             new GetData().execute();
         } else {
             tmp =  db.getShopData();
+            mStrings.removeAll(mStrings);
             for(int i = 0; i < tmp.size(); i++) {
                 if(tmp.get(i).is_selling == 1 && tmp.get(i).is_sold == 0) {
                     mStrings.add(tmp.get(i).bookname);
                     mData.add(tmp.get(i));
+                    mListItems.addAll(mStrings);
                 }
             }
             if(mData.size() == 0) {
@@ -144,7 +147,6 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             }
 
         }
-        mListItems.addAll(mStrings);
 //        mAdapter=new ListAdapter(getActivity(),mData);
         mAdapter = new ShopAdapter(getActivity());
         /**
@@ -283,7 +285,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         @Override
         protected void onPostExecute(String[] result) {
             mListItems.clear();
-//            mListItems.addAll(mStrings);
+            mListItems.addAll(mStrings);
 
             mAdapter.notifyDataSetChanged();
 

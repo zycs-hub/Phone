@@ -128,6 +128,7 @@ public class CartActivity extends Activity {
                     bundle.putSerializable("items", mSelectItems);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    finish();
 
                 }
             }
