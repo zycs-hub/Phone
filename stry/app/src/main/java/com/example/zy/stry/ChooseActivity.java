@@ -228,6 +228,7 @@ public class ChooseActivity extends AppCompatActivity  {
                                     final String publisher = book.getPublisher();
                                     final String price = book.getPrice();
                                     final String pages = book.getPages();
+                                    final String sellid = Integer.toString(UserbookGlobla.lts.get(UBposition)._id);
 
                                     final String tmp = "image," + img + "\nauthor," + author + "\npress," + publisher + "\norigprice," + price + "\npages," + pages;
 
@@ -250,11 +251,22 @@ public class ChooseActivity extends AppCompatActivity  {
                                     //应该是下面一条但是存image 但好像不能存网址，因为有 冒号 ：，待解决
                                     //job.execSQL("update courses set  image="+book.getImages().getLarge()+" where book=?", new String[]{bookname});
                                     job.execSQL("update courses set  image=? where book=?", new String[]{img, bookname});
-                                    if (book.getAuthor().length > 0)
+                                    job.execSQL("update sell set  image=? where id_=?", new String[]{img, sellid});
+
+                                    if (book.getAuthor().length > 0) {
                                         job.execSQL("update courses set  author=? where book=?", new String[]{author, bookname});
+                                        job.execSQL("update sell set  author=? where id_=?", new String[]{author, sellid});
+
+                                    }
                                     job.execSQL("update courses set  publisher=? where book=?", new String[]{publisher, bookname});
+                                    job.execSQL("update sell set  press=? where id_=?", new String[]{publisher, sellid});
+
                                     job.execSQL("update courses set  origprice=? where book=?", new String[]{price, bookname});
+                                    job.execSQL("update sell set  originprice=? where id_=?", new String[]{price, sellid});
+
                                     job.execSQL("update courses set  pages=? where book=?", new String[]{pages, bookname});
+                                    job.execSQL("update sell set  pages=? where id_=?", new String[]{pages, sellid});
+
 
 
                                     final Handler handler = new Handler() {
@@ -278,34 +290,34 @@ public class ChooseActivity extends AppCompatActivity  {
 
                                     BookOperarion bookOpt = new BookOperarion();
                                     final String finalAuthor = author;
-                                    BookOperarion.editBook task = bookOpt.new editBook(username, Integer.toString(UserbookGlobla.lts.get(UBposition).bid), tmp,
+                                    BookOperarion.editBook task = bookOpt.new editBook(username, sellid, tmp,
                                             new Function<JSONObject, Void>() {
-                                        @Override
-                                        public Void apply(JSONObject json) {
+                                                @Override
+                                                public Void apply(JSONObject json) {
 
-                                            if (json == null) {
-                                                Toast.makeText(getApplicationContext(), "提交失败", Toast.LENGTH_SHORT).show();
-                                            } else {
-
-                                                try {
-                                                    if (json.getString(Config.KEY_SUCCESS) != null) {
-                                                        handler.sendEmptyMessage(1);
-                                                    } else {
+                                                    if (json == null) {
                                                         handler.sendEmptyMessage(-1);
+                                                    } else {
+
+                                                        try {
+                                                            if (json.getString(Config.KEY_SUCCESS) != null) {
+                                                                handler.sendEmptyMessage(1);
+                                                            } else {
+                                                                handler.sendEmptyMessage(-1);
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        UserbookGlobla.lts.get(UBposition).image = img;
+                                                        UserbookGlobla.lts.get(UBposition).bookname = title;
+                                                        UserbookGlobla.lts.get(UBposition).author = finalAuthor;
+                                                        UserbookGlobla.lts.get(UBposition).publisher = publisher;
+                                                        UserbookGlobla.lts.get(UBposition).origprice = price;
+                                                        UserbookGlobla.lts.get(UBposition).pages = book.getPages();
                                                     }
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
+                                                    return null;
                                                 }
-                                                UserbookGlobla.lts.get(UBposition).image = img;
-                                                UserbookGlobla.lts.get(UBposition).bookname = title;
-                                                UserbookGlobla.lts.get(UBposition).author = finalAuthor;
-                                                UserbookGlobla.lts.get(UBposition).publisher = publisher;
-                                                UserbookGlobla.lts.get(UBposition).origprice = price;
-                                                UserbookGlobla.lts.get(UBposition).pages = book.getPages();
-                                            }
-                                            return null;
-                                        }
-                                    });
+                                            });
 
 
                                     if (username != null) {

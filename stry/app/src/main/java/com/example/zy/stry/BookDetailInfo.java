@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.zy.stry.entity.SellEntity;
+import com.example.zy.stry.entity.SellBook;
 
 /**
  * Created by zy on 2015/9/16.
@@ -21,7 +21,7 @@ public class BookDetailInfo extends Fragment {
     private FloatingActionButton mFabButton;
 
 
-    public static BookDetailInfo newInstance(SellEntity.SellBook info) {
+    public static BookDetailInfo newInstance(SellBook info) {
         Bundle args = new Bundle();
         BookDetailInfo fragment = new BookDetailInfo();
         args.putSerializable("info", info);
@@ -34,7 +34,7 @@ public class BookDetailInfo extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail_info, null);
-        SellEntity.SellBook book =(SellEntity.SellBook) getArguments().getSerializable("info");
+        SellBook book =(SellBook) getArguments().getSerializable("info");
         TextView tname=(TextView)view.findViewById(R.id.s_tname);
         TextView tprice=(TextView)view.findViewById(R.id.s_tprice);
         TextView tpublisher=(TextView)view.findViewById(R.id.s_tpublisher);

@@ -7,10 +7,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +20,7 @@ import android.widget.TextView;
 
 import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.entity.CartEntity;
-import com.example.zy.stry.entity.SellEntity;
-import com.example.zy.stry.lib.BookOperarion;
-import com.example.zy.stry.lib.Config;
-
-import org.json.JSONObject;
+import com.example.zy.stry.entity.Sell.SellEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -186,13 +178,14 @@ public class CartActivity extends Activity {
                 tmp = new BookEntity();
                 int a = cr.getColumnIndex(KEY_SELLID);
                 int sid = cr.getInt(a);
-                String tmpQuery = "SELECT  * FROM " + SellEntity.Sell.TABLE_NAME + " Where " + SellEntity.Sell.KEY_ID + " = ?";
+                String tmpQuery = "SELECT  * FROM " + SellEntity.TABLE_NAME + " Where " + SellEntity.KEY_ID + " = ?";
                 Cursor cr2 = db.rawQuery(tmpQuery,new String[]{Integer.toString(sid)});
                 if(cr2.moveToFirst()) {
                     tmp.setData(cr2.getInt(0), cr2.getString(1), cr2.getString(2), cr2.getInt(3), cr2.getString(4),
-                            cr2.getInt(5), cr2.getString(6), (cr2.getString(7) == "true") ? true : false,
-                            (cr2.getString(8) == "true") ? true : false, cr2.getString(9), cr2.getString(10),
-                            (cr2.getString(11) == "true") ? true : false, cr2.getInt(12));
+                            cr2.getInt(5), cr2.getString(6), cr2.getInt(7) ,
+                            cr2.getInt(8) , cr2.getString(9), cr2.getString(10),
+                            cr2.getInt(11) , cr2.getInt(12), cr2.getString(13), cr2.getString(14),
+                            cr2.getString(15), cr2.getString(16));
                     mStrings.add(tmp.bookname);
                     mListItems.add(tmp);
                 }

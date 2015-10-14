@@ -6,6 +6,7 @@ import com.example.zy.stry.lib.Function;
 import com.example.zy.stry.lib.NetWorkChecker;
 
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     static SharedPreferences settings;
     static SharedPreferences.Editor prefEditor;
 
-    static DatabaseHandler db;
+    public static DatabaseHandler db;
     static FragmentManager fmg;
     public static Calendar c = Calendar.getInstance();
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private NetWorkChecker netWorkChecker = null;
-    private User user = null;
+
 
     public static final int MAIN_ACTIVITY = 100;
     public static boolean hvNetwork = false;

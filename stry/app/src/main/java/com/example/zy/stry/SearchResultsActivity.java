@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zy.stry.entity.SellEntity;
+import com.example.zy.stry.entity.SellBook;
 import com.example.zy.stry.lib.DatabaseHandler;
 
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ import java.util.List;
  */
 public class SearchResultsActivity extends Activity {
     ListView mlistView;
-    private ArrayAdapter<SellEntity.SellBook> mAdapter;
-    List<SellEntity.SellBook> lt;
+    private ArrayAdapter<SellBook> mAdapter;
+    List<SellBook> lt;
 
 
 
@@ -70,7 +70,7 @@ public class SearchResultsActivity extends Activity {
         }
     }
 
-    private class SearchAdapter extends ArrayAdapter<SellEntity.SellBook> {
+    private class SearchAdapter extends ArrayAdapter<SellBook> {
         private LayoutInflater inflater;
         private Context context;
 
@@ -89,7 +89,7 @@ public class SearchResultsActivity extends Activity {
         }
 
         @Override
-        public SellEntity.SellBook getItem(int position) {
+        public SellBook getItem(int position) {
             return lt.get(position);
         }
 
@@ -103,7 +103,7 @@ public class SearchResultsActivity extends Activity {
 
             ViewHolder viewHolder = null;
 
-            SellEntity.SellBook item = lt.get(position);
+            SellBook item = lt.get(position);
 
 
             if(convertView == null){

@@ -12,20 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.example.zy.stry.MainActivity;
 import com.example.zy.stry.R;
-import com.example.zy.stry.entity.BookEntity;
-import com.example.zy.stry.entity.Message;
-import com.example.zy.stry.lib.DatabaseHandler;
+import com.example.zy.stry.entity.MessageEntity;
 import com.example.zy.stry.util.UserbookGlobla;
 import com.example.zy.stry.widget.DividerItemDecoration;
-import com.example.zy.stry.widget.RecyclerItemClickListener;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by zy on 15/9/28.
@@ -54,7 +46,7 @@ public class MCDeMessFragment extends Fragment {
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private final int mBackground;
-        private List<Message > mess;
+        private List<MessageEntity> mess;
         private final TypedValue mTypedValue = new TypedValue();
 
         // Provide a reference to the views for each data item
@@ -78,7 +70,7 @@ public class MCDeMessFragment extends Fragment {
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        public MyAdapter(Context context,List<Message> a) {
+        public MyAdapter(Context context,List<MessageEntity> a) {
             context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
             mBackground = mTypedValue.resourceId;
             mess=a;
@@ -113,7 +105,7 @@ public class MCDeMessFragment extends Fragment {
         public int getItemCount() {
             return mess.size();
         }
-        public Message getBook(int pos) {
+        public MessageEntity getBook(int pos) {
             return mess.get(pos);
         }
         public void update() {
@@ -121,7 +113,7 @@ public class MCDeMessFragment extends Fragment {
         }
     }
     public void upd(){
-        mAdapter = new MyAdapter(getActivity(),UserbookGlobla.lts.get(mposition).messages);
+        mAdapter = new MyAdapter(getActivity(),UserbookGlobla.lts.get(mposition).messageEntities);
         list.setAdapter(mAdapter);
     }
     @Override
