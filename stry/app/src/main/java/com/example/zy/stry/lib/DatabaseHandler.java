@@ -54,12 +54,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 + Sell.KEY_COURSENAME + TEXT_TYPE + COMMA_SEP
                 + Sell.KEY_PRICE + INT_TYPE + COMMA_SEP
                 + Sell.KEY_PRESSS + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_IS_SELLING + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_IS_SOLD + TEXT_TYPE +  COMMA_SEP
+                + Sell.KEY_IS_SELLING + INT_TYPE + COMMA_SEP
+                + Sell.KEY_IS_SOLD + INT_TYPE +  COMMA_SEP
                 + Sell.KEY_ADD_TIME + TEXT_TYPE + COMMA_SEP
                 + Sell.KEY_UPDATE_TIME + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_IS_DEL + TEXT_TYPE +  COMMA_SEP
-                + Sell.KEY_BID  + INT_TYPE //+ COMMA_SEP
+                + Sell.KEY_IS_DEL + INT_TYPE +  COMMA_SEP
+                + Sell.KEY_BID  + INT_TYPE + COMMA_SEP
+                + Sell.KEY_BUYER  + TEXT_TYPE //+ COMMA_SEP
                 + ")";
 
         StringBuffer tableCreate = new StringBuffer();
@@ -156,8 +157,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * Storing shop details in database
      * */
     public void addSell(String username, String bookname, int courseid, String coursename,
-                        int price, String press, boolean is_selling, boolean is_sold,
-                        String add_time, String update_time, boolean is_del, int bid) {
+                        int price, String press, int is_selling, int is_sold,
+                        String add_time, String update_time, int is_del, int bid, String buyer) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -173,6 +174,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         values.put(Sell.KEY_UPDATE_TIME, update_time);
         values.put(Sell.KEY_IS_DEL, is_del);
         values.put(Sell.KEY_BID, bid);
+        values.put(Sell.KEY_BUYER, buyer);
         db.insert(Sell.TABLE_NAME, null, values);
     }
 
@@ -198,16 +200,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 book.coursename = cursor.getString(4);
                 book.price = cursor.getInt(5);
                 book.press = cursor.getString(6);
-                book.is_selling =  (cursor.getString(7) == "true" )? true : false;
-                book.is_sold = (cursor.getString(8) == "true" )? true : false;
+                book.is_selling =  cursor.getInt(7);
+                book.is_sold = cursor.getInt(8);
                 book.add_time = cursor.getString(9);
                 book.update_time = cursor.getString(10);
-                book.is_del = (cursor.getString(11) == "true" )? true : false;
+                book.is_del = cursor.getInt(11);
                 book.bid = cursor.getInt(12);
                 list.add(book);
             } while(cursor.moveToNext());
         }
-
         cursor.close();
         db.close();
         return list;
@@ -225,7 +226,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 //                + Sell.KEY_ID + "=" + Integer.toString(id);
 //        db.execSQL(update_str);
         ContentValues cv = new ContentValues();
-        cv.put(Sell.KEY_IS_SELLING, false);
+        cv.put(Sell.KEY_IS_SELLING, 0);
         db.update(Sell.TABLE_NAME, cv, Sell.KEY_ID + "=" + Integer.toString(id), null);
     }
 
@@ -251,6 +252,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         cv.put(Cart.KEY_SELLID, _id);
         cv.put(Cart.KEY_ADD_TIME, curtime);
         db.insert(Cart.TABLE_NAME, null, cv);
+        db.close();
     }
 
     public long addData(List<BookEntity> be){
@@ -330,6 +332,97 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return It;
     }
 
+    public List<BookEntity> getSoldBooks(String username){
+        List<BookEntity> It=new ArrayList<BookEntity>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        BookEntity use = null;
+        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_USERNAME + "=?" + "AND " + Sell.KEY_IS_SOLD + " =?";
+        Cursor cr=db.rawQuery(selectQuery,new String[]{username, "1"});
+        if (cr.moveToFirst()) {
+            do {
+                use = new BookEntity();
+                use.setBook(cr.getString(2));
+                use.courseid(cr.getInt(3));
+                use.bid = cr.getInt(12);
+//                String tmpQuery = "SELECT  * FROM course WHERE courseid =?";
+//                Cursor cursor=db.rawQuery(selectQuery,new String[]{Integer.toString(use.courseid)});
+//                if (cursor.moveToFirst()) {
+//                    use.origprice = cursor.getString(4);
+//                    use.author = cursor.getString(6);
+//                    use.publisher = cursor.getString(7);
+//                    use.pages = cursor.getString(8);
+//                    use.image = cursor.getString(9);
+//                }
+                It.add(use);
+            } while (cr.moveToNext());
+        }
+        cr.close();
+        db.close();
+        return It;
+    }
+
+    public List<BookEntity> getBoughtBooks(String username){
+        List<BookEntity> It=new ArrayList<BookEntity>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        BookEntity use = null;
+        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_BUYER + "=?" + "AND " + Sell.KEY_IS_SOLD + " =?";
+        Cursor cr=db.rawQuery(selectQuery,new String[]{username, "1"});
+        if (cr.moveToFirst()) {
+            do {
+                use = new BookEntity();
+                use.setBook(cr.getString(2));
+                use.courseid(cr.getInt(3));
+                use.bid = cr.getInt(12);
+//                String tmpQuery = "SELECT  * FROM course WHERE courseid =?";
+//                Cursor cursor=db.rawQuery(selectQuery,new String[]{Integer.toString(use.courseid)});
+//                if (cursor.moveToFirst()) {
+//                    use.origprice = cursor.getString(4);
+//                    use.author = cursor.getString(6);
+//                    use.publisher = cursor.getString(7);
+//                    use.pages = cursor.getString(8);
+//                    use.image = cursor.getString(9);
+//                }
+                It.add(use);
+            } while (cr.moveToNext());
+        }
+        cr.close();
+        db.close();
+        return It;
+    }
+
+
+
+    public List<BookEntity> getBuyingBooks(String username){
+        List<BookEntity> It=new ArrayList<BookEntity>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        BookEntity use = null;
+        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_BUYER + "=?"
+                + "AND " + Sell.KEY_IS_SELLING + " =?" + "AND " + Sell.KEY_IS_SOLD + " =?";
+        Cursor cr=db.rawQuery(selectQuery,new String[]{username, "0", "0"});
+        if (cr.moveToFirst()) {
+            do {
+                use = new BookEntity();
+                use.setBook(cr.getString(2));
+                use.courseid(cr.getInt(3));
+                use.bid = cr.getInt(12);
+//                String tmpQuery = "SELECT  * FROM course WHERE courseid =?";
+//                Cursor cursor=db.rawQuery(selectQuery,new String[]{Integer.toString(use.courseid)});
+//                if (cursor.moveToFirst()) {
+//                    use.origprice = cursor.getString(4);
+//                    use.author = cursor.getString(6);
+//                    use.publisher = cursor.getString(7);
+//                    use.pages = cursor.getString(8);
+//                    use.image = cursor.getString(9);
+//                }
+                It.add(use);
+            } while (cr.moveToNext());
+        }
+        cr.close();
+        db.close();
+        return It;
+    }
+
+
 
     public List<SellBook> getCart(){
         List<SellBook> It = new ArrayList<>();
@@ -345,9 +438,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 Cursor cr2 = db.rawQuery(tmpQuery,new String[]{Integer.toString(sid)});
                 if(cr2.moveToFirst()) {
                     tmp.setData(cr2.getInt(0), cr2.getString(1), cr2.getString(2), cr2.getInt(3), cr2.getString(4),
-                            cr2.getInt(5), cr2.getString(6), (cr2.getString(7) == "true" )? true : false,
-                            (cr2.getString(8) == "true" )? true : false, cr2.getString(9),cr2.getString(10),
-                            (cr2.getString(11) == "true" )? true : false, cr2.getInt(12));
+                            cr2.getInt(5), cr2.getString(6), cr2.getInt(7) ,
+                            cr2.getInt(8) , cr2.getString(9),cr2.getString(10),
+                            cr2.getInt(11), cr2.getInt(12), cr2.getString(13));
                     It.add(tmp);
                 }
             } while (cr.moveToNext());
@@ -425,11 +518,11 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 tmp.coursename = cursor.getString(4);
                 tmp.price = cursor.getInt(5);
                 tmp.press = cursor.getString(6);
-                tmp.is_selling =  (cursor.getString(7) == "true" )? true : false;
-                tmp.is_sold = (cursor.getString(8) == "true" )? true : false;
+                tmp.is_selling =  cursor.getInt(7);
+                tmp.is_sold = cursor.getInt(8);
                 tmp.add_time = cursor.getString(9);
                 tmp.update_time = cursor.getString(10);
-                tmp.is_del = (cursor.getString(11) == "true" )? true : false;
+                tmp.is_del = cursor.getInt(11);
                 tmp.bid = cursor.getInt(12);
                 list.add(tmp);
             } while (cursor.moveToNext());

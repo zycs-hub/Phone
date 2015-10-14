@@ -114,10 +114,7 @@ public class RegisterActivity extends Activity {
                     Toast.makeText(getApplicationContext(), Config.LOAD_ERROR, Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
-                    Toast.makeText(getApplicationContext(), "登入成功", Toast.LENGTH_SHORT).show();
-                    FragmentTransaction ft = MainActivity.fmg.beginTransaction();
-                    ft.replace(R.id.fragment_3, new AccountFragment());
-                    ft.commit();
+                    Toast.makeText(getApplicationContext(), "注册成功，请登入", Toast.LENGTH_SHORT).show();
                     finish();
                     break;
                 case -1:

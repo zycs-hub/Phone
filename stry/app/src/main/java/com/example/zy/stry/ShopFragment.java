@@ -48,6 +48,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     private LinkedList<String> mListItems;
     private ShopAdapter  mAdapter;
     private FragmentActivity listener;
+    private ArrayList<SellEntity.SellBook> tmp = new ArrayList<>();
     private ArrayList<SellEntity.SellBook> mData = new ArrayList<>();
     private List mStrings = new ArrayList();
     private PullToRefreshListView mPullRefreshListView;
@@ -66,6 +67,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     public static String KEY_UPDATE_TIME = "update_time";
     public static String KEY_IS_DEL = "is_del";
     public static String KEY_BID = "bid";
+    public static String KEY_BUYER = "buyer";
 
 
 
@@ -126,16 +128,21 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
 
         //如果连网就更新否则直接查询本地
-        Toast.makeText(getActivity(), "加载中...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "加载中...", Toast.LENGTH_LONG).show();
         if(MainActivity.hvNetwork) {
             new GetData().execute();
         } else {
-            mData =  db.getShopData();
-            for(int i = 0; i < mData.size(); i++) {
-                if(mData.get(i).is_selling == true && mData.get(i).is_sold == false) {
-                    mStrings.add(mData.get(i).bookname);
+            tmp =  db.getShopData();
+            for(int i = 0; i < tmp.size(); i++) {
+                if(tmp.get(i).is_selling == 1 && tmp.get(i).is_sold == 0) {
+                    mStrings.add(tmp.get(i).bookname);
+                    mData.add(tmp.get(i));
                 }
             }
+            if(mData.size() == 0) {
+                Toast.makeText(getActivity(), "本地数据库空，请联网", Toast.LENGTH_SHORT).show();
+            }
+
         }
         mListItems.addAll(mStrings);
 //        mAdapter=new ListAdapter(getActivity(),mData);
@@ -153,11 +160,13 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                                     int position, long id) {
                 Book book =new Book();
                 Intent intent1 = new Intent(getActivity(), BookDetailActivity.class);
-                intent1.putExtra("book", mStrings.get(position - 1).toString());
-                intent1.putExtra("_id", mData.get(position - 1)._id);
-                Bundle mBundle = new Bundle();
-                mBundle.putSerializable("data", mData.get(position - 1));
-                intent1.putExtras(mBundle);
+                if(mData.size() > 0) {
+                    intent1.putExtra("book", mStrings.get(position - 1).toString());
+                    intent1.putExtra("_id", mData.get(position - 1)._id);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putSerializable("data", mData.get(position - 1));
+                    intent1.putExtras(mBundle);
+                }
                 startActivity(intent1);
             }
         });
@@ -248,13 +257,13 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                         SellEntity.SellBook data = new SellEntity.SellBook();
                         data.setData(i + 1, oj.getString(KEY_USERNAME), oj.getString(KEY_BOOKNAME),
                                 oj.getInt(KEY_COURSEID), oj.getString(KEY_COURSENAME),
-                                oj.getInt(KEY_PRICE), oj.getString(KEY_PRESSS), oj.getBoolean(KEY_IS_SELLING),
-                                oj.getBoolean(KEY_IS_SOLD), oj.getString(KEY_ADD_TIME),
-                                oj.getString(KEY_UPDATE_TIME), oj.getBoolean(KEY_IS_DEL), oj.getInt(KEY_BID));
+                                oj.getInt(KEY_PRICE), oj.getString(KEY_PRESSS), oj.getInt(KEY_IS_SELLING),
+                                oj.getInt(KEY_IS_SOLD), oj.getString(KEY_ADD_TIME),
+                                oj.getString(KEY_UPDATE_TIME), oj.getInt(KEY_IS_DEL), oj.getInt(KEY_BID),oj.getString(KEY_BUYER));
                         db.addSell(data.username, data.bookname, data.courseid, data.coursename,
                                 data.price, data.press, data.is_selling, data.is_sold, data.add_time,
-                                data.update_time, data.is_del, data.bid);
-                        if(data.is_selling == true && data.is_sold == false) {
+                                data.update_time, data.is_del, data.bid, data.buyer);
+                        if(data.is_selling == 1 && data.is_sold == 0) {
                             mData.add(data);
                             mStrings.add(data.bookname);
                         }

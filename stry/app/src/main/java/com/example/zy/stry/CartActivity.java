@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -42,6 +44,7 @@ public class CartActivity extends Activity {
     SharedPreferences shared_preferences;
 
     public static ArrayList<BookEntity> mListItems;
+    private static ArrayList<BookEntity> mSelectItems;
     private ArrayAdapter<BookEntity> mAdapter;
     private String lst;
     private List mStrings;
@@ -56,6 +59,7 @@ public class CartActivity extends Activity {
         super.onCreate(savedInstanceState);
         mStrings = new ArrayList<>();
         mListItems = new ArrayList();
+        mSelectItems = new ArrayList();
         setContentView(R.layout.fragment_cart);
         lst = "";
         //FragmentManager fm = getFragmentManager();
@@ -109,6 +113,7 @@ public class CartActivity extends Activity {
                 for (BookEntity item : mListItems) {
                     if (item.isSelected() != 0) {
                         lst += item.getSellid() + '\n';
+                        mSelectItems.add(item);
                     }
 
                 }
@@ -118,6 +123,10 @@ public class CartActivity extends Activity {
                     Intent intent = new Intent(getApplicationContext(), OrderActivity.class);
                     intent.putExtra("username", username);
                     intent.putExtra("books", lst.substring(0, lst.length() - 1));
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("items", mSelectItems);
+                    intent.putExtras(bundle);
                     startActivity(intent);
 
                 }
