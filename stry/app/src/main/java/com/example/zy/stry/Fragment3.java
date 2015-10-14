@@ -106,6 +106,27 @@ public class Fragment3 extends Fragment {
             }
         });
 
+        buying.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BuyingListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        bought.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BoughtListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        sold.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SoldListActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return rootView;
     }
 

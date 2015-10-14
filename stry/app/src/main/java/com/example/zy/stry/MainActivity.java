@@ -4,15 +4,13 @@ import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.lib.NetWorkChecker;
 
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,6 +18,11 @@ import com.example.zy.stry.adapter.TabsAdapter;
 import com.example.zy.stry.lib.User;
 
 import android.widget.Toast;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -87,20 +90,33 @@ public class MainActivity extends AppCompatActivity {
 
         netWorkChecker = new NetWorkChecker(getApplicationContext());
         netWorkChecker.isOnline();
+//        new Thread(new Runnable(){
+//            @Override
+//            public void run() {
+//                HttpClient client = new DefaultHttpClient();
+//                StringBuilder builder = new StringBuilder();
+//// HttpGet连接对象使用get方式请求
+//
+//                HttpGet myget = new HttpGet("http://www.baidu.com/");
+//                try {
+//// HttpResponse对象，连接成功后的一个响应对象
+//                    HttpResponse response = client.execute(myget);
+//// 返回值为200，即为服务器成功响应了请求
+//                    if (response.getStatusLine().getStatusCode() == 200) {
+//                        MainActivity.hvNetwork = true;
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).run();
+
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefEditor = settings.edit();
 
-//
-//        db.getWritableDatabase().execSQL("DROP TABLE cart");
-//
-//        String CREATE_CART_TABLE = "CREATE TABLE cart ("
-//                + "id_" + " INTEGER PRIMARY KEY , "
-//                + "sell_id INTEGER , add_time TEXT )";
-//
-//
-//        db.getWritableDatabase().execSQL(CREATE_CART_TABLE);
-        //SQLiteDatabase job=db.getWritableDatabase();
-        //db.onUpgrade(job,0,1);
+
+//        SQLiteDatabase job=db.getWritableDatabase();
+//        db.onUpgrade(job,0,1);
 
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 

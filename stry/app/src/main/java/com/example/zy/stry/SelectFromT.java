@@ -144,7 +144,7 @@ public class SelectFromT extends Activity {
                             //}
                             //page_list.setItemChecked(i, true);
                         }
-                        db.addSell(username, na, BookGlobla.lts.get(i).courseid, na, -1, null ,false,false,null,null,false,-1);
+                        db.addSell(username, na, BookGlobla.lts.get(i).courseid, na, -1, null ,0,0,null,null,0,-1, "");
                     } else{
                         job.execSQL("update courses set  isSelected=-1 where book=?", new String[]{na});
                     }

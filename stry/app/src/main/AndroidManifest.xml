@@ -88,6 +88,22 @@
             android:name=".CartActivity"
             android:theme="@style/MyTheme">
         </activity>
+        <activity
+            android:name=".OrderActivity"
+            android:theme="@style/MyTheme">
+        </activity>
+        <activity
+            android:name=".SoldListActivity"
+            android:theme="@style/MyTheme">
+        </activity>
+        <activity
+            android:name=".BuyingListActivity"
+            android:theme="@style/MyTheme">
+        </activity>
+        <activity
+            android:name=".BoughtListActivity"
+            android:theme="@style/MyTheme">
+        </activity>
 
 
     </application>
