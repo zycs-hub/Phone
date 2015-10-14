@@ -37,6 +37,7 @@ public class BookEntity implements Serializable {
     public int _id = -1, courseid=0,  bid=0;
     public boolean is_selling=false, is_sold=false, is_del=false;
     public List<String> message=new ArrayList<>();
+    public List<Message> messages= new ArrayList();
 
 
     public BookEntity () {

@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.example.zy.stry.entity.Message;
 import com.example.zy.stry.fragment.MCDeMessFragment;
 import com.example.zy.stry.fragment.MCDetailFragment;
+import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.util.UserbookGlobla;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -244,11 +246,7 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         action_off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int min = c.get(Calendar.MINUTE);
-                int hour =c.get(Calendar.HOUR);
-                UserbookGlobla.lts.get(mposition).message.add(0,"m"+"物品已下架");
-                UserbookGlobla.lts.get(mposition).message.add(0,"t"+Integer.toString(hour)+":"+Integer.toString(min));
+                setMessage(0);
 
                 adapter.update1().upd();
                 //actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
@@ -257,11 +255,7 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         action_on.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int min = c.get(Calendar.MINUTE);
-                int hour =c.get(Calendar.HOUR);
-                UserbookGlobla.lts.get(mposition).message.add(0,"m"+"物品已上架");
-                UserbookGlobla.lts.get(mposition).message.add(0,"t"+Integer.toString(hour)+":"+Integer.toString(min));
+                setMessage(1);
 
                 adapter.update1().upd();
 
@@ -271,11 +265,7 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         action_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int min = c.get(Calendar.MINUTE);
-                int hour =c.get(Calendar.HOUR);
-                UserbookGlobla.lts.get(mposition).message.add(0,"m"+"已取消交易，物品已重新上架");
-                UserbookGlobla.lts.get(mposition).message.add(0,"t"+Integer.toString(hour)+":"+Integer.toString(min));
+                setMessage(2);
 
                 adapter.update1().upd();
 
@@ -285,17 +275,64 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         action_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int min = c.get(Calendar.MINUTE);
-                int hour =c.get(Calendar.HOUR);
-                UserbookGlobla.lts.get(mposition).message.add(0,"m"+"交易已结束，点击“你的交易”查看交易纪录");
-                UserbookGlobla.lts.get(mposition).message.add(0,"t"+Integer.toString(hour)+":"+Integer.toString(min));
+                setMessage(3);
 
                 adapter.update1().upd();
 
                 //actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
             }
         });
+    }
+    private void setMessage(int type){
+        Calendar c = Calendar.getInstance();
+        int y=c.get(Calendar.YEAR);
+        int m=c.get(Calendar.MONTH);
+        int d=c.get(Calendar.DAY_OF_MONTH);
+        int h=c.get(Calendar.HOUR);
+        int mi=c.get(Calendar.MINUTE);
+//        Message message =new Message();
+//        message.year=Integer.toString(y);
+//        message.moon=Integer.toString(m);
+//        message.day=Integer.toString(d);
+//        message.hour=Integer.toString(h);
+//        message.min=Integer.toString(mi);
+        String mess="";
+        int isRead=2;
+        switch (type){
+            case 0:
+                mess="物品已下架";
+//                message.message="物品已下架";
+                isRead=0;
+//                message.isRead=0;
+                break;
+            case 1:
+                mess="物品已上架";
+//                message.message="物品已上架";
+                isRead=0;
+//                message.isRead=0;
+                break;
+            case 2:
+                mess="已取消交易，物品已重新上架";
+//                message.message="已取消交易，物品已重新上架";
+                isRead=1;
+//                message.isRead=1;
+                break;
+            case 3:
+                mess="交易已结束，点击“你的交易”查看交易纪录";
+//                message.message="交易已结束，点击“你的交易”查看交易纪录";
+                isRead=1;
+//                message.isRead=1;
+                break;
+        }
+        DatabaseHandler db = MainActivity.db;
+        db.addMessage
+                (
+                        mess,
+                        Integer.toString(y),
+                        Integer.toString(m),Integer.toString(d),
+                        Integer.toString(h),Integer.toString(mi),
+                        isRead,UserbookGlobla.lts.get(mposition).bid);
+        //UserbookGlobla.lts.get(mposition).messages.add(message);
     }
     @Override
     public void onResume() {

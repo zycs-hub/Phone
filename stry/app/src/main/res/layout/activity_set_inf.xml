@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -23,7 +22,7 @@
             >
 
             <ImageView
-                android:id="@+id/iv_erweima"
+                android:id="@+id/i_head"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
@@ -51,7 +50,7 @@
                 android:background="#dadada" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/姓名"
+            android:id="@+id/i_name"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -75,7 +74,7 @@
                 android:text="姓名"
                 android:textColor="#353535"
                 android:textSize="16sp"
-                android:id="@+id/s_tmajor" />
+                android:id="@+id/i_tname" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -85,7 +84,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/s_course"
+            android:id="@+id/i_studentid"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -110,7 +109,7 @@
                 android:text="学号"
                 android:textColor="#353535"
                 android:textSize="16sp"
-                android:id="@+id/s_tcourse" />
+                android:id="@+id/i_tstudentid" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -212,7 +211,7 @@
                 android:id="@+id/s_taddtime" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/地址"
+            android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -244,6 +243,36 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginRight="12dp"
                 android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:backgroundTint="@color/red"
+            >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="登出"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/tlogout" />
         </RelativeLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

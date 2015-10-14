@@ -2,6 +2,7 @@ package com.example.zy.stry.lib;
 
 import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.entity.CartEntity.Cart;
+import com.example.zy.stry.entity.Message;
 import com.example.zy.stry.entity.UserEntity.User;
 import com.example.zy.stry.entity.SellEntity.SellBook;
 import com.example.zy.stry.entity.SellEntity.Sell;
@@ -96,11 +97,28 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 //                + Sell.KEY_IS_DEL + TEXT_TYPE +  COMMA_SEP
 //                + Sell.KEY_BID  + INT_TYPE //+ COMMA_SEP
                 + ")";
+//        StringBuffer messCreate = new StringBuffer();
+//        tableCreate.append("CREATE TABLE ")
+//                .append(" messages ")
+//                .append(" (")
+//                .append(" _id INTEGER PRIMARY KEY ,")
+//                .append(" bid INTEGER , ")
+//                .append(" message TEXT , ")
+//                .append(" isRead INTEGER , ")
+//                .append(" year TEXT , ")
+//                .append(" moon TEXT , ")
+//                .append(" day TEXT , ")
+//                .append(" hour TEXT , " )
+//                .append(" min TEXT  ")//damage
+//                .append(" )");
+        String CREATE_MESSAGE=" CREATE TABLE messages ( _id INTEGER PRIMARY KEY , bid INTEGER , message TEXT ," +
+                " isRead INTEGER ,year TEXT , moon TEXT , day TEXT , hour TEXT , min TEXT  )";
 
 
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_SELL_TABLE);
         db.execSQL(tableCreate.toString());
+        db.execSQL(CREATE_MESSAGE);
         db.execSQL(CREATE_CART_TABLE);
 
     }
@@ -113,6 +131,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + Sell.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + BookEntity.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Cart.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + "messages");
+
 
         // Create tables again
         onCreate(db);
@@ -300,6 +320,40 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         }
         return It;
     }
+    public void addMessage(String message, String year, String moon, String day,
+                        String hour, String min, int isRead,int bid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("message", message);
+        values.put("year", year);
+        values.put("moon", moon);
+        values.put("day", day);
+        values.put("hour", hour);
+        values.put("min", min);
+        values.put("isRead", isRead);
+        values.put("bid", bid);
+        db.insert("messages", null, values);
+    }
+    public List<Message> getMessage(int bid){
+        List<Message> lt= new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Message message;
+        String selectQuery = "SELECT  * FROM " + "messages" + " WHERE " + "bid" + "=?" ;
+        Cursor cr=db.rawQuery(selectQuery,new String[]{Integer.toString(bid)});
+        while (cr.moveToFirst()) {
+            message=new Message();
+            message.message=cr.getString(2);
+            message.isRead=cr.getInt(3);
+            message.year=cr.getString(4);
+            message.moon=cr.getString(5);
+            message.day=cr.getString(6);
+            message.hour=cr.getString(7);
+            message.min=cr.getString(8);
+            lt.add(message);
+        }
+        return lt;
+    }
 
     public List<BookEntity> getUserBooks(String username){
         List<BookEntity> It=new ArrayList<BookEntity>();
@@ -396,6 +450,11 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public void deleteCourses() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(BookEntity.TABLE_NAME, null, null);
+        db.close();
+    }
+    public void deleteMessages() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("messages", null, null);
         db.close();
     }
 

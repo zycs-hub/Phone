@@ -248,7 +248,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                         SellEntity.SellBook data = new SellEntity.SellBook();
                         data.setData(i + 1, oj.getString(KEY_USERNAME), oj.getString(KEY_BOOKNAME),
                                 oj.getInt(KEY_COURSEID), oj.getString(KEY_COURSENAME),
-                                oj.getInt(KEY_PRICE), oj.getString(KEY_PRESSS), oj.getBoolean(KEY_IS_SELLING),
+                                oj.getInt(KEY_PRICE), oj.getString(KEY_PRESSS), oj.getInt(KEY_IS_SELLING)==0,
                                 oj.getBoolean(KEY_IS_SOLD), oj.getString(KEY_ADD_TIME),
                                 oj.getString(KEY_UPDATE_TIME), oj.getBoolean(KEY_IS_DEL), oj.getInt(KEY_BID));
                         db.addSell(data.username, data.bookname, data.courseid, data.coursename,

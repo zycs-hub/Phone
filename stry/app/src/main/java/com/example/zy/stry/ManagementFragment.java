@@ -30,11 +30,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.lib.DatabaseHandler;
+import com.example.zy.stry.lib.NetWorkChecker;
 import com.example.zy.stry.util.BookGlobla;
 import com.example.zy.stry.adapter.MySellAdapter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -181,6 +183,40 @@ public class ManagementFragment extends Fragment {
             lt=null;
         }
 
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(final Message msgs) {
+                //write your code hear which give error
+                switch (msgs.what) {
+                    case 1:
+                        mAdapter= new MyAdapter(getActivity());
+                        mRecyclerView.setAdapter(mAdapter);
+                        //Toast.makeText(getActivity(), "w已存", Toast.LENGTH_SHORT).show();
+                        break;
+//                    case -1:
+//                        Toast.makeText(getActivity(), "错误", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while(UserbookGlobla.lts.size()>0) {
+                        for (int i= 0;i<UserbookGlobla.lts.size();i++)
+                            com(i);
+                        handler.sendEmptyMessage(1);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
+
+
+
 
         mAdapter = new MyAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
@@ -203,6 +239,56 @@ public class ManagementFragment extends Fragment {
         */
         return view;
     }
+    private void com(int pos){
+        Calendar c = Calendar.getInstance();
+        int y=c.get(Calendar.YEAR);
+        int m=c.get(Calendar.MONTH);
+        int d=c.get(Calendar.DAY_OF_MONTH);
+        int h=c.get(Calendar.HOUR);
+        int mi=c.get(Calendar.MINUTE);
+        String data;
+        List<com.example.zy.stry.entity.Message> messages = new ArrayList<>();
+        DatabaseHandler db1 = new DatabaseHandler(getActivity());
+        messages=db1.getMessage(UserbookGlobla.lts.get(pos).bid);
+        db1.deleteMessages();
+        com.example.zy.stry.entity.Message message =new com.example.zy.stry.entity.Message();
+        if (messages.size()==0&&UserbookGlobla.lts.get(pos).messages.size()==0){
+            message.data="";
+            message.message="无消息";
+            message.isRead=1;
+            UserbookGlobla.lts.get(pos).messages.add(message);
+            return;
+        }
+        //List<com.example.zy.stry.entity.Message> messages= UserbookGlobla.lts.get(pos).messages;
+        for (int i=0;i<messages.size();i++) {
+            if (y == Integer.getInteger(messages.get(i).year)){
+                if (m == Integer.getInteger(messages.get(i).moon)) {
+                    if (d == Integer.getInteger(messages.get(i).day))
+                        data = messages.get(i).hour + ":" + messages.get(i).min;
+                    else
+                        switch (d - Integer.getInteger(UserbookGlobla.lts.get(pos).messages.get(i).day)) {
+                            case 1:
+                                data = "昨天";
+                                break;
+                            case 2:
+                                data = "前天";
+                                break;
+                            default:
+                                data = messages.get(i).day + "号";
+                                break;
+                        }
+                } else {
+                    data = messages.get(i) + "月 " + messages.get(i) + "日 ";
+                }
+            }else{
+                data=messages.get(i).year+"年 "
+                        +messages.get(i).moon+"月 ";
+            }
+            message=messages.get(i);
+            message.data=data;
+            UserbookGlobla.lts.get(pos).messages.add(message);
+    }
+}
     /*
     *
      *

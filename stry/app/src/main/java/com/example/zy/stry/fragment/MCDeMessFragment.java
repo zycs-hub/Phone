@@ -13,13 +13,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.zy.stry.MainActivity;
 import com.example.zy.stry.R;
 import com.example.zy.stry.entity.BookEntity;
+import com.example.zy.stry.entity.Message;
+import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.util.UserbookGlobla;
 import com.example.zy.stry.widget.DividerItemDecoration;
 import com.example.zy.stry.widget.RecyclerItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,7 +54,7 @@ public class MCDeMessFragment extends Fragment {
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private final int mBackground;
-        private List<String > mess;
+        private List<Message > mess;
         private final TypedValue mTypedValue = new TypedValue();
 
         // Provide a reference to the views for each data item
@@ -60,6 +64,7 @@ public class MCDeMessFragment extends Fragment {
             // each data item is just a string in this case
 
             public TextView value;
+            public TextView time;
 
 
 
@@ -67,11 +72,13 @@ public class MCDeMessFragment extends Fragment {
                 super(v);
 
                 value = (TextView) v.findViewById(R.id.mcd_m_value);
+                time = (TextView) v.findViewById(R.id.time);
+
             }
         }
 
         // Provide a suitable constructor (depends on the kind of dataset)
-        public MyAdapter(Context context,List<String> a) {
+        public MyAdapter(Context context,List<Message> a) {
             context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
             mBackground = mTypedValue.resourceId;
             mess=a;
@@ -93,11 +100,12 @@ public class MCDeMessFragment extends Fragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
-            if (mess.get(position).substring(0,1).equals("t"))
-                holder.value.setBackgroundColor(getResources().getColor(R.color.white));
-            else
-                holder.value.setBackgroundColor(getResources().getColor(R.color.mess));
-            holder.value.setText(mess.get(position).substring(1));
+//            if (mess.get(position).substring(0,1).equals("t"))
+//                holder.value.setBackgroundColor(getResources().getColor(R.color.white));
+//            else
+//                holder.value.setBackgroundColor(getResources().getColor(R.color.mess));
+            holder.value.setText(mess.get(position).message);
+            holder.time.setText(mess.get(position).data);
         }
 
         // Return the size of your dataset (invoked by the layout manager)
@@ -105,7 +113,7 @@ public class MCDeMessFragment extends Fragment {
         public int getItemCount() {
             return mess.size();
         }
-        public String getBook(int pos) {
+        public Message getBook(int pos) {
             return mess.get(pos);
         }
         public void update() {
@@ -113,12 +121,7 @@ public class MCDeMessFragment extends Fragment {
         }
     }
     public void upd(){
-        List<String> mess = new ArrayList<>();
-        if (UserbookGlobla.lts.get(mposition).message.size() == 0)
-            mess.add("m无消息");
-        else
-            mess = UserbookGlobla.lts.get(mposition).message;
-        mAdapter = new MyAdapter(getActivity(),mess);
+        mAdapter = new MyAdapter(getActivity(),UserbookGlobla.lts.get(mposition).messages);
         list.setAdapter(mAdapter);
     }
     @Override
