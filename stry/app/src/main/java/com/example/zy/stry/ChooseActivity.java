@@ -33,13 +33,16 @@ import com.example.zy.stry.entity.Book;
 import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.Config;
 import com.example.zy.stry.lib.DatabaseHandler;
+import com.example.zy.stry.lib.Function;
 import com.example.zy.stry.util.UserbookGlobla;
 import com.example.zy.stry.widget.RecyclerItemClickListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ChooseActivity extends AppCompatActivity  {
 
@@ -193,11 +196,11 @@ public class ChooseActivity extends AppCompatActivity  {
                     .setTitle("选择这本书")
                     .setMessage("存入")
                     .setNegativeButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getApplicationContext(), "已存", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                            Book book = mAdapter.getBook(position);
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(getApplicationContext(), "已存", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                    final Book book = mAdapter.getBook(position);
             /*
             Intent intent = new Intent(getActivity(), BookDetailActivity.class);
             intent.putExtra("book", book);
@@ -216,97 +219,106 @@ public class ChooseActivity extends AppCompatActivity  {
 //            ／└-(＿＿＿_／
 
 
-                            final String img = book.getImages().getLarge();
-                            final String title = book.getTitle();
-                            String author = "";
-                            if (book.getAuthor().length > 0) {
-                                author = book.getAuthor()[0];
-                            }
-                            final String publisher = book.getPublisher();
-                            String price = book.getPrice();
-                            final String pages = book.getPages();
-
-                            final String tmp = "image," + img + "\nauthor," + author + "\npress," + publisher + "\norigprice," + price + "\npages," + pages;
-
-
-                            if (UBposition == -1) {
-                                SelfDefineActivity.mbook.image = img;
-                                SelfDefineActivity.mbook.bookname = title;
-                                if (book.getAuthor().length > 0)
-                                    SelfDefineActivity.mbook.author = author;
-                                SelfDefineActivity.mbook.publisher = publisher;
-                                SelfDefineActivity.mbook.origprice = price;
-                                SelfDefineActivity.mbook.pages = pages;
-                                return;
-                            }
-
-                            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-                            SQLiteDatabase job = db.getReadableDatabase();
-                            //这里应该有个确定对话框
-
-                            //应该是下面一条但是存image 但好像不能存网址，因为有 冒号 ：，待解决
-                            //job.execSQL("update courses set  image="+book.getImages().getLarge()+" where book=?", new String[]{bookname});
-                            job.execSQL("update courses set  image=? where book=?", new String[]{img, bookname});
-                            if (book.getAuthor().length > 0)
-                                job.execSQL("update courses set  author=? where book=?", new String[]{author, bookname});
-                            job.execSQL("update courses set  publisher=? where book=?", new String[]{publisher, bookname});
-                            job.execSQL("update courses set  origprice=? where book=?", new String[]{price, bookname});
-                            job.execSQL("update courses set  pages=? where book=?", new String[]{pages, bookname});
-
-
-                            final Handler handler = new Handler() {
-                                @Override
-                                public void handleMessage(final Message msgs) {
-                                    //write your code hear which give error
-                                    switch (msgs.what) {
-                                        case 1:
-                                            Toast.makeText(getApplication(), "w已存", Toast.LENGTH_SHORT).show();
-                                            break;
-                                        case -1:
-                                            Toast.makeText(getApplicationContext(), "错误", Toast.LENGTH_SHORT).show();
+                                    final String img = book.getImages().getLarge();
+                                    final String title = book.getTitle();
+                                    String author = "";
+                                    if (book.getAuthor().length > 0) {
+                                        author = book.getAuthor()[0];
                                     }
-                                }
-                            };
+                                    final String publisher = book.getPublisher();
+                                    final String price = book.getPrice();
+                                    final String pages = book.getPages();
 
-                            db.close();
-
-                            shared_preferences = getApplicationContext().getSharedPreferences(PREFS_NAME, getApplicationContext().MODE_PRIVATE);
-                            username = shared_preferences.getString("username", null);
-
-                            BookOperarion bookOpt = new BookOperarion();
-                            BookOperarion.editBook task = bookOpt.new editBook(username, Integer.toString(UserbookGlobla.lts.get(UBposition).bid), tmp);
-                            try {
+                                    final String tmp = "image," + img + "\nauthor," + author + "\npress," + publisher + "\norigprice," + price + "\npages," + pages;
 
 
-                                if (username != null) {
-                                    MainActivity.executorService.submit(task);
-                                    JSONObject json = task.json;
-
-                                    if (json.getString(Config.KEY_SUCCESS) != null) {
-                                        handler.sendEmptyMessage(1);
-
-
-                                    } else {
-                                        handler.sendEmptyMessage(-1);
+                                    if (UBposition == -1) {
+                                        SelfDefineActivity.mbook.image = img;
+                                        SelfDefineActivity.mbook.bookname = title;
+                                        if (book.getAuthor().length > 0)
+                                            SelfDefineActivity.mbook.author = author;
+                                        SelfDefineActivity.mbook.publisher = publisher;
+                                        SelfDefineActivity.mbook.origprice = price;
+                                        SelfDefineActivity.mbook.pages = pages;
+                                        return;
                                     }
-                                }
 
-                            } catch (Exception e) {
-                                System.out.println("Exception : " + e.getMessage());
+                                    DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+                                    SQLiteDatabase job = db.getReadableDatabase();
+                                    //这里应该有个确定对话框
+
+                                    //应该是下面一条但是存image 但好像不能存网址，因为有 冒号 ：，待解决
+                                    //job.execSQL("update courses set  image="+book.getImages().getLarge()+" where book=?", new String[]{bookname});
+                                    job.execSQL("update courses set  image=? where book=?", new String[]{img, bookname});
+                                    if (book.getAuthor().length > 0)
+                                        job.execSQL("update courses set  author=? where book=?", new String[]{author, bookname});
+                                    job.execSQL("update courses set  publisher=? where book=?", new String[]{publisher, bookname});
+                                    job.execSQL("update courses set  origprice=? where book=?", new String[]{price, bookname});
+                                    job.execSQL("update courses set  pages=? where book=?", new String[]{pages, bookname});
+
+
+                                    final Handler handler = new Handler() {
+                                        @Override
+                                        public void handleMessage(final Message msgs) {
+                                            //write your code hear which give error
+                                            switch (msgs.what) {
+                                                case 1:
+                                                    Toast.makeText(getApplication(), "w已存", Toast.LENGTH_SHORT).show();
+                                                    break;
+                                                case -1:
+                                                    Toast.makeText(getApplicationContext(), "错误", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    };
+
+                                    db.close();
+
+                                    shared_preferences = getApplicationContext().getSharedPreferences(PREFS_NAME, getApplicationContext().MODE_PRIVATE);
+                                    username = shared_preferences.getString("username", null);
+
+                                    BookOperarion bookOpt = new BookOperarion();
+                                    final String finalAuthor = author;
+                                    BookOperarion.editBook task = bookOpt.new editBook(username, Integer.toString(UserbookGlobla.lts.get(UBposition).bid), tmp,
+                                            new Function<JSONObject, Void>() {
+                                        @Override
+                                        public Void apply(JSONObject json) {
+
+                                            if (json == null) {
+                                                Toast.makeText(getApplicationContext(), "提交失败", Toast.LENGTH_SHORT).show();
+                                            } else {
+
+                                                try {
+                                                    if (json.getString(Config.KEY_SUCCESS) != null) {
+                                                        handler.sendEmptyMessage(1);
+                                                    } else {
+                                                        handler.sendEmptyMessage(-1);
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                UserbookGlobla.lts.get(UBposition).image = img;
+                                                UserbookGlobla.lts.get(UBposition).bookname = title;
+                                                UserbookGlobla.lts.get(UBposition).author = finalAuthor;
+                                                UserbookGlobla.lts.get(UBposition).publisher = publisher;
+                                                UserbookGlobla.lts.get(UBposition).origprice = price;
+                                                UserbookGlobla.lts.get(UBposition).pages = book.getPages();
+                                            }
+                                            return null;
+                                        }
+                                    });
+
+
+                                    if (username != null) {
+                                        MainActivity.executorService.submit(task);
+
+                                    }
+
+                                }
                             }
 
-
-                            UserbookGlobla.lts.get(UBposition).image = img;
-                            UserbookGlobla.lts.get(UBposition).bookname = title;
-                            UserbookGlobla.lts.get(UBposition).author = author;
-                            UserbookGlobla.lts.get(UBposition).publisher = publisher;
-                            UserbookGlobla.lts.get(UBposition).origprice = price;
-                            UserbookGlobla.lts.get(UBposition).pages = book.getPages();
-
-                        }
-                    }).show();
-        }
-    };
+                    ).show();
+                    }
+        };
 
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private final int mBackground;

@@ -44,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
     private TabsAdapter myAdapter;
     private TabLayout mIndicator ;
     private Toolbar toolbar;
-    SharedPreferences settings;
-    SharedPreferences.Editor prefEditor;
+    static SharedPreferences settings;
+    static SharedPreferences.Editor prefEditor;
 
     static DatabaseHandler db;
     static FragmentManager fmg;
     public static Calendar c = Calendar.getInstance();
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    public static ExecutorService executorService = Executors.newFixedThreadPool(5);
+    public static ExecutorService executorService;
 
 
     private NetWorkChecker netWorkChecker = null;
@@ -74,15 +74,21 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.tabanim_toolbar);
         setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         mIndicator = (TabLayout) findViewById(R.id.id_indicator);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         myAdapter = new TabsAdapter(getSupportFragmentManager());
+
+        executorService = Executors.newFixedThreadPool(5);
+//        ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(10));
+
+        db = new DatabaseHandler(getApplicationContext());
+        fmg = getSupportFragmentManager();
+
+
         netWorkChecker = new NetWorkChecker(getApplicationContext());
-        hvNetwork = netWorkChecker.isOnline();
+        netWorkChecker.isOnline();
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefEditor = settings.edit();
-        db = new DatabaseHandler(getApplicationContext());
 
 //
 //        db.getWritableDatabase().execSQL("DROP TABLE cart");
@@ -95,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 //        db.getWritableDatabase().execSQL(CREATE_CART_TABLE);
         //SQLiteDatabase job=db.getWritableDatabase();
         //db.onUpgrade(job,0,1);
-        fmg = getSupportFragmentManager();
+
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 
 
@@ -161,14 +167,8 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        };
 
-        //List<BookEntity> lt = db.getUserAll(job);
-        //BookGlobla.lts=lt;
 
 
-//        if (LogStatusGlobla.getLogStatus() == -1) {
-//            //  ThreadLogStatusTest thr = new ThreadLogStatusTest(hanMain,MainActivity.this);
-//            //  new Thread(thr).start();
-//        }
 
     }
     void showToast(String msg) {

@@ -115,7 +115,7 @@ public class CartActivity extends Activity {
 
                 if (lst != "") {
 
-                    Intent intent = new Intent(getActivity(), OrderActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), OrderActivity.class);
                     intent.putExtra("username", username);
                     intent.putExtra("books", lst.substring(0, lst.length() - 1));
                     startActivity(intent);

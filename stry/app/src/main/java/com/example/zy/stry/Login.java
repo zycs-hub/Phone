@@ -2,8 +2,8 @@ package com.example.zy.stry;
 
 import com.example.zy.stry.lib.*;
 
-import android.app.Dialog;
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -18,13 +18,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by wendy on 15-8-4.
@@ -42,6 +41,8 @@ public class Login extends Fragment implements View.OnClickListener {
     private static String KEY_SUCCESS = "success";
     String username;
     String password;
+
+    private JSONParser jsonParser = new JSONParser();
 
 
 
@@ -85,49 +86,53 @@ public class Login extends Fragment implements View.OnClickListener {
                     return;
                 }
 
-                //add your data
-                nameValuePairs = new ArrayList<NameValuePair>(2);
-                nameValuePairs.add(new BasicNameValuePair("username", username));
-                nameValuePairs.add(new BasicNameValuePair("password", password));
 
                 Integer result = 0;
-                try {
-                    User.loginUser user = new User().new loginUser(username, password);
+                final JSONObject json;
+                    User.loginUser user = new User().new loginUser(username, password, new Function<JSONObject, Void>() {
+                        public Void apply(JSONObject json) {
+                            //dosomething with Json
+//                            json = user.getJson();
+                            Message msg = new Message();
+                            if (json == null) {
+                                msg.what = 0;
+                                handler.sendMessage(msg);
+                            } else {
+//                    result = new LoginTask().execute().get();
+                                try {
+                                    if (json.getString(KEY_SUCCESS) != null) {
+                                        // user successfully logged in
+                                        // Store user details in SQLite Database
+                                        DatabaseHandler db = new DatabaseHandler(getActivity());
+                                        JSONObject json_user = json.getJSONObject("user");
+
+                                        // Clear all previous data in database
+                                        new User().logoutUser(getActivity());
+                                        db.addUser(username, password);
+                                        settings = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
+                                        prefEditor = settings.edit();
+                                        prefEditor.putString("username", username);
+                                        prefEditor.apply();
+
+                                        msg.what = 1;
+                                        handler.sendMessage(msg);
+
+                                    } else {
+                                        msg.what = -1;
+                                        handler.sendMessage(msg);
+                                    }
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+                            return null;
+                        }
+                    });
 
                     MainActivity.executorService.submit(user);
-                    JSONObject json = user.json;
+//                    JSONObject json = user.getJson();
 
-//                    result = new LoginTask().execute().get();
-                    if (json.getString(KEY_SUCCESS) != null) {
-                    // user successfully logged in
-                    // Store user details in SQLite Database
-                        DatabaseHandler db = new DatabaseHandler(getActivity());
-                        JSONObject json_user = json.getJSONObject("user");
 
-                        // Clear all previous data in database
-                        new User().logoutUser(getActivity());
-                        db.addUser(username, password);
-                        settings = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
-                        prefEditor = settings.edit();
-                        prefEditor.putString("username", username);
-                        prefEditor.apply();
-                        final FragmentTransaction ft = MainActivity.fmg.beginTransaction();
-                        Fragment3.collapsingToolbar.setTitle("登录教务处");
-                        ft.replace(R.id.fragment_3, new AccountFragment());
-//                    ft.detach(frg);
-//                    if (frg == null) {
-//                        ft.add(R.id.fragment_3, new ProfileFragment());
-//                    } else {
-//                        ft.attach(frg);
-//                    }
-                        ft.commitAllowingStateLoss();
-                    } else {
-                        Toast.makeText(getActivity(), Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (Exception e) {
-                    System.out.println("Exception : " + e.getMessage());
-                }
                 break;
             case R.id.register:
                 Intent intent = new Intent(getActivity(), RegisterActivity.class);
@@ -144,6 +149,27 @@ public class Login extends Fragment implements View.OnClickListener {
         super.onDestroy();
 //		Log.d(TAG, "TestFragment-----onDestroy");
     }
+
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    Toast.makeText(getActivity(), "验证失败", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    FragmentTransaction ft = MainActivity.fmg.beginTransaction();
+                    ft.replace(R.id.fragment_3, new AccountFragment());
+                    ft.commit();
+                    break;
+                case -1:
+                    Toast.makeText(getActivity(), Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();
+                    break;
+
+
+            }
+        }
+    };
 
 }
 

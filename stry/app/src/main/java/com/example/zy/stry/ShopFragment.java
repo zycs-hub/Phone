@@ -128,11 +128,13 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         //如果连网就更新否则直接查询本地
         Toast.makeText(getActivity(), "加载中...", Toast.LENGTH_SHORT).show();
         if(MainActivity.hvNetwork) {
-            new GetData();
+            new GetData().execute();
         } else {
             mData =  db.getShopData();
             for(int i = 0; i < mData.size(); i++) {
-                mStrings.add(mData.get(i).bookname);
+                if(mData.get(i).is_selling == true && mData.get(i).is_sold == false) {
+                    mStrings.add(mData.get(i).bookname);
+                }
             }
         }
         mListItems.addAll(mStrings);
@@ -209,23 +211,32 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
         // Do work to refresh the list here.
-        new GetData();
+
+        new GetData().execute();
+//        mAdapter.notifyDataSetChanged();
+//        mPullRefreshListView.onRefreshComplete();
+
     }
 
 
-    private class GetData  {
+    private class GetData extends AsyncTask<Void, Void, String[]> {
 
-        public GetData() {
+        @Override
+        protected String[] doInBackground(Void... params) {
+            // Simulates a background job.
+            try {
+                Thread.sleep(4000);
+
+            } catch (InterruptedException e) {
+            }
+
 
             try {
 
                 BookOperarion book = new BookOperarion();
-                BookOperarion.getAllSell task = book.new getAllSell();
-                MainActivity.executorService.submit(task);
-                JSONObject json = task.json;
+                JSONObject json = book.getAllSell();
                 mStrings.removeAll(mStrings);
                 mData.clear();
-                mListItems.clear();
 
                 if (json.getString(KEY_SUCCESS) != null) {
                     // Store user details in SQLite Database
@@ -248,10 +259,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                             mStrings.add(data.bookname);
                         }
                     }
-                    mAdapter.notifyDataSetChanged();
-
-                    mPullRefreshListView.onRefreshComplete();
-
+                    db.close();
                 } else {
                     Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
                 }
@@ -260,9 +268,21 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             }
 
             final int len = mStrings.size();
+            return (String[])mStrings.toArray(new String[len]);
         }
 
+        @Override
+        protected void onPostExecute(String[] result) {
+            mListItems.clear();
+//            mListItems.addAll(mStrings);
 
+            mAdapter.notifyDataSetChanged();
+
+            // Call onRefreshComplete when the list has been refreshed.
+            mPullRefreshListView.onRefreshComplete();
+
+            super.onPostExecute(result);
+        }
     }
 
 

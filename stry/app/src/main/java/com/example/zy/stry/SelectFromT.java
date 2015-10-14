@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.DatabaseHandler;
@@ -155,11 +156,24 @@ public class SelectFromT extends Activity {
 
                 try {
                     MainActivity.executorService.submit(task);
+                    try {
+                        MainActivity.executorService.awaitTermination(4, TimeUnit.MILLISECONDS);
+                        Toast.makeText(getApplicationContext(), "正在提交......", Toast.LENGTH_SHORT).show();
+
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     JSONObject json = task.json;
-                    if (json.getString("success") != null) {
-                        Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                    if (json == null) {
+                        Toast.makeText(getApplicationContext(), "提交失败", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                        if (json.getString("success") != null) {
+                            Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 } catch (Exception e) {

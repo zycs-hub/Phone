@@ -98,12 +98,6 @@ public class Fragment3 extends Fragment {
 
 
 
-
-
-
-
-
-
         head.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent  = new Intent(getActivity(),SetUserInfActivity.class);

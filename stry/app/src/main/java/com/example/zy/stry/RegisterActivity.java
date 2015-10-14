@@ -6,6 +6,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by wendy on 15-8-4.
@@ -26,8 +30,7 @@ public class RegisterActivity extends Activity {
     private EditText inputName;
     private EditText inputPass;
 
-    // JSON Response node names
-    private static String KEY_SUCCESS = "success";
+    public static final String PREFS_NAME = "MyPrefs";
     private static String KEY_NAME = "username";
     private static String KEY_PASS = "password";
     private static String KEY_ERROR = "error";
@@ -57,36 +60,72 @@ public class RegisterActivity extends Activity {
                     return;
                 }
 
-                dialog = ProgressDialog.show(RegisterActivity.this, "",
-                        "Validating user...", true);
 
-                try {
 
-                    User user = new User();
-                    User.registerUser task = user.new registerUser(username, password);
+                final User user = new User();
+                User.registerUser task = user.new registerUser(username, password,new Function<JSONObject, Void>() {
+                    @Override
+                    public Void apply(JSONObject json) {
 
-                    MainActivity.executorService.submit(task);
-                    JSONObject json = task.json;
+                        Message msg = new Message();
+                        try {
+                            if (json == null) {
+                                msg.what = 0;
+                                handler.sendMessage(msg);
+                            } else {
 
-                    if (json.getString(KEY_SUCCESS) != null) {
-                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-                        JSONObject json_user = json.getJSONObject("user");
+                                if (json.getString(Config.KEY_SUCCESS) != null) {
+                                    DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+                                    JSONObject json_user = json.getJSONObject("user");
 
-                        // Clear all previous data in database
-                        user.logoutUser(getApplicationContext());
-                        db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_PASS));
-                        // Launch Dashboard Screen
-                        finish();
-                    } else {
-                        Toast.makeText(RegisterActivity.this, Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();
+                                    // Clear all previous data in database
+                                    user.logoutUser(getApplicationContext());
+                                    db.addUser(json_user.getString(KEY_NAME), json_user.getString(KEY_PASS));
+                                    MainActivity.settings = getApplicationContext().getSharedPreferences(PREFS_NAME, getApplicationContext().MODE_PRIVATE);
+                                    MainActivity.prefEditor = MainActivity.settings.edit();
+                                    MainActivity.prefEditor.putString("username", username);
+                                    MainActivity.prefEditor.apply();
+                                    msg.what = 1;
+                                    handler.sendMessage(msg);
+                                } else {
+                                    msg.what = -1;
+                                    handler.sendMessage(msg);
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            System.out.println("Exception : " + e.getMessage());
+                        }
+                        return null;
                     }
+                });
 
-                } catch (Exception e) {
-                    dialog.dismiss();
-                    System.out.println("Exception : " + e.getMessage());
-                }
+                MainActivity.executorService.submit(task);
+
             }
         });
 
     }
+
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    Toast.makeText(getApplicationContext(), Config.LOAD_ERROR, Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(getApplicationContext(), "登入成功", Toast.LENGTH_SHORT).show();
+                    FragmentTransaction ft = MainActivity.fmg.beginTransaction();
+                    ft.replace(R.id.fragment_3, new AccountFragment());
+                    ft.commit();
+                    finish();
+                    break;
+                case -1:
+                    Toast.makeText(RegisterActivity.this, Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();
+                    break;
+
+
+            }
+        }
+    };
 }

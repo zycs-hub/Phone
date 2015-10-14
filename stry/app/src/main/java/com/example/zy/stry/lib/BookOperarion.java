@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 
 /**
@@ -19,17 +20,30 @@ public class BookOperarion {
         jsonParser = new JSONParser();
     }
 
-    public class getAllSell implements Runnable {
-        public JSONObject json;
-        public getAllSell(){
-        }
+//    public class getAllSell implements Runnable {
+//        private JSONObject json = null;
+//        public getAllSell(){
+//        }
+//
+//        @Override
+//        public void run() {
+//            json = jsonParser.getJSONFromUrl(Config.getHomeUrl());
+//        }
+//
+//        public JSONObject getJSON() {
+//            return json;
+//        }
+//
+//    }
+    public JSONObject getAllSell(){
 
-        @Override
-        public void run() {
-            json = jsonParser.getJSONFromUrl(Config.getHomeUrl());
-        }
-
+        // getting JSON Object
+        JSONObject json = jsonParser.getJSONFromUrl(Config.getHomeUrl());
+        // return json
+        return json;
     }
+
+
 
     public class addSellBooks implements Runnable {
         public JSONObject json;
@@ -51,19 +65,23 @@ public class BookOperarion {
     public class buyBooks implements Runnable {
         public JSONObject json;
         List<NameValuePair> params;
+        private Function<JSONObject, Void> callBack;
 
-        public buyBooks(String username, String buyList, String address, String comment) {
+
+        public buyBooks(String username, String buyList, String address, String comment, Function<JSONObject, Void> callBack) {
             params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("username", username));
             params.add(new BasicNameValuePair("buyList", buyList));
             params.add(new BasicNameValuePair("address", address));
             params.add(new BasicNameValuePair("comment", comment));
+            this.callBack = callBack;
 
         }
 
         @Override
         public void run() {
             json = jsonParser.postJSONFromUrl(Config.getBuyUrl(), params);
+            callBack.apply(json);
         }
 
     }
@@ -71,17 +89,21 @@ public class BookOperarion {
     public class editBook implements Runnable {
         public JSONObject json;
         List<NameValuePair> params;
+        private Function<JSONObject, Void> callBack;
 
-        public editBook(String username, String bid, String info) {
+        public editBook(String username, String bid, String info, Function<JSONObject, Void> callBack) {
             params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("username", username));
             params.add(new BasicNameValuePair("bid", bid));
             params.add(new BasicNameValuePair("editInfo", info));
+            this.callBack = callBack;
         }
 
         @Override
         public void run() {
+
             json = jsonParser.postJSONFromUrl(Config.getEditBookUrl(), params);
+            callBack.apply(json);
         }
     }
 
