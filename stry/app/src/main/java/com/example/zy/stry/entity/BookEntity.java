@@ -22,7 +22,7 @@ public class BookEntity implements Serializable {
     public String course_status=null;
 
     public String username=null, bookname=null, coursename=null, press=null, add_time=null, update_time=null,author,origprice
-            ,price,publisher,pages,damage,image,remarks;
+            ,price,publisher,pages,damage,image,remarks, buyer;
     public int _id = -1, courseid=0,  bid=0, is_selling=0 , is_sold=0, is_del=0;
     public List<String> message=new ArrayList<>();
     public List<MessageEntity> messageEntities = new ArrayList();
@@ -52,6 +52,7 @@ public class BookEntity implements Serializable {
         this.author = author;
         this.pages = pages;
         this.image = image;
+        buyer = "";
     }
 
     public String getBook(){

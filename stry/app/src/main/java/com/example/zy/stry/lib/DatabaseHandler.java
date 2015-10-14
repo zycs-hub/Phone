@@ -421,27 +421,32 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
         BookEntity use = null;
         String selectQuery = "SELECT  * FROM " + SellEntity.TABLE_NAME + " WHERE " + SellEntity.KEY_USERNAME + "=?";
-        Cursor cr=db.rawQuery(selectQuery,new String[]{username});
-        if (cr.moveToFirst()) {
+        Cursor cursor=db.rawQuery(selectQuery,new String[]{username});
+        if (cursor.moveToFirst()) {
             do {
                 use = new BookEntity();
-                use._id = cr.getInt(0);
-                use.setBook(cr.getString(2));
-                use.courseid(cr.getInt(3));
-                use.bid = cr.getInt(12);
-                String tmpQuery = "SELECT  * FROM course WHERE courseid =?";
-                Cursor cursor=db.rawQuery(selectQuery,new String[]{Integer.toString(use.courseid)});
-                if (cursor.moveToFirst()) {
-                    use.origprice = cursor.getString(4);
-                    use.author = cursor.getString(6);
-                    use.publisher = cursor.getString(7);
-                    use.pages = cursor.getString(8);
-                    use.image = cursor.getString(9);
-                }
+                use._id = cursor.getInt(0);
+                use.username = cursor.getString(1);
+                use.bookname = cursor.getString(2);
+                use.courseid = cursor.getInt(3);
+                use.coursename = cursor.getString(4);
+                use.price = Integer.toString(cursor.getInt(5));
+                use.press = cursor.getString(6);
+                use.is_selling =  cursor.getInt(7);
+                use.is_sold = cursor.getInt(8);
+                use.add_time = cursor.getString(9);
+                use.update_time = cursor.getString(10);
+                use.is_del = cursor.getInt(11);
+                use.bid = cursor.getInt(12);
+                use.buyer = cursor.getString(13);
+                use.origprice = cursor.getString(14);
+                use.author = cursor.getString(15);
+                use.pages = cursor.getString(16);
+                use.image = cursor.getString(17);
                 It.add(use);
-            } while (cr.moveToNext());
+            } while (cursor.moveToNext());
         }
-        cr.close();
+        cursor.close();
         db.close();
         return It;
     }
