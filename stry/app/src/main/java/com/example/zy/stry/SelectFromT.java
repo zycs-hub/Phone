@@ -151,7 +151,8 @@ public class SelectFromT extends AppCompatActivity {
                             //u.isSelected(1);
 
                             // try {
-                            job.execSQL("update courses set  isSelected=1 where book=?", new String[]{na});
+                            db.changeCourse(na, 1);
+//                            job.execSQL("update courses set  isSelected=1 where book=?", new String[]{na});
 
 
                             //}
@@ -164,7 +165,8 @@ public class SelectFromT extends AppCompatActivity {
                         }
                         db.addSell(++lastid, username, na, BookGlobla.lts.get(i).courseid, na, -1, null ,0,0,null,null,0,-1, "","","","","");
                     } else{
-                        job.execSQL("update courses set  isSelected=-1 where book=?", new String[]{na});
+//                        job.execSQL("update courses set isSelected=-1 where book=?", new String[]{na});
+                        db.changeCourse(na, -1);
                     }
                 }
                 db.close();

@@ -312,6 +312,16 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     }
 
 
+    public void changeCourse(String name, int val) {
+        SQLiteDatabase db = this.getWritableDatabase();
+//        String update_str = "UPDATE " + SellEntity.TABLE_NAME + " SET " + SellEntity.KEY_IS_SELLING + " = false WHERE "
+//                + SellEntity.KEY_ID + "=" + Integer.toString(id);
+//        db.execSQL(update_str);
+        ContentValues cv = new ContentValues();
+        cv.put("isSelected", val);
+//        db.execSQL("update courses set isSelected=-1 where book=?", name);
+        db.update("courses", cv, "book =?", new String[]{name});
+    }
 
     /**
      *  add in cart
