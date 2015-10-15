@@ -172,40 +172,45 @@ public class SelectFromT extends AppCompatActivity {
                 db.close();
 
                 BookOperarion book = new BookOperarion();
-                BookOperarion.addSellBooks task = book.new addSellBooks(username, books_data.substring(0, books_data.length() - 1),
-                        new Function<JSONObject, Void>() {
-                            @Override
-                            public Void apply(JSONObject json) {
-                                try{
-                                if (json == null) {
-                                    Message msg = new Message();
-                                    msg.what = 0;
-                                    handler.sendMessage(msg);
-                                } else {
-                                    if (json.getString("success") != null) {
-                                        db.close();
-                                        BookGlobla.lts=null;
-                                        Intent intent_1 = new Intent(SelectFromT.this, MainActivity.class);
-                                        startActivity(intent_1);
-                                        finish();
-                                        Message msg = new Message();
-                                        msg.what = 1;
-                                        handler.sendMessage(msg);
-                                    } else {
-                                        Message msg = new Message();
-                                        msg.what = -1;
-                                        handler.sendMessage(msg);
+                if(books_data.length() > 0) {
+                    BookOperarion.addSellBooks task = book.new addSellBooks(username, books_data.substring(0, books_data.length() - 1),
+                            new Function<JSONObject, Void>() {
+                                @Override
+                                public Void apply(JSONObject json) {
+                                    try {
+                                        if (json == null) {
+                                            Message msg = new Message();
+                                            msg.what = 0;
+                                            handler.sendMessage(msg);
+                                        } else {
+                                            if (json.getString("success") != null) {
+                                                db.close();
+                                                BookGlobla.lts = null;
+                                                Intent intent_1 = new Intent(SelectFromT.this, MainActivity.class);
+                                                startActivity(intent_1);
+                                                finish();
+                                                Message msg = new Message();
+                                                msg.what = 1;
+                                                handler.sendMessage(msg);
+                                            } else {
+                                                Message msg = new Message();
+                                                msg.what = -1;
+                                                handler.sendMessage(msg);
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println("Exception : " + e.getMessage());
                                     }
+                                    return null;
                                 }
-                            } catch (Exception e) {
-                                System.out.println("Exception : " + e.getMessage());
-                            }
-                                return null;
-                            }
-                        });
+                            });
 
 
                     MainActivity.executorService.submit(task);
+                }
+                else {
+                    finish();
+                }
 
 
 
