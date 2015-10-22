@@ -86,8 +86,9 @@ public class OrderActivity extends AppCompatActivity  {
                                 handler.sendMessage(msg);
                             } else {
                                 if (json.getString(Config.KEY_SUCCESS) != null) {
-//                                    MainActivity.db.getWritableDatabase();
-//                                    db.changeSelling();
+                                    for (BookEntity item : mListItems) {
+                                        MainActivity.db.changeSelling(item._id);
+                                    }
                                     msg.what = 1;
                                     handler.sendMessage(msg);
                                 } else {
@@ -116,7 +117,9 @@ public class OrderActivity extends AppCompatActivity  {
                     Toast.makeText(getApplicationContext(), Config.LOAD_ERROR, Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
-                    Toast.makeText(getApplicationContext(), "提交成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "购买成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), BuyingListActivity.class);
+                    startActivity(intent);
                     finish();
                     break;
                 case -1:
@@ -129,7 +132,6 @@ public class OrderActivity extends AppCompatActivity  {
     };
 
     private static class ViewHolder {
-        private CheckBox checkBox ;
         ImageView s_image;
         TextView s_title;
         TextView book;
@@ -141,12 +143,6 @@ public class OrderActivity extends AppCompatActivity  {
         TextView s_course;
         public ViewHolder() {}
 
-        public CheckBox getCheckBox() {
-            return checkBox;
-        }
-        public void setCheckBox(CheckBox checkBox) {
-            this.checkBox = checkBox;
-        }
     }
 
     public class OrderAdapter extends ArrayAdapter<BookEntity> {
@@ -178,10 +174,8 @@ public class OrderActivity extends AppCompatActivity  {
             if(convertView == null) {
                 viewHolder = new ViewHolder();
 
-                convertView = inflater.inflate(R.layout.item_cart, null);
+                convertView = inflater.inflate(R.layout.item_shop, null);
 
-                checkBox = (CheckBox) convertView.findViewById( R.id.check_box );
-                viewHolder.checkBox = checkBox;
                 viewHolder.s_image = (ImageView) convertView.findViewById(R.id.s_image);
                 viewHolder.s_title = (TextView) convertView.findViewById(R.id.s_title);
 //                viewHolder.book = (TextView) convertView.findViewById(R.id.book);
@@ -192,32 +186,20 @@ public class OrderActivity extends AppCompatActivity  {
                 viewHolder.s_major = (TextView) convertView.findViewById(R.id.s_major);
                 viewHolder.s_course = (TextView) convertView.findViewById(R.id.s_course);
 
-                convertView.setTag( viewHolder );
+                convertView.setTag(viewHolder);
 
                 // If CheckBox is toggled, update the planet it is tagged with.
-                viewHolder.checkBox.setOnClickListener( new View.OnClickListener() {
-                    public void onClick(View v) {
-                        CheckBox cb = (CheckBox) v ;
-                        BookEntity item = (BookEntity) cb.getTag();
-                        int tmp = (cb.isChecked() == false ? 0 : 1);
-                        item.setSelected(tmp);
-                    }
-                });
+
 
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
-                viewHolder.checkBox = viewHolder.getCheckBox() ;
             }
 
             // Tag the CheckBox with the Planet it is displaying, so that we can
             // access the planet in onClick() when the CheckBox is toggled.
-            viewHolder.checkBox.setTag(item);
 
             // Display planet data
-            boolean tmp = (item.isSelected() == 0 ? false : true);
-            viewHolder.checkBox.setChecked(tmp);
             viewHolder.s_title.setText("课程名：" + mList.get(position).coursename);
-
             return convertView;
         }
     }

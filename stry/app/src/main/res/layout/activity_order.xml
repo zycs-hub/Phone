@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/listView1"
         android:layout_gravity="center_horizontal"
-        android:layout_above="@+id/text_adr"/>
+        android:layout_alignParentTop="true"/>
+        <!--android:layout_above="@+id/text_adr"/>-->
 
     <EditText
         android:id="@+id/text_adr"

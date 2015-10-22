@@ -1,13 +1,17 @@
 package com.example.zy.stry;
 
+import com.example.zy.stry.lib.Config;
 import com.example.zy.stry.lib.DatabaseHandler;
+import com.example.zy.stry.lib.Function;
 import com.example.zy.stry.lib.NetWorkChecker;
 
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -89,100 +93,33 @@ public class MainActivity extends AppCompatActivity {
 
 
         netWorkChecker = new NetWorkChecker(getApplicationContext());
-        netWorkChecker.isOnline();
-//        new Thread(new Runnable(){
-//            @Override
-//            public void run() {
-//                HttpClient client = new DefaultHttpClient();
-//                StringBuilder builder = new StringBuilder();
-//// HttpGet连接对象使用get方式请求
-//
-//                HttpGet myget = new HttpGet("http://www.baidu.com/");
-//                try {
-//// HttpResponse对象，连接成功后的一个响应对象
-//                    HttpResponse response = client.execute(myget);
-//// 返回值为200，即为服务器成功响应了请求
-//                    if (response.getStatusLine().getStatusCode() == 200) {
-//                        MainActivity.hvNetwork = true;
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).run();
 
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefEditor = settings.edit();
-
 
 //        SQLiteDatabase job=db.getWritableDatabase();
 //        db.onUpgrade(job,0,1);
 
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 
-
-        viewPager.setAdapter(myAdapter);
-        mIndicator.setupWithViewPager(viewPager);
-
-//        if( !user.isUserLoggedIn(getApplicationContext()) ) {
-//
-//
-//        }
-
-        mIndicator.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                viewPager.setCurrentItem(position);
-                showToast(TabsAdapter.TITLES[position]);
-                //toolbar.setTitle(TabsAdapter.TITLES[position]);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-
-//        hanMain.sendEmptyMessage(-1);
-
-//        final  Handler hanMain = new Handler() {
-//
-//            @Override
-//            public void handleMessage(Message msg) {
-//
-//                //more1 = (LinearLayout)findViewById(R.id.more1);
-//                //more1t =(TextView)findViewById(R.id.more1t);
-//                switch (msg.what) {
-//                    case 1:
-//                    case 2:
-//                    case 3:
-//                        //more1.setVisibility(View.GONE);
-//                        break;
-//                    case 4:
-//                        // more1.setVisibility(View.VISIBLE);
-//                        break;//数据库空 list else 显示数据库
-//                    case -1:
-//                        //more1.setVisibility(View.VISIBLE);
-//                        //more1t.setText("登录显示更多");
-//                        break;//清空数据库，1页登录，2页登录 3页登录 注册
-//                    case -4:
-//                        //more1.setVisibility(View.VISIBLE);
-//                        //more1t.setText("绑定教务处显示个性推荐");
-//                        break;//1页 绑定 2页绑定 3页 隐藏
-//                    default:
-//                        break;
-//                }
-//
-//            }
-//        };
-
+        if(netWorkChecker.isOnline()) {
+            Toast.makeText(this, "检查网络......", Toast.LENGTH_SHORT).show();
+            isLinked task = new isLinked(new Function<Boolean, Void>() {
+                @Override
+                public Void apply(Boolean in) {
+                    MainActivity.hvNetwork = true;
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
+                    return null;
+                }
+            });
+            MainActivity.executorService.submit(task);
+        } else {
+            Message msg = new Message();
+            msg.what = -1;
+            handler.sendMessage(msg);
+        }
 
 
 
@@ -265,4 +202,90 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    hvNetwork = true;
+                    viewPager.setAdapter(myAdapter);
+                    mIndicator.setupWithViewPager(viewPager);
+                    mIndicator.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                        @Override
+                        public void onTabSelected(TabLayout.Tab tab) {
+                            int position = tab.getPosition();
+                            viewPager.setCurrentItem(position);
+                            showToast(TabsAdapter.TITLES[position]);
+                            //toolbar.setTitle(TabsAdapter.TITLES[position]);
+                        }
+
+                        @Override
+                        public void onTabUnselected(TabLayout.Tab tab) {
+
+                        }
+
+                        @Override
+                        public void onTabReselected(TabLayout.Tab tab) {
+
+                        }
+                    });
+                    break;
+                case -1:
+                    Toast.makeText(getApplicationContext(), "未联网", Toast.LENGTH_SHORT).show();
+                    viewPager.setAdapter(myAdapter);
+                    mIndicator.setupWithViewPager(viewPager);
+                    mIndicator.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                        @Override
+                        public void onTabSelected(TabLayout.Tab tab) {
+                            int position = tab.getPosition();
+                            viewPager.setCurrentItem(position);
+                            showToast(TabsAdapter.TITLES[position]);
+                            //toolbar.setTitle(TabsAdapter.TITLES[position]);
+                        }
+
+                        @Override
+                        public void onTabUnselected(TabLayout.Tab tab) {
+
+                        }
+
+                        @Override
+                        public void onTabReselected(TabLayout.Tab tab) {
+
+                        }
+                    });
+                    break;
+
+            }
+        }
+    };
+
+    private class isLinked implements Runnable{
+        private Function<Boolean, Void> callBack;
+        public isLinked(Function<Boolean, Void> callBack) {
+            this.callBack = callBack;
+        }
+
+        @Override
+        public void run() {
+            HttpClient client = new DefaultHttpClient();
+            StringBuilder builder = new StringBuilder();
+// HttpGet连接对象使用get方式请求
+
+            HttpGet myget = new HttpGet("http://www.baidu.com/");
+            try {
+// HttpResponse对象，连接成功后的一个响应对象
+                HttpResponse response = client.execute(myget);
+// 返回值为200，即为服务器成功响应了请求
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    callBack.apply(true);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
 }

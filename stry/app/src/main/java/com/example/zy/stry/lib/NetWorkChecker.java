@@ -25,30 +25,11 @@ public class NetWorkChecker {
         netInfo = cm.getActiveNetworkInfo();
     }
 
-    public void isOnline() {
+    public boolean isOnline() {
         if(netInfo != null && netInfo.isConnectedOrConnecting()) {
-
-//            new Thread(new Runnable(){
-//                @Override
-//                public void run() {
-//                    HttpClient client = new DefaultHttpClient();
-//                    StringBuilder builder = new StringBuilder();
-//// HttpGet连接对象使用get方式请求
-//
-//                    HttpGet myget = new HttpGet("http://www.baidu.com/");
-//                    try {
-//// HttpResponse对象，连接成功后的一个响应对象
-//                        HttpResponse response = client.execute(myget);
-//// 返回值为200，即为服务器成功响应了请求
-//                        if (response.getStatusLine().getStatusCode() == 200) {
-//                            MainActivity.hvNetwork = true;
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }).run();
+            return true;
         }
+        return false;
     }
 
     public boolean isRoaming() {
