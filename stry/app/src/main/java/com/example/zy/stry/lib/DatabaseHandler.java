@@ -113,7 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 //                .append(" min TEXT  ")//damage
 //                .append(" )");
         String CREATE_MESSAGE=" CREATE TABLE messages ( _id INTEGER PRIMARY KEY , bid INTEGER , message TEXT ," +
-                " isRead INTEGER ,year TEXT , moon TEXT , day TEXT , hour TEXT , min TEXT  )";
+                " isRead INTEGER ,year INTEGER , moon INTEGER , day INTEGER , hour INTEGER , min INTEGER  )";
 
 
         db.execSQL(CREATE_USERS_TABLE);
@@ -257,7 +257,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 //        db.execSQL(update_str);
         ContentValues cv = new ContentValues();
         cv.put(Sell.KEY_IS_SOLD, true);
-        db.update(Sell.TABLE_NAME,cv, Sell.KEY_ID + "=" + Integer.toString(id), null);
+        db.update(Sell.TABLE_NAME, cv, Sell.KEY_ID + "=" + Integer.toString(id), null);
     }
 
     /**
@@ -322,8 +322,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         }
         return It;
     }
-    public void addMessage(String message, String year, String moon, String day,
-                        String hour, String min, int isRead,int bid) {
+    public void addMessage(String message, int year, int moon, int day,
+                           int hour, int min, int isRead,int bid) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -336,6 +336,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         values.put("isRead", isRead);
         values.put("bid", bid);
         db.insert("messages", null, values);
+        db.close();
     }
     public List<Message> getMessage(int bid){
         List<Message> lt= new ArrayList<>();
@@ -343,17 +344,20 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         Message message;
         String selectQuery = "SELECT  * FROM " + "messages" + " WHERE " + "bid" + "=?" ;
         Cursor cr=db.rawQuery(selectQuery,new String[]{Integer.toString(bid)});
-        while (cr.moveToFirst()) {
-            message=new Message();
-            message.message=cr.getString(2);
-            message.isRead=cr.getInt(3);
-            message.year=cr.getString(4);
-            message.moon=cr.getString(5);
-            message.day=cr.getString(6);
-            message.hour=cr.getString(7);
-            message.min=cr.getString(8);
-            lt.add(message);
+        if (cr.moveToFirst()) {
+            do {
+                message = new Message();
+                message.message = cr.getString(2);
+                message.isRead = cr.getInt(3);
+                message.year = cr.getInt(4);
+                message.moon = cr.getInt(5);
+                message.day = cr.getInt(6);
+                message.hour = cr.getInt(7);
+                message.min = cr.getInt(8);
+                lt.add(message);
+            }while (cr.moveToNext());
         }
+        db.close();
         return lt;
     }
 

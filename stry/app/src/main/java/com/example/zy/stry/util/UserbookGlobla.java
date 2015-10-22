@@ -12,4 +12,5 @@ import java.util.List;
 public class UserbookGlobla {
     public static List<BookEntity> lts= new ArrayList<>();
     public static userinfo user= new userinfo();
+    boolean isupfmess=false;
 }

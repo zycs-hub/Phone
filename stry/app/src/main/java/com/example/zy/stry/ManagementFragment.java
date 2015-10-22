@@ -183,37 +183,37 @@ public class ManagementFragment extends Fragment {
             lt=null;
         }
 
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(final Message msgs) {
-                //write your code hear which give error
-                switch (msgs.what) {
-                    case 1:
-                        mAdapter= new MyAdapter(getActivity());
-                        mRecyclerView.setAdapter(mAdapter);
-                        //Toast.makeText(getActivity(), "w已存", Toast.LENGTH_SHORT).show();
-                        break;
-//                    case -1:
-//                        Toast.makeText(getActivity(), "错误", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while(UserbookGlobla.lts.size()>0) {
+//        final Handler handler = new Handler() {
+//            @Override
+//            public void handleMessage(final Message msgs) {
+//                //write your code hear which give error
+//                switch (msgs.what) {
+//                    case 1:
+//                        //mAdapter= new MyAdapter(getActivity());
+//                        mAdapter.notifyDataSetChanged();
+//                        //Toast.makeText(getActivity(), "w已存", Toast.LENGTH_SHORT).show();
+//                        break;
+////                    case -1:
+////                        Toast.makeText(getActivity(), "错误", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        };
+//        Thread thread = new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+                    if(UserbookGlobla.lts.size()>0) {
                         for (int i= 0;i<UserbookGlobla.lts.size();i++)
                             com(i);
-                        handler.sendEmptyMessage(1);
+                        //handler.sendEmptyMessage(1);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
 
-        thread.start();
+        //thread.start();
 
 
 
@@ -249,8 +249,8 @@ public class ManagementFragment extends Fragment {
         String data;
         List<com.example.zy.stry.entity.Message> messages = new ArrayList<>();
         DatabaseHandler db1 = new DatabaseHandler(getActivity());
+        //db1.deleteMessages();
         messages=db1.getMessage(UserbookGlobla.lts.get(pos).bid);
-        db1.deleteMessages();
         com.example.zy.stry.entity.Message message =new com.example.zy.stry.entity.Message();
         if (messages.size()==0&&UserbookGlobla.lts.get(pos).messages.size()==0){
             message.data="";
@@ -261,12 +261,12 @@ public class ManagementFragment extends Fragment {
         }
         //List<com.example.zy.stry.entity.Message> messages= UserbookGlobla.lts.get(pos).messages;
         for (int i=0;i<messages.size();i++) {
-            if (y == Integer.getInteger(messages.get(i).year)){
-                if (m == Integer.getInteger(messages.get(i).moon)) {
-                    if (d == Integer.getInteger(messages.get(i).day))
+            if (y == messages.get(i).year){
+                if (m == messages.get(i).moon) {
+                    if (d == messages.get(i).day)
                         data = messages.get(i).hour + ":" + messages.get(i).min;
                     else
-                        switch (d - Integer.getInteger(UserbookGlobla.lts.get(pos).messages.get(i).day)) {
+                        switch (d - messages.get(i).day) {
                             case 1:
                                 data = "昨天";
                                 break;
@@ -274,7 +274,7 @@ public class ManagementFragment extends Fragment {
                                 data = "前天";
                                 break;
                             default:
-                                data = messages.get(i).day + "号";
+                                data = messages.get(i).day + "日";
                                 break;
                         }
                 } else {

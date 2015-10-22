@@ -328,9 +328,9 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         db.addMessage
                 (
                         mess,
-                        Integer.toString(y),
-                        Integer.toString(m),Integer.toString(d),
-                        Integer.toString(h),Integer.toString(mi),
+                        y,
+                        m,d,
+                        h,mi,
                         isRead,UserbookGlobla.lts.get(mposition).bid);
         //UserbookGlobla.lts.get(mposition).messages.add(message);
     }
