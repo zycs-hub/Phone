@@ -36,7 +36,7 @@ public class SelfDefineActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_self);
         Toolbar mToolbar;
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("点击选择匹配的书");
+        mToolbar.setTitle("添加想买的书");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

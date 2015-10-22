@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.BookEntity;
@@ -37,7 +38,8 @@ public class Fragment3 extends Fragment {
     public static final String PREFS_NAME = "MyPrefs";
     private String username = null;
     private String name;
-    private ImageButton head;
+    public static ImageButton head;
+    FragmentTransaction ft;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,26 +54,26 @@ public class Fragment3 extends Fragment {
             rootView = inflater.inflate(R.layout.fragment_3, container, false);
         }
 
-        FragmentTransaction ft = MainActivity.fmg.beginTransaction();
+        ft = MainActivity.fmg.beginTransaction();
 
-        shared_preferences = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
+        shared_preferences = getActivity().getSharedPreferences(PREFS_NAME,  getActivity().MODE_PRIVATE);
         username = shared_preferences.getString("username", null);
         name = shared_preferences.getString("name", null);
         head = (ImageButton) rootView.findViewById(R.id.fab_head);
+        collapsingToolbar = (CollapsingToolbarLayout)rootView.findViewById(R.id.collapsing_toolbar);
 
         if(username == null) {
             ft.replace(R.id.fragment_3, new Login());
-            collapsingToolbar = (CollapsingToolbarLayout)rootView.findViewById(R.id.collapsing_toolbar);
             collapsingToolbar.setTitle("登录");
             head.setVisibility(View.GONE);
         } else if (name==null){
+            head.setVisibility(View.VISIBLE);
+            collapsingToolbar.setTitle("登录教务处");
             ft.replace(R.id.fragment_3, new AccountFragment());
-            head.setVisibility(View.GONE);
         }else {
             head.setVisibility(View.VISIBLE);
-            ft.replace(R.id.fragment_3, new AccountFragment());
+            ft.replace(R.id.fragment_3, new UserInfFragment());
             //ft.replace(R.id.fragment_3, new UserInfFragment());
-            collapsingToolbar = (CollapsingToolbarLayout)rootView.findViewById(R.id.collapsing_toolbar);
             collapsingToolbar.setTitle(username);
         }
 
@@ -91,6 +93,7 @@ public class Fragment3 extends Fragment {
                 //        ／└-(＿＿＿_／
 
 
+                if (!isLog()) {show();return;}
                 Intent intent = new Intent(getActivity(), CartActivity.class);
                 startActivity(intent);
             }
@@ -108,6 +111,8 @@ public class Fragment3 extends Fragment {
 
         buying.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (!isLog()) {show();return;}
+
                 Intent intent = new Intent(getActivity(), BuyingListActivity.class);
                 startActivity(intent);
             }
@@ -115,6 +120,8 @@ public class Fragment3 extends Fragment {
 
         bought.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (!isLog()) {show();return;}
+
                 Intent intent = new Intent(getActivity(), BoughtListActivity.class);
                 startActivity(intent);
             }
@@ -122,6 +129,8 @@ public class Fragment3 extends Fragment {
 
         sold.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (!isLog()) {show();return;}
+
                 Intent intent = new Intent(getActivity(), SoldListActivity.class);
                 startActivity(intent);
             }
@@ -129,6 +138,15 @@ public class Fragment3 extends Fragment {
 
         return rootView;
     }
+    private boolean isLog(){
+
+        return  shared_preferences.getString("username", null)!=null;
+    }
+    private void show(){
+        Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
+
+    }
+
 
 
     @Override

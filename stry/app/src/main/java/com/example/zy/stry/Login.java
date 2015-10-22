@@ -1,6 +1,8 @@
 package com.example.zy.stry;
 
+import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.lib.*;
+import com.example.zy.stry.util.UserbookGlobla;
 
 import android.os.Handler;
 import android.os.Message;
@@ -52,6 +54,7 @@ public class Login extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -161,6 +164,17 @@ public class Login extends Fragment implements View.OnClickListener {
                     FragmentTransaction ft = MainActivity.fmg.beginTransaction();
                     ft.replace(R.id.fragment_3, new AccountFragment());
                     ft.commit();
+                    try {
+                        Fragment3.head.setVisibility(View.VISIBLE);
+                        Fragment3.collapsingToolbar.setTitle("登录教务处");
+                        ft = MainActivity.fmg.beginTransaction();
+                        ft.replace(R.id.fragment_managment_con, new ManagementFragment());
+                        ft.commit();
+                    }
+
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
                     break;
                 case -1:
                     Toast.makeText(getActivity(), Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();

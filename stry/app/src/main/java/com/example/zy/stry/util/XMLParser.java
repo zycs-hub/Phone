@@ -198,7 +198,7 @@ public class XMLParser {
     static void parseForInfo(String text)  {
         try {
             String patternString =
-                    "<td align=\"left\" width=\"275\">\\s*(.+)\\s*</td>";
+                    "<td width=\"275\">\\s*(.+\\b)\\s*</td>";
             Pattern pattern = Pattern.compile(patternString,
                     Pattern.CASE_INSENSITIVE);  //  Pattern.MULTILINE
             Matcher matcher = pattern.matcher(text);
@@ -207,10 +207,10 @@ public class XMLParser {
             while (matcher.find()) {
                 String find = matcher.group(1);
                 switch (ca) {
-                    case 0:
-                        //UserbookGlobla.user.student_ID=find;
-                        ++ca;
-                        break;
+//                    case 0:
+//                        //UserbookGlobla.user.student_ID=find;
+//                        ++ca;
+//                        break;
                     case 1:
                         UserbookGlobla.user.name = find;
                         ++ca;
@@ -219,8 +219,8 @@ public class XMLParser {
                         ++ca;
                         break;
                 }
-                parseForInfo2(text);
             }
+            parseForInfo2(text);
         }catch (Exception e){
             e.printStackTrace();
         }

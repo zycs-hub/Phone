@@ -151,15 +151,11 @@ public class ManagementFragment extends Fragment {
         if(username != null) {
             db = new DatabaseHandler(getActivity());
             List<BookEntity> lt = db.getUserBooks(username);
-            if (lt==null){
-                Intent intent = new Intent(getActivity(), LogForT.class);
-                startActivity(intent);
-            }
-            if (lt!=null)
-                for (BookEntity book : lt){
-                    UserbookGlobla.lts=lt;
+//            if (lt!=null)
+//                for (BookEntity book : lt){
+//                    UserbookGlobla.lts=lt;
                     //book_for_sell.add(book);
-                }
+                    //}
             if (flag==1){
                 flag++;
                 DatabaseHandler db;

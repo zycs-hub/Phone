@@ -2,6 +2,7 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -9,6 +10,9 @@
         android:orientation="vertical"
         android:clickable="false">
 
+        <include
+            android:id="@+id/appbar"
+            layout="@layout/include_toolbar" />
 
 
         <RelativeLayout
@@ -118,7 +122,7 @@
                 android:background="#dadada" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/s_courseid"
+            android:id="@+id/i_faculty"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -142,7 +146,7 @@
                 android:text="学部/学院"
                 android:textColor="#353535"
                 android:textSize="16sp"
-                android:id="@+id/s_tcourseid" />
+                android:id="@+id/i_tfaculty" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -151,7 +155,40 @@
                 android:background="#dadada" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/专业"
+            android:id="@+id/i_major"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/btn_list_item_bg"
+            android:clickable="true"
+            android:paddingLeft="12dp" >
+
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_yaoyiyao"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="12dp"-->
+            <!--android:src="@drawable/find_yaoyiyao" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="专业"
+                android:textColor="#353535"
+                android:textSize="16sp"
+                android:id="@+id/i_tmajor" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp"
+                android:background="#dadada" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/i_grade"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -175,43 +212,10 @@
                 android:text="年级"
                 android:textColor="#353535"
                 android:textSize="16sp"
-                android:id="@+id/s_tcoursenum" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="12dp"
-                android:background="#dadada" />
+                android:id="@+id/i_tgrade" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/s_addtime"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/btn_list_item_bg"
-            android:clickable="true"
-            android:paddingLeft="12dp" >
-
-            <!--<ImageView-->
-            <!--android:id="@+id/iv_yaoyiyao"-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginLeft="12dp"-->
-            <!--android:src="@drawable/find_yaoyiyao" />-->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:text="年级"
-                android:textColor="#353535"
-                android:textSize="16sp"
-                android:id="@+id/s_taddtime" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/address"
+            android:id="@+id/i_address"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/btn_list_item_bg"
@@ -236,7 +240,7 @@
                 android:text="地址"
                 android:textColor="#353535"
                 android:textSize="16sp"
-                android:id="@+id/s_tupdatetime" />
+                android:id="@+id/i_taddress" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -248,11 +252,10 @@
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/btn_list_item_bg"
+            android:background="@color/red"
             android:clickable="true"
             android:layout_marginTop="40dp"
             android:gravity="center"
-            android:backgroundTint="@color/red"
             >
 
             <!--<ImageView-->

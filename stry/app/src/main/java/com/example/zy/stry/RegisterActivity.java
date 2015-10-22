@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by wendy on 15-8-4.
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends AppCompatActivity {
     Button register_button;
     private EditText inputName;
     private EditText inputPass;
@@ -44,6 +46,18 @@ public class RegisterActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("注册");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                finish();
+            }
+        });
         // Importing all assets like buttons, text fields
         inputName = (EditText) findViewById(R.id.username);
         inputPass = (EditText) findViewById(R.id.password);

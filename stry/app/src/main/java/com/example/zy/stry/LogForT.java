@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +27,7 @@ import android.widget.Toast;
 //import zychoose.DUTCrawler;
 
 
-public class LogForT extends Activity { 
+public class LogForT extends AppCompatActivity {
 
 
 
@@ -42,6 +44,18 @@ public class LogForT extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_for_t);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("登录教务处");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                finish();
+            }
+        });
          bt=(Button)findViewById(R.id.teachLogin);
          bt.setOnClickListener(new OnClickListener() {
             @Override
@@ -114,18 +128,6 @@ public class LogForT extends Activity {
                 ///////////////////////////////////////////////////////////////////
             }
         });
-        Button button = (Button)findViewById(R.id.Login);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Intent login = new Intent(getApplicationContext(), Login.class);
-                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(login);
-                // Closing dashboard screen
-                finish();
-            }
-        });
 
     }
 
@@ -136,18 +138,5 @@ public class LogForT extends Activity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

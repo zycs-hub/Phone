@@ -131,7 +131,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         //如果连网就更新否则直接查询本地
         Toast.makeText(getActivity(), "加载中...", Toast.LENGTH_LONG).show();
         if(MainActivity.hvNetwork) {
-            new GetData().execute();
+            //new GetData().execute();
         } else {
             tmp =  db.getShopData();
             mStrings.removeAll(mStrings);
@@ -196,7 +196,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         }
         searchView.setIconifiedByDefault(false);
-        searchView.setQueryHint("aaa");
+        searchView.setQueryHint("搜索商品...");
         searchView.setSubmitButtonEnabled(true);
 //
 
@@ -223,7 +223,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
         // Do work to refresh the list here.
 
-        new GetData().execute();
+        //new GetData().execute();
 //        mAdapter.notifyDataSetChanged();
 //        mPullRefreshListView.onRefreshComplete();
 

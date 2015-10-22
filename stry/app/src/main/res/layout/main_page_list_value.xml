@@ -9,7 +9,6 @@
         android:id="@+id/main_page_1_class"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:text="Medium Text"
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 </RelativeLayout>

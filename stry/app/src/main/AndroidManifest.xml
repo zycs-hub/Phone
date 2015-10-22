@@ -15,7 +15,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/MyTheme">
+            android:theme="@style/MyTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,13 +44,14 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <activity android:name=".Login"
-            >
-        </activity>
         <activity android:name=".SelectFromT"
+            android:theme="@style/MyTheme"
+
             >
         </activity>
         <activity android:name=".RegisterActivity"
+            android:theme="@style/MyTheme"
+
             >
         </activity>
 
@@ -61,13 +63,10 @@
             android:theme="@style/MyTheme"
             >
         </activity>
-        <activity android:name=".ShowMessageActivity"
-            >
-        </activity>
-        <activity android:name=".ShowMessageActivity_"
-            >
-        </activity>
+
         <activity android:name=".LogForT"
+            android:theme="@style/MyTheme"
+
             >
         </activity>
 

@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.example.zy.stry.lib.PullToZoomListViewEx;
 import com.example.zy.stry.lib.User;
+import com.example.zy.stry.util.UserbookGlobla;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +81,18 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             case R.id.left:
                 User user = new User();
                 user.logoutUser(getActivity());
-                ft.replace(R.id.fragment_3, new Login());
-                ft.commit();
+                UserbookGlobla.lts.clear();
+                //try {
+                    Fragment3.collapsingToolbar.setTitle("登录");
+                    ft.replace(R.id.fragment_3, new Login());
+                    Fragment3.head.setVisibility(View.GONE);
+                    ft.replace(R.id.fragment_managment_con, new ManagementFragment());
+                    ft.commit();
+//                }
+//
+//                catch (Exception e){
+//                    e.printStackTrace();
+//                }
                 break;
             case R.id.login:
                 intent = new Intent(getActivity(), LogForT.class);

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import android.support.v7.widget.Toolbar;
+
 
 import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.DatabaseHandler;
@@ -29,7 +33,7 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 
-public class SelectFromT extends Activity {
+public class SelectFromT extends AppCompatActivity {
 
     private Button btn_s=null;
     private TextView main_tv1=null;
@@ -58,6 +62,18 @@ public class SelectFromT extends Activity {
         setContentView(R.layout.activity_select);
         //Intent intent=getIntent();
         //Bundle result=intent.getExtras();
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("点击选择要买的书");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                finish();
+            }
+        });
 
 
 

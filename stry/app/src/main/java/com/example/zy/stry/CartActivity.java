@@ -11,6 +11,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +38,7 @@ import java.util.List;
 /**
  * Created by wendy on 15-9-25.
  */
-public class CartActivity extends Activity {
+public class CartActivity extends AppCompatActivity {
     ListView mlistView;
     Button bntConfirm;
 
@@ -61,6 +63,18 @@ public class CartActivity extends Activity {
         mListItems = new ArrayList();
         mSelectItems = new ArrayList();
         setContentView(R.layout.fragment_cart);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("购物车");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                finish();
+            }
+        });
         lst = "";
         //FragmentManager fm = getFragmentManager();
         bntConfirm = (Button) findViewById(R.id.bnt_confirm);

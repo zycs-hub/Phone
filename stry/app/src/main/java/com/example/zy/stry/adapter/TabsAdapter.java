@@ -16,10 +16,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by wendy on 15-8-26.
  */
 public class TabsAdapter extends FragmentPagerAdapter  {
+    private final List<Fragment> mFragmentList = new ArrayList<>();
+
     public static final String[] TITLES = new String[] { "商城",  "管理", "个人" };
 
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
@@ -28,33 +33,37 @@ public class TabsAdapter extends FragmentPagerAdapter  {
     public TabsAdapter(FragmentManager fm) {
         super(fm);
         mfm = fm;
+        mFragmentList.add(new ShopFragment());
+        mFragmentList.add(new ManagementFragment());
+        mFragmentList.add(new  Fragment3());
     }
 
     @Override
     public Fragment getItem(int index) {
+        return mFragmentList.get(index);
 
-        switch (index) {
-            case 0:
-                return new ShopFragment();
-            case 1:
-                return new ManagementFragment();
-            case 2:
-//                Fragment frg2 = null;
-//                if (frg2 == null)
-//                {
-//                    frg2 = ProfileFragment(new ProfileFragmentListener() {
-//                        public void onSwitchToLoginFragment() {
-//                            mfm.beginTransaction().remove(frg2).commit();
-//                            frg2 = new Login();
-//                            notifyDataSetChanged();
-//                        }
-//                    });
-//                }
-//                return frg2;
-                return new Fragment3();
-        }
-
-        return null;
+//        switch (index) {
+//            case 0:
+//                return new ShopFragment();
+//            case 1:
+//                return new ManagementFragment();
+//            case 2:
+////                Fragment frg2 = null;
+////                if (frg2 == null)
+////                {
+////                    frg2 = ProfileFragment(new ProfileFragmentListener() {
+////                        public void onSwitchToLoginFragment() {
+////                            mfm.beginTransaction().remove(frg2).commit();
+////                            frg2 = new Login();
+////                            notifyDataSetChanged();
+////                        }
+////                    });
+////                }
+////                return frg2;
+//                return new Fragment3();
+//        }
+//
+//        return null;
     }
 
     @Override

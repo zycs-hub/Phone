@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +31,7 @@ import java.util.List;
 /**
  * Created by wendy on 15-10-14.
  */
-public class BuyingListActivity extends Activity {
+public class BuyingListActivity extends AppCompatActivity {
 
     private  MaterialDialog dialog=null;
     private RecyclerView mRecyclerView;
@@ -52,6 +54,18 @@ public class BuyingListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sold_list);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("购买中");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                finish();
+            }
+        });
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);

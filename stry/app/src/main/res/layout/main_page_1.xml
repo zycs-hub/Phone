@@ -7,9 +7,7 @@
         android:choiceMode="multipleChoice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="?android:attr/listSeparatorTextViewStyle"
         android:dividerHeight="2px"
-        android:background="?android:attr/listDivider"
         >
     </ListView>
 </LinearLayout>
