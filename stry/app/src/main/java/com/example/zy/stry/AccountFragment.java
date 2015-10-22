@@ -83,6 +83,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 user.logoutUser(getActivity());
                 UserbookGlobla.lts.clear();
                 //try {
+                UserbookGlobla.lts.clear();
                     Fragment3.collapsingToolbar.setTitle("登录");
                     ft.replace(R.id.fragment_3, new Login());
                     Fragment3.head.setVisibility(View.GONE);
