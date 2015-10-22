@@ -8,11 +8,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -21,16 +19,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.zy.stry.R;
-import com.example.zy.stry.DetailFragment;
-import com.bumptech.glide.Glide;
+
 import com.example.zy.stry.entity.Book;
-import com.example.zy.stry.entity.SellEntity;
+import com.example.zy.stry.entity.SellBook;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -46,7 +40,7 @@ public class BookDetailActivity extends AppCompatActivity {
     ImageButton fabBtn;
     View fabShadow;
     int _id;
-    SellEntity.SellBook data;
+    SellBook data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +60,7 @@ public class BookDetailActivity extends AppCompatActivity {
         bookname =  intent.getStringExtra("book");
         _id = intent.getIntExtra("_id", -1);
         Bundle bundle = intent.getExtras();
-        data =(SellEntity.SellBook)bundle.getSerializable("data");
+        data =(SellBook)bundle.getSerializable("data");
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(bookname);
 

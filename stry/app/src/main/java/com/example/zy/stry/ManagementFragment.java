@@ -29,8 +29,8 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.BookEntity;
+import com.example.zy.stry.entity.MessageEntity;
 import com.example.zy.stry.lib.DatabaseHandler;
-import com.example.zy.stry.lib.NetWorkChecker;
 import com.example.zy.stry.util.BookGlobla;
 import com.example.zy.stry.adapter.MySellAdapter;
 
@@ -153,7 +153,7 @@ public class ManagementFragment extends Fragment {
             List<BookEntity> lt = db.getUserBooks(username);
 //            if (lt!=null)
 //                for (BookEntity book : lt){
-//                    UserbookGlobla.lts=lt;
+                    UserbookGlobla.lts=lt;
                     //book_for_sell.add(book);
                     //}
             if (flag==1){
@@ -172,9 +172,36 @@ public class ManagementFragment extends Fragment {
                             lts.remove(j);
                             --leng;
                             --j;
+//            if (lt==null){
+//                Intent intent = new Intent(getActivity(), LogForT.class);
+//                startActivity(intent);
+            }
+            if (lt!=null)
+                UserbookGlobla.lts=lt;
 
-                            break;
-                        }
+//            for (BookEntity book : lt){
+//                    UserbookGlobla.lts=lt;
+//                    //book_for_sell.add(book);
+//                }
+//            if (flag==1){
+//                flag++;
+//                DatabaseHandler db;
+//                List<BookEntity> lts;
+//                db = new DatabaseHandler(getActivity());
+//                lts = db.getCoursesAll();
+//                for (int i = 0, len = UserbookGlobla.lts.size(); i < len; i++)
+//                    for (int j = 0, leng = lts.size(); j < leng; j++)
+//                        if (UserbookGlobla.lts.get(i).courseid == lts.get(j).courseid) {
+//                            UserbookGlobla.lts.get(i).image=lts.get(j).image;
+//                            UserbookGlobla.lts.get(i).author=lts.get(j).author;
+//                            UserbookGlobla.lts.get(i).publisher=lts.get(j).publisher;
+//                            UserbookGlobla.lts.get(i).pages=lts.get(j).pages;
+//                            lts.remove(j);
+//                            --leng;
+//                            --j;
+//
+//                            break;
+//                        }
             }
             lt=null;
         }
@@ -243,26 +270,26 @@ public class ManagementFragment extends Fragment {
         int h=c.get(Calendar.HOUR);
         int mi=c.get(Calendar.MINUTE);
         String data;
-        List<com.example.zy.stry.entity.Message> messages = new ArrayList<>();
+        List<MessageEntity> messageEntities = new ArrayList<>();
         DatabaseHandler db1 = new DatabaseHandler(getActivity());
         //db1.deleteMessages();
-        messages=db1.getMessage(UserbookGlobla.lts.get(pos).bid);
-        com.example.zy.stry.entity.Message message =new com.example.zy.stry.entity.Message();
-        if (messages.size()==0&&UserbookGlobla.lts.get(pos).messages.size()==0){
-            message.data="";
-            message.message="无消息";
-            message.isRead=1;
-            UserbookGlobla.lts.get(pos).messages.add(message);
+        messageEntities =db1.getMessage(UserbookGlobla.lts.get(pos).bid);
+        MessageEntity messageEntity =new MessageEntity();
+        if (messageEntities.size()==0&&UserbookGlobla.lts.get(pos).messageEntities.size()==0){
+            messageEntity.data="";
+            messageEntity.message="无消息";
+            messageEntity.isRead=1;
+            UserbookGlobla.lts.get(pos).messageEntities.add(messageEntity);
             return;
         }
         //List<com.example.zy.stry.entity.Message> messages= UserbookGlobla.lts.get(pos).messages;
-        for (int i=0;i<messages.size();i++) {
-            if (y == messages.get(i).year){
-                if (m == messages.get(i).moon) {
-                    if (d == messages.get(i).day)
-                        data = messages.get(i).hour + ":" + messages.get(i).min;
+        for (int i=0;i< messageEntities.size();i++) {
+            if (y == messageEntities.get(i).year){
+                if (m == messageEntities.get(i).moon) {
+                    if (d == messageEntities.get(i).day)
+                        data = messageEntities.get(i).hour + ":" + messageEntities.get(i).min;
                     else
-                        switch (d - messages.get(i).day) {
+                        switch (d - messageEntities.get(i).day) {
                             case 1:
                                 data = "昨天";
                                 break;
@@ -270,19 +297,19 @@ public class ManagementFragment extends Fragment {
                                 data = "前天";
                                 break;
                             default:
-                                data = messages.get(i).day + "日";
+                                data = messageEntities.get(i).day + "日";
                                 break;
                         }
                 } else {
-                    data = messages.get(i) + "月 " + messages.get(i) + "日 ";
+                    data = messageEntities.get(i) + "月 " + messageEntities.get(i) + "日 ";
                 }
             }else{
-                data=messages.get(i).year+"年 "
-                        +messages.get(i).moon+"月 ";
+                data= messageEntities.get(i).year+"年 "
+                        + messageEntities.get(i).moon+"月 ";
             }
-            message=messages.get(i);
-            message.data=data;
-            UserbookGlobla.lts.get(pos).messages.add(message);
+            messageEntity = messageEntities.get(i);
+            messageEntity.data=data;
+            UserbookGlobla.lts.get(pos).messageEntities.add(messageEntity);
     }
 }
     /*

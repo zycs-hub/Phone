@@ -2,10 +2,10 @@ package com.example.zy.stry.lib;
 
 import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.entity.CartEntity.Cart;
-import com.example.zy.stry.entity.Message;
+import com.example.zy.stry.entity.MessageEntity;
 import com.example.zy.stry.entity.UserEntity.User;
-import com.example.zy.stry.entity.SellEntity.SellBook;
-import com.example.zy.stry.entity.SellEntity.Sell;
+import com.example.zy.stry.entity.SellBook;
+import com.example.zy.stry.entity.Sell.SellEntity;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,6 +21,7 @@ import java.util.List;
 /**
  * Created by wendy on 15-7-6.
  */
+
 public class DatabaseHandler extends SQLiteOpenHelper{
     // All Static variables
     // Database Version
@@ -47,21 +48,25 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 + User.KEY_PASS + TEXT_TYPE //+ COMMA_SEP
                 + ")";
 
-        String CREATE_SELL_TABLE = "CREATE TABLE " + Sell.TABLE_NAME + "("
-                + Sell.KEY_ID + " INTEGER PRIMARY KEY,"
-                + Sell.KEY_USERNAME + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_BOOKNAME + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_COURSEID + INT_TYPE + COMMA_SEP
-                + Sell.KEY_COURSENAME + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_PRICE + INT_TYPE + COMMA_SEP
-                + Sell.KEY_PRESSS + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_IS_SELLING + INT_TYPE + COMMA_SEP
-                + Sell.KEY_IS_SOLD + INT_TYPE +  COMMA_SEP
-                + Sell.KEY_ADD_TIME + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_UPDATE_TIME + TEXT_TYPE + COMMA_SEP
-                + Sell.KEY_IS_DEL + INT_TYPE +  COMMA_SEP
-                + Sell.KEY_BID  + INT_TYPE + COMMA_SEP
-                + Sell.KEY_BUYER  + TEXT_TYPE //+ COMMA_SEP
+        String CREATE_SELL_TABLE = "CREATE TABLE " + SellEntity.TABLE_NAME + "("
+                + SellEntity.KEY_ID + " INTEGER PRIMARY KEY,"
+                + SellEntity.KEY_USERNAME + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_BOOKNAME + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_COURSEID + INT_TYPE + COMMA_SEP
+                + SellEntity.KEY_COURSENAME + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_PRICE + INT_TYPE + COMMA_SEP
+                + SellEntity.KEY_PRESSS + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_IS_SELLING + INT_TYPE + COMMA_SEP
+                + SellEntity.KEY_IS_SOLD + INT_TYPE +  COMMA_SEP
+                + SellEntity.KEY_ADD_TIME + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_UPDATE_TIME + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_IS_DEL + INT_TYPE +  COMMA_SEP
+                + SellEntity.KEY_BID  + INT_TYPE + COMMA_SEP
+                + SellEntity.KEY_BUYER  + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_ORINGIN_PRICE  + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_AUTHOR  + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_PAGES  + TEXT_TYPE + COMMA_SEP
+                + SellEntity.KEY_IMG  + TEXT_TYPE //+ COMMA_SEP
                 + ")";
 
         StringBuffer tableCreate = new StringBuffer();
@@ -86,18 +91,19 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         String CREATE_CART_TABLE = "CREATE TABLE " + Cart.TABLE_NAME + "("
                 + Cart.KEY_ID + " INTEGER PRIMARY KEY,"
                 + Cart.KEY_SELLID + INT_TYPE + COMMA_SEP
-//                + Sell.KEY_BOOKNAME + TEXT_TYPE + COMMA_SEP
-//                + Sell.KEY_COURSEID + INT_TYPE + COMMA_SEP
-//                + Sell.KEY_COURSENAME + TEXT_TYPE + COMMA_SEP
-//                + Sell.KEY_PRICE + INT_TYPE + COMMA_SEP
-//                + Sell.KEY_PRESSS + TEXT_TYPE + COMMA_SEP
-//                + Sell.KEY_IS_SELLING + TEXT_TYPE + COMMA_SEP
-//                + Sell.KEY_IS_SOLD + TEXT_TYPE +  COMMA_SEP
+//                + SellEntity.KEY_BOOKNAME + TEXT_TYPE + COMMA_SEP
+//                + SellEntity.KEY_COURSEID + INT_TYPE + COMMA_SEP
+//                + SellEntity.KEY_COURSENAME + TEXT_TYPE + COMMA_SEP
+//                + SellEntity.KEY_PRICE + INT_TYPE + COMMA_SEP
+//                + SellEntity.KEY_PRESSS + TEXT_TYPE + COMMA_SEP
+//                + SellEntity.KEY_IS_SELLING + TEXT_TYPE + COMMA_SEP
+//                + SellEntity.KEY_IS_SOLD + TEXT_TYPE +  COMMA_SEP
                 + Cart.KEY_ADD_TIME + TEXT_TYPE //+ COMMA_SEP
-//                + Sell.KEY_UPDATE_TIME + TEXT_TYPE + COMMA_SEP
-//                + Sell.KEY_IS_DEL + TEXT_TYPE +  COMMA_SEP
-//                + Sell.KEY_BID  + INT_TYPE //+ COMMA_SEP
+//                + SellEntity.KEY_UPDATE_TIME + TEXT_TYPE + COMMA_SEP
+//                + SellEntity.KEY_IS_DEL + TEXT_TYPE +  COMMA_SEP
+//                + SellEntity.KEY_BID  + INT_TYPE //+ COMMA_SEP
                 + ")";
+
 //        StringBuffer messCreate = new StringBuffer();
 //        tableCreate.append("CREATE TABLE ")
 //                .append(" messages ")
@@ -112,7 +118,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 //                .append(" hour TEXT , " )
 //                .append(" min TEXT  ")//damage
 //                .append(" )");
+
         String CREATE_MESSAGE=" CREATE TABLE messages ( _id INTEGER PRIMARY KEY , bid INTEGER , message TEXT ," +
+                " sender TEXT , receiver TEXT ," +
                 " isRead INTEGER ,year INTEGER , moon INTEGER , day INTEGER , hour INTEGER , min INTEGER  )";
 
 
@@ -129,7 +137,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + User.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + Sell.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SellEntity.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + BookEntity.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Cart.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + "messages");
@@ -137,6 +145,20 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
         // Create tables again
         onCreate(db);
+    }
+
+    public void editTable(String table, String col, int para, String queryKey, String keyArg) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(col, para);
+        db.update(table, cv, queryKey + "=" + keyArg, null);
+    }
+
+    public void editTable(String table, String col, String para,String queryKey, String keyArg) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(col, para);
+        db.update(table, cv, queryKey + "=" + keyArg, null);
     }
 
     /**
@@ -176,26 +198,33 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     /**
      * Storing shop details in database
      * */
-    public void addSell(String username, String bookname, int courseid, String coursename,
+
+    public void addSell(int _id, String username, String bookname, int courseid, String coursename,
                         int price, String press, int is_selling, int is_sold,
-                        String add_time, String update_time, int is_del, int bid, String buyer) {
+                        String add_time, String update_time, int is_del, int bid, String buyer,
+                        String originprice, String author, String pages, String img) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Sell.KEY_USERNAME, username);
-        values.put(Sell.KEY_BOOKNAME, bookname);
-        values.put(Sell.KEY_COURSEID, courseid);
-        values.put(Sell.KEY_COURSENAME, coursename);
-        values.put(Sell.KEY_PRICE, price);
-        values.put(Sell.KEY_PRESSS, press);
-        values.put(Sell.KEY_IS_SELLING, is_selling);
-        values.put(Sell.KEY_IS_SOLD, is_sold);
-        values.put(Sell.KEY_ADD_TIME, add_time);
-        values.put(Sell.KEY_UPDATE_TIME, update_time);
-        values.put(Sell.KEY_IS_DEL, is_del);
-        values.put(Sell.KEY_BID, bid);
-        values.put(Sell.KEY_BUYER, buyer);
-        db.insert(Sell.TABLE_NAME, null, values);
+        values.put(SellEntity.KEY_ID, _id);
+        values.put(SellEntity.KEY_USERNAME, username);
+        values.put(SellEntity.KEY_BOOKNAME, bookname);
+        values.put(SellEntity.KEY_COURSEID, courseid);
+        values.put(SellEntity.KEY_COURSENAME, coursename);
+        values.put(SellEntity.KEY_PRICE, price);
+        values.put(SellEntity.KEY_PRESSS, press);
+        values.put(SellEntity.KEY_IS_SELLING, is_selling);
+        values.put(SellEntity.KEY_IS_SOLD, is_sold);
+        values.put(SellEntity.KEY_ADD_TIME, add_time);
+        values.put(SellEntity.KEY_UPDATE_TIME, update_time);
+        values.put(SellEntity.KEY_IS_DEL, is_del);
+        values.put(SellEntity.KEY_BID, bid);
+        values.put(SellEntity.KEY_BUYER, buyer);
+        values.put(SellEntity.KEY_ORINGIN_PRICE, originprice);
+        values.put(SellEntity.KEY_AUTHOR, author);
+        values.put(SellEntity.KEY_PAGES, pages);
+        values.put(SellEntity.KEY_IMG, img);
+        db.insert(SellEntity.TABLE_NAME, null, values);
     }
 
     /**
@@ -203,11 +232,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * */
     public ArrayList<SellBook> getShopData(){
         ArrayList<SellBook> list = new ArrayList<SellBook>();
-//        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_IS_SELLING + " = 1";
-        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME;
+        String selectQuery = "SELECT  * FROM " + SellEntity.TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor  cursor = db.query(Sell.TABLE_NAME, columns, null, null, null, null, null);
+//        Cursor  cursor = db.query(SellEntity.TABLE_NAME, columns, null, null, null, null, null);
 
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
@@ -226,6 +254,11 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 book.update_time = cursor.getString(10);
                 book.is_del = cursor.getInt(11);
                 book.bid = cursor.getInt(12);
+                book.buyer = cursor.getString(13);
+                book.originprice = cursor.getString(14);
+                book.author = cursor.getString(15);
+                book.pages = cursor.getString(16);
+                book.image = cursor.getString(17);
                 list.add(book);
             } while(cursor.moveToNext());
         }
@@ -236,30 +269,49 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
     public void deleteShopData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(Sell.TABLE_NAME, null, null);
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = '"+ SellEntity.TABLE_NAME+"'", null);
+        if(cursor!=null) {
+            if(cursor.getCount()>0) {
+                cursor.close();
+                db.delete(SellEntity.TABLE_NAME, null, null);
+            }
+            cursor.close();
+        }
         db.close();
+    }
+
+    public int getLastSellID() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String tmp = "SELECT "+ SellEntity.KEY_ID + " FROM sell ORDER BY " + SellEntity.KEY_ID + " DESC limit 1";
+        Cursor c = db.rawQuery(tmp, null);
+        if (c != null && c.moveToFirst()) {
+             return c.getInt(0); //The 0 is the column index, we only have 1 column, so the index is 0
+        }
+        return -1;
     }
 
     public void changeSelling(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-//        String update_str = "UPDATE " + Sell.TABLE_NAME + " SET " + Sell.KEY_IS_SELLING + " = false WHERE "
-//                + Sell.KEY_ID + "=" + Integer.toString(id);
+//        String update_str = "UPDATE " + SellEntity.TABLE_NAME + " SET " + SellEntity.KEY_IS_SELLING + " = false WHERE "
+//                + SellEntity.KEY_ID + "=" + Integer.toString(id);
 //        db.execSQL(update_str);
         ContentValues cv = new ContentValues();
-        cv.put(Sell.KEY_IS_SELLING, 0);
-        db.update(Sell.TABLE_NAME, cv, Sell.KEY_ID + "=" + Integer.toString(id), null);
-        db.delete(Cart.TABLE_NAME,  Cart.KEY_SELLID + "=" + Integer.toString(id), null);
+        cv.put(SellEntity.KEY_IS_SELLING, 0);
+        db.update(SellEntity.TABLE_NAME, cv, SellEntity.KEY_ID + "=" + Integer.toString(id), null);
+        db.delete(Cart.TABLE_NAME, Cart.KEY_SELLID + "=" + Integer.toString(id), null);
     }
 
     public void changeSold(int id ) {
         SQLiteDatabase db = this.getWritableDatabase();
-//        String update_str = "UPDATE " + Sell.TABLE_NAME + " SET " + Sell.KEY_IS_SOLD + " = true WHERE "
-//                + Sell.KEY_ID + "=" + Integer.toString(id);
+//        String update_str = "UPDATE " + SellEntity.TABLE_NAME + " SET " + SellEntity.KEY_IS_SOLD + " = true WHERE "
+//                + SellEntity.KEY_ID + "=" + Integer.toString(id);
 //        db.execSQL(update_str);
         ContentValues cv = new ContentValues();
-        cv.put(Sell.KEY_IS_SOLD, true);
-        db.update(Sell.TABLE_NAME, cv, Sell.KEY_ID + "=" + Integer.toString(id), null);
+        cv.put(SellEntity.KEY_IS_SOLD, true);
+        db.update(SellEntity.TABLE_NAME, cv, SellEntity.KEY_ID + "=" + Integer.toString(id), null);
     }
+
+
 
     /**
      *  add in cart
@@ -301,7 +353,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         List<BookEntity> It=new ArrayList<BookEntity>();
         SQLiteDatabase db = this.getReadableDatabase();
         BookEntity use=null;
-        String selectQuery = "SELECT  * FROM " + BookEntity.TABLE_NAME;
+        String selectQuery = "SELECT  * FROM " + SellEntity.TABLE_NAME;
         Cursor cr=db.rawQuery(selectQuery,null);
         if (cr.moveToFirst()) {
             do {
@@ -323,12 +375,14 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         }
         return It;
     }
-    public void addMessage(String message, int year, int moon, int day,
+    public void addMessage(String message, String sender, String receiver, int year, int moon, int day,
                            int hour, int min, int isRead,int bid) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put("message", message);
+        values.put("sender", sender);
+        values.put("receiver", receiver);
         values.put("year", year);
         values.put("moon", moon);
         values.put("day", day);
@@ -339,23 +393,23 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         db.insert("messages", null, values);
         db.close();
     }
-    public List<Message> getMessage(int bid){
-        List<Message> lt= new ArrayList<>();
+    public List<MessageEntity> getMessage(int bid){
+        List<MessageEntity> lt= new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Message message;
+        MessageEntity messageEntity;
         String selectQuery = "SELECT  * FROM " + "messages" + " WHERE " + "bid" + "=?" ;
         Cursor cr=db.rawQuery(selectQuery,new String[]{Integer.toString(bid)});
         if (cr.moveToFirst()) {
             do {
-                message = new Message();
-                message.message = cr.getString(2);
-                message.isRead = cr.getInt(3);
-                message.year = cr.getInt(4);
-                message.moon = cr.getInt(5);
-                message.day = cr.getInt(6);
-                message.hour = cr.getInt(7);
-                message.min = cr.getInt(8);
-                lt.add(message);
+                messageEntity = new MessageEntity();
+                messageEntity.message = cr.getString(2);
+                messageEntity.isRead = cr.getInt(3);
+                messageEntity.year = cr.getInt(4);
+                messageEntity.moon = cr.getInt(5);
+                messageEntity.day = cr.getInt(6);
+                messageEntity.hour = cr.getInt(7);
+                messageEntity.min = cr.getInt(8);
+                lt.add(messageEntity);
             }while (cr.moveToNext());
         }
         db.close();
@@ -366,11 +420,12 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         List<BookEntity> It=new ArrayList<BookEntity>();
         SQLiteDatabase db = this.getReadableDatabase();
         BookEntity use = null;
-        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_USERNAME + "=?";
+        String selectQuery = "SELECT  * FROM " + SellEntity.TABLE_NAME + " WHERE " + SellEntity.KEY_USERNAME + "=?";
         Cursor cr=db.rawQuery(selectQuery,new String[]{username});
         if (cr.moveToFirst()) {
             do {
                 use = new BookEntity();
+                use._id = cr.getInt(0);
                 use.setBook(cr.getString(2));
                 use.courseid(cr.getInt(3));
                 use.bid = cr.getInt(12);
@@ -395,7 +450,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         List<BookEntity> It=new ArrayList<BookEntity>();
         SQLiteDatabase db = this.getReadableDatabase();
         BookEntity use = null;
-        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_USERNAME + "=?" + "AND " + Sell.KEY_IS_SOLD + " =?";
+        String selectQuery = "SELECT  * FROM " + SellEntity.TABLE_NAME + " WHERE " + SellEntity.KEY_USERNAME + "=?" + "AND " + SellEntity.KEY_IS_SOLD + " =?";
         Cursor cr=db.rawQuery(selectQuery,new String[]{username, "1"});
         if (cr.moveToFirst()) {
             do {
@@ -424,7 +479,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         List<BookEntity> It=new ArrayList<BookEntity>();
         SQLiteDatabase db = this.getReadableDatabase();
         BookEntity use = null;
-        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_BUYER + "=?" + "AND " + Sell.KEY_IS_SOLD + " =?";
+        String selectQuery = "SELECT  * FROM " + SellEntity.TABLE_NAME + " WHERE " + SellEntity.KEY_BUYER + "=?" + "AND " + SellEntity.KEY_IS_SOLD + " =?";
         Cursor cr=db.rawQuery(selectQuery,new String[]{username, "1"});
         if (cr.moveToFirst()) {
             do {
@@ -455,8 +510,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         List<BookEntity> It=new ArrayList<BookEntity>();
         SQLiteDatabase db = this.getReadableDatabase();
         BookEntity use = null;
-        String selectQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_BUYER + "=?"
-                + "AND " + Sell.KEY_IS_SELLING + " =?" + "AND " + Sell.KEY_IS_SOLD + " =?";
+        String selectQuery = "SELECT  * FROM " + SellEntity.TABLE_NAME + " WHERE " + SellEntity.KEY_BUYER + "=?"
+                + "AND " + SellEntity.KEY_IS_SELLING + " =?" + "AND " + SellEntity.KEY_IS_SOLD + " =?";
         Cursor cr=db.rawQuery(selectQuery,new String[]{username, "0", "0"});
         if (cr.moveToFirst()) {
             do {
@@ -493,13 +548,14 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             do {
                 tmp = new SellBook();
                 int sid = cr.getInt(1);
-                String tmpQuery = "SELECT  * FROM " + Sell.TABLE_NAME + " Where " + Sell.KEY_ID + " = ?";
+                String tmpQuery = "SELECT  * FROM " + SellEntity.TABLE_NAME + " Where " + SellEntity.KEY_ID + " = ?";
                 Cursor cr2 = db.rawQuery(tmpQuery,new String[]{Integer.toString(sid)});
                 if(cr2.moveToFirst()) {
                     tmp.setData(cr2.getInt(0), cr2.getString(1), cr2.getString(2), cr2.getInt(3), cr2.getString(4),
                             cr2.getInt(5), cr2.getString(6), cr2.getInt(7) ,
                             cr2.getInt(8) , cr2.getString(9),cr2.getString(10),
-                            cr2.getInt(11), cr2.getInt(12), cr2.getString(13));
+                            cr2.getInt(11), cr2.getInt(12), cr2.getString(13), cr2.getString(14),
+                            cr2.getString(15), cr2.getString(16), cr2.getString(17));
                     It.add(tmp);
                 }
             } while (cr.moveToNext());
@@ -563,12 +619,12 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
 
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-        builder.setTables(Sell.TABLE_NAME);
+        builder.setTables(SellEntity.TABLE_NAME);
 
         List<SellBook> list = new ArrayList<>();
         SellBook tmp;
 
-        Cursor cursor = builder.query(db, null, Sell.KEY_BOOKNAME  + " LIKE ?",
+        Cursor cursor = builder.query(db, null, SellEntity.KEY_BOOKNAME  + " LIKE ?",
                 new String[] {"%"+query+"%"}, null, null, null);
 
         if (cursor.moveToFirst()) {
@@ -600,11 +656,11 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
 //        List<SellBook> list = new ArrayList<>();
 //        SellBook tmp;
-//        String searchQuery = "SELECT * FROM " + Sell.TABLE_NAME + " WHERE " + Sell.KEY_BOOKNAME;
+//        String searchQuery = "SELECT * FROM " + SellEntity.TABLE_NAME + " WHERE " + SellEntity.KEY_BOOKNAME;
 //        int len = query.length();
 //        for (int i = 0; i < len; i++)  {
 //            if(i > 0) {
-//                searchQuery += " AND " + Sell.KEY_BOOKNAME;
+//                searchQuery += " AND " + SellEntity.KEY_BOOKNAME;
 //            }
 //            searchQuery += " LIKE " + "'%" + query.charAt(i) +"%'";
 //        }
@@ -642,7 +698,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete All Rows
         db.delete(User.TABLE_NAME, null, null);
-        db.delete(Sell.TABLE_NAME, null, null);
+        db.delete(SellEntity.TABLE_NAME, null, null);
         db.delete(BookEntity.TABLE_NAME, null, null);
         db.close();
     }

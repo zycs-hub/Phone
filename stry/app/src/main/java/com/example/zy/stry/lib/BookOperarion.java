@@ -48,16 +48,21 @@ public class BookOperarion {
     public class addSellBooks implements Runnable {
         public JSONObject json;
         List<NameValuePair> params;
+        private Function<JSONObject, Void> callBack;
 
-        public addSellBooks(String username, String books) {
+
+        public addSellBooks(String username, String books, Function<JSONObject, Void> callBack) {
             params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("username", username));
             params.add(new BasicNameValuePair("books", books));
+            this.callBack = callBack;
+
         }
 
         @Override
         public void run() {
             json = jsonParser.postJSONFromUrl(Config.getAddSellUrl(), params);
+            callBack.apply(json);
         }
 
     }
@@ -91,10 +96,10 @@ public class BookOperarion {
         List<NameValuePair> params;
         private Function<JSONObject, Void> callBack;
 
-        public editBook(String username, String bid, String info, Function<JSONObject, Void> callBack) {
+        public editBook(String username, String sellid, String info, Function<JSONObject, Void> callBack) {
             params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("username", username));
-            params.add(new BasicNameValuePair("bid", bid));
+            params.add(new BasicNameValuePair("sellid", sellid));
             params.add(new BasicNameValuePair("editInfo", info));
             this.callBack = callBack;
         }
@@ -103,6 +108,27 @@ public class BookOperarion {
         public void run() {
 
             json = jsonParser.postJSONFromUrl(Config.getEditBookUrl(), params);
+            callBack.apply(json);
+        }
+    }
+
+    public class editSell implements Runnable {
+        public JSONObject json;
+        List<NameValuePair> params;
+        private Function<JSONObject, Void> callBack;
+
+        public editSell(String username, String sellid, String col, String info, Function<JSONObject, Void> callBack) {
+            params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("sellid", sellid));
+            params.add(new BasicNameValuePair("col", col));
+            params.add(new BasicNameValuePair("editInfo", info));
+            this.callBack = callBack;
+        }
+
+        @Override
+        public void run() {
+            json = jsonParser.postJSONFromUrl(Config.getEditSellUrl(), params);
             callBack.apply(json);
         }
     }

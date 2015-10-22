@@ -1,18 +1,7 @@
 package com.example.zy.stry.entity;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,18 +23,18 @@ public class BookEntity implements Serializable {
 
     public String username=null, bookname=null, coursename=null, press=null, add_time=null, update_time=null,author,origprice
             ,price,publisher,pages,damage,image,remarks;
-    public int _id = -1, courseid=0,  bid=0;
-    public boolean is_selling=false, is_sold=false, is_del=false;
+    public int _id = -1, courseid=0,  bid=0, is_selling=0 , is_sold=0, is_del=0;
     public List<String> message=new ArrayList<>();
-    public List<Message> messages= new ArrayList();
+    public List<MessageEntity> messageEntities = new ArrayList();
 
 
     public BookEntity () {
     }
 
     public void setData(int id, String _username, String _bookname, int _courseid, String _coursename,
-                        int _price, String _press, boolean _is_selling, boolean _is_sold, String _add_time,
-                        String _update_time, boolean _is_del, int _bid) {
+                        int _price, String _press, int _is_selling, int _is_sold, String _add_time,
+                        String _update_time, int _is_del, int _bid, String origprice,
+                        String author, String pages, String image) {
         _id = id;
         username = _username;
         bookname = _bookname;
@@ -59,6 +48,10 @@ public class BookEntity implements Serializable {
         update_time = _update_time;
         is_del = _is_del;
         bid = _bid;
+        this.origprice = origprice;
+        this.author = author;
+        this.pages = pages;
+        this.image = image;
     }
 
     public String getBook(){

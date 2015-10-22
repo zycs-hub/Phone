@@ -1,12 +1,13 @@
 package com.example.zy.stry;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,13 +17,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import android.support.v7.widget.Toolbar;
 
 
 import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.DatabaseHandler;
 import com.example.zy.stry.adapter.MyAdapter;
+import com.example.zy.stry.lib.Function;
 import com.example.zy.stry.util.BookGlobla;
 import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.util.UserbookGlobla;
@@ -135,7 +135,7 @@ public class SelectFromT extends AppCompatActivity {
         Button btn=(Button)findViewById(R.id.btn_s);
         btn.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                job=db.getReadableDatabase();
+                int lastid = db.getLastSellID();
                 int n = ma.getCount();
                 for (int i = 0; i < n; i++) {
                     String na = BookGlobla.lts.get(i).getBook();
@@ -160,7 +160,7 @@ public class SelectFromT extends AppCompatActivity {
                             //}
                             //page_list.setItemChecked(i, true);
                         }
-                        db.addSell(username, na, BookGlobla.lts.get(i).courseid, na, -1, null ,0,0,null,null,0,-1, "");
+                        db.addSell(++lastid, username, na, BookGlobla.lts.get(i).courseid, na, -1, null ,0,0,null,null,0,-1, "","","","","");
                     } else{
                         job.execSQL("update courses set  isSelected=-1 where book=?", new String[]{na});
                     }
@@ -168,41 +168,47 @@ public class SelectFromT extends AppCompatActivity {
                 db.close();
 
                 BookOperarion book = new BookOperarion();
-                BookOperarion.addSellBooks task = book.new addSellBooks(username, books_data.substring(0, books_data.length() - 1));
+                BookOperarion.addSellBooks task = book.new addSellBooks(username, books_data.substring(0, books_data.length() - 1),
+                        new Function<JSONObject, Void>() {
+                            @Override
+                            public Void apply(JSONObject json) {
+                                try{
+                                if (json == null) {
+                                    Message msg = new Message();
+                                    msg.what = 0;
+                                    handler.sendMessage(msg);
+                                } else {
+                                    if (json.getString("success") != null) {
+                                        db.close();
+                                        BookGlobla.lts=null;
+                                        Intent intent_1 = new Intent(SelectFromT.this, MainActivity.class);
+                                        startActivity(intent_1);
+                                        finish();
+                                        Message msg = new Message();
+                                        msg.what = 1;
+                                        handler.sendMessage(msg);
+                                    } else {
+                                        Message msg = new Message();
+                                        msg.what = -1;
+                                        handler.sendMessage(msg);
+                                    }
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Exception : " + e.getMessage());
+                            }
+                                return null;
+                            }
+                        });
 
-                try {
+
                     MainActivity.executorService.submit(task);
-                    try {
-                        MainActivity.executorService.awaitTermination(4, TimeUnit.MILLISECONDS);
-                        Toast.makeText(getApplicationContext(), "正在提交......", Toast.LENGTH_SHORT).show();
 
 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
 
-                    JSONObject json = task.json;
-                    if (json == null) {
-                        Toast.makeText(getApplicationContext(), "提交失败", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (json.getString("success") != null) {
-                            Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                } catch (Exception e) {
-                    System.out.println("Exception : " + e.getMessage());
-                }
 
                // saveAll();
                 //main_body_lin.removeAllViews();
-                db.close();
-                BookGlobla.lts=null;
-                Intent intent_1 = new Intent(SelectFromT.this, MainActivity.class);
-                startActivity(intent_1);
-                finish();
+
             }
         });
 
@@ -214,6 +220,28 @@ public class SelectFromT extends AppCompatActivity {
     // protected void onActiyityResult(int requestCode,int resultCode,Intent data){
     //    if
     // }
+        private Handler handler = new Handler(){
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case 0:
+                        Toast.makeText(getApplicationContext(), "验证失败", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_SHORT).show();
+
+
+                        break;
+                    case -1:
+                        Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                        break;
+
+
+                }
+
+            }
+        };
+
 
 
 }

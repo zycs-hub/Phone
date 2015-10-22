@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by zy on 15/10/14.
  */
-public class Message implements Serializable {
+public class MessageEntity implements Serializable {
     public int year;
     public int moon;
     public int day;

@@ -90,12 +90,9 @@ public class Login extends Fragment implements View.OnClickListener {
                 }
 
 
-                Integer result = 0;
-                final JSONObject json;
-                    User.loginUser user = new User().new loginUser(username, password, new Function<JSONObject, Void>() {
+                    User.loginUser task = new User().new loginUser(username, password, new Function<JSONObject, Void>() {
                         public Void apply(JSONObject json) {
                             //dosomething with Json
-//                            json = user.getJson();
                             Message msg = new Message();
                             if (json == null) {
                                 msg.what = 0;
@@ -132,7 +129,7 @@ public class Login extends Fragment implements View.OnClickListener {
                         }
                     });
 
-                    MainActivity.executorService.submit(user);
+                    MainActivity.executorService.submit(task);
 //                    JSONObject json = user.getJson();
 
 
@@ -161,6 +158,7 @@ public class Login extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), "验证失败", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
+                    Fragment3.collapsingToolbar.setTitle("登录教务处");
                     FragmentTransaction ft = MainActivity.fmg.beginTransaction();
                     ft.replace(R.id.fragment_3, new AccountFragment());
                     ft.commit();

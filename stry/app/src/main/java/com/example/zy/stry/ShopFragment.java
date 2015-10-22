@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.Book;
-import com.example.zy.stry.entity.SellEntity;
+import com.example.zy.stry.entity.SellBook;
 import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.DatabaseHandler;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -48,8 +48,8 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     private LinkedList<String> mListItems;
     private ShopAdapter  mAdapter;
     private FragmentActivity listener;
-    private ArrayList<SellEntity.SellBook> tmp = new ArrayList<>();
-    private ArrayList<SellEntity.SellBook> mData = new ArrayList<>();
+    private ArrayList<SellBook> tmp = new ArrayList<>();
+    private ArrayList<SellBook> mData = new ArrayList<>();
     private List mStrings;
     private PullToRefreshListView mPullRefreshListView;
     DatabaseHandler db;
@@ -131,7 +131,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         //如果连网就更新否则直接查询本地
         Toast.makeText(getActivity(), "加载中...", Toast.LENGTH_LONG).show();
         if(MainActivity.hvNetwork) {
-            //new GetData().execute();
+            new GetData().execute();
         } else {
             tmp =  db.getShopData();
             mStrings.removeAll(mStrings);
@@ -223,7 +223,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
         // Do work to refresh the list here.
 
-        //new GetData().execute();
+        new GetData().execute();
 //        mAdapter.notifyDataSetChanged();
 //        mPullRefreshListView.onRefreshComplete();
 
@@ -256,15 +256,17 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                     int len = json_books.length();
                     for (int i = 0; i < len; i++) {
                         JSONObject oj = json_books.getJSONObject(i);
-                        SellEntity.SellBook data = new SellEntity.SellBook();
-                        data.setData(i + 1, oj.getString(KEY_USERNAME), oj.getString(KEY_BOOKNAME),
+                        SellBook data = new SellBook();
+                        data.setData(oj.getInt("id_"), oj.getString(KEY_USERNAME), oj.getString(KEY_BOOKNAME),
                                 oj.getInt(KEY_COURSEID), oj.getString(KEY_COURSENAME),
                                 oj.getInt(KEY_PRICE), oj.getString(KEY_PRESSS), oj.getInt(KEY_IS_SELLING),
                                 oj.getInt(KEY_IS_SOLD), oj.getString(KEY_ADD_TIME),
-                                oj.getString(KEY_UPDATE_TIME), oj.getInt(KEY_IS_DEL), oj.getInt(KEY_BID),oj.getString(KEY_BUYER));
-                        db.addSell(data.username, data.bookname, data.courseid, data.coursename,
+                                oj.getString(KEY_UPDATE_TIME), oj.getInt(KEY_IS_DEL), oj.getInt(KEY_BID),oj.getString(KEY_BUYER),
+                                oj.getString("origprice"),oj.getString("author"),oj.getString("pages"), oj.getString("image") );
+                        db.addSell(data._id,data.username, data.bookname, data.courseid, data.coursename,
                                 data.price, data.press, data.is_selling, data.is_sold, data.add_time,
-                                data.update_time, data.is_del, data.bid, data.buyer);
+                                data.update_time, data.is_del, data.bid, data.buyer, data.originprice,
+                                data.author, data.pages, data.image);
                         if(data.is_selling == 1 && data.is_sold == 0) {
                             mData.add(data);
                             mStrings.add(data.bookname);
@@ -302,7 +304,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         super.onActivityCreated(savedInstanceState);
     }
 
-    private class ShopAdapter extends ArrayAdapter<SellEntity.SellBook>{
+    private class ShopAdapter extends ArrayAdapter<SellBook>{
         private LayoutInflater inflater;
         private Context context;
 
@@ -321,7 +323,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         }
 
         @Override
-        public SellEntity.SellBook getItem(int position) {
+        public SellBook getItem(int position) {
             return mData.get(position);
         }
 
@@ -335,7 +337,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
             ViewHolder viewHolder = null;
 
-            SellEntity.SellBook item = mData.get(position);
+            SellBook item = mData.get(position);
 
 
             if(convertView == null){

@@ -2,7 +2,10 @@ package com.example.zy.stry.fragment;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -11,18 +14,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.zy.stry.ChooseActivity;
-import com.example.zy.stry.MyCenterBookDetailActivity;
+import com.example.zy.stry.MainActivity;
 import com.example.zy.stry.R;
+import com.example.zy.stry.entity.Sell.SellEntity;
+import com.example.zy.stry.lib.BookOperarion;
+import com.example.zy.stry.lib.Config;
+import com.example.zy.stry.lib.Function;
 import com.example.zy.stry.util.UserbookGlobla;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by zy on 15/9/21.
  * My Center Detail
  */
 public class MCDetailFragment extends Fragment {
+
+    SharedPreferences shared_preferences;
+
+    public static final String PREFS_NAME = "MyPrefs";
+    private String username = null;
+
+
     TextView tprice ;
     TextView taddress ;
     TextView tdamage ;
@@ -96,7 +114,38 @@ public class MCDetailFragment extends Fragment {
                                 // Do something
                                 if (!TextUtils.isEmpty(input)) {
                                     tprice.setText("价 格：" + input );
-                                    UserbookGlobla.lts.get(position).price=input.toString();
+                                    final String price = input.toString();
+                                    final String sell_id = Integer.toString(UserbookGlobla.lts.get(position)._id);
+                                    
+                                    shared_preferences = getActivity().getSharedPreferences(PREFS_NAME, getActivity().MODE_PRIVATE);
+                                    username = shared_preferences.getString("username", null);
+                                    BookOperarion.editSell task = new BookOperarion().new editSell(username, sell_id, SellEntity.KEY_PRICE,
+                                            price, new Function<JSONObject, Void>() {
+                                        @Override
+                                        public Void apply(JSONObject json) {
+                                            if(json == null) {
+                                                Message msg = new Message();
+                                                msg.what = 0;
+                                                handler.sendMessage(msg);
+                                            } else {
+                                                try {
+                                                    if(json.getString(Config.KEY_SUCCESS) != null){
+                                                        UserbookGlobla.lts.get(position).price=price;
+                                                        MainActivity.db.editTable(SellEntity.TABLE_NAME, "price", price,
+                                                                SellEntity.KEY_ID, sell_id);
+                                                        Message msg = new Message();
+                                                        msg.what = 1;
+                                                        handler.sendMessage(msg);
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                            
+                                            return null;
+                                        }
+                                    });
+                                    MainActivity.executorService.submit(task);
 
                                 }
                             }
@@ -104,6 +153,7 @@ public class MCDetailFragment extends Fragment {
 
             }
         });
+
         address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
@@ -191,9 +241,22 @@ public class MCDetailFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
+    
+    private Handler handler = new Handler() {
+
+        public void handleMessage(Message msg){
+            switch (msg.what){
+                case 0:
+                    Toast.makeText(getActivity(), Config.LOAD_ERROR, Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(getActivity(), "设置成功", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
+
 
 
 }

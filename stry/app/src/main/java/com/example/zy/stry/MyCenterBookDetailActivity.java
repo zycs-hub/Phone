@@ -1,9 +1,9 @@
 package com.example.zy.stry;
 
-import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,12 +18,19 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
-import com.example.zy.stry.entity.Message;
+import com.example.zy.stry.entity.Sell;
 import com.example.zy.stry.fragment.MCDeMessFragment;
 import com.example.zy.stry.fragment.MCDetailFragment;
+import com.example.zy.stry.lib.BookOperarion;
+import com.example.zy.stry.lib.Config;
 import com.example.zy.stry.lib.DatabaseHandler;
+import com.example.zy.stry.lib.Function;
+import com.example.zy.stry.lib.MessageOperation;
 import com.example.zy.stry.util.UserbookGlobla;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,6 +46,11 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
     ImageView header=null;
     ViewPagerAdapter adapter;
     FloatingActionButton action_on,action_stop,action_done,action_off;
+
+    SharedPreferences shared_preferences;
+    public static final String PREFS_NAME = "MyPrefs";
+    private String username = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +94,9 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(bookname);
 
         header = (ImageView) findViewById(R.id.Mc_detail_head_image);
+
+        shared_preferences = this.getSharedPreferences(PREFS_NAME, this.MODE_PRIVATE);
+        username = shared_preferences.getString("username", null);
 
         if (UserbookGlobla.lts.get(mposition).image!=null)
             Glide.with(header.getContext())
@@ -298,22 +312,34 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 //        message.min=Integer.toString(mi);
         String mess="";
         int isRead=2;
+        final int sellid = UserbookGlobla.lts.get(mposition)._id;
         switch (type){
             case 0:
                 mess="物品已下架";
 //                message.message="物品已下架";
                 isRead=0;
 //                message.isRead=0;
+
+                MainActivity.db.editTable(Sell.SellEntity.TABLE_NAME, "is_selling", "0",
+                        Sell.SellEntity.KEY_ID, Integer.toString(sellid));
+                Message msg = new Message();
                 break;
             case 1:
                 mess="物品已上架";
 //                message.message="物品已上架";
                 isRead=0;
 //                message.isRead=0;
+                MainActivity.db.editTable(Sell.SellEntity.TABLE_NAME, "is_selling", "1",
+                        Sell.SellEntity.KEY_ID, Integer.toString(sellid));
+
                 break;
             case 2:
                 mess="已取消交易，物品已重新上架";
 //                message.message="已取消交易，物品已重新上架";
+                MainActivity.db.editTable(Sell.SellEntity.TABLE_NAME, "is_selling", "1",
+                        Sell.SellEntity.KEY_ID, Integer.toString(sellid));
+                MainActivity.db.editTable(Sell.SellEntity.TABLE_NAME, "buyer", "",
+                        Sell.SellEntity.KEY_ID, Integer.toString(sellid));
                 isRead=1;
 //                message.isRead=1;
                 break;
@@ -322,18 +348,56 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
 //                message.message="交易已结束，点击“你的交易”查看交易纪录";
                 isRead=1;
 //                message.isRead=1;
+                MainActivity.db.editTable(Sell.SellEntity.TABLE_NAME, "is_sold", "1",
+                        Sell.SellEntity.KEY_ID, Integer.toString(sellid));
                 break;
         }
+
+
         DatabaseHandler db = MainActivity.db;
+        int bid = UserbookGlobla.lts.get(mposition).bid;
         db.addMessage
                 (
                         mess,
+                        username,
+                        UserbookGlobla.lts.get(mposition).username,
                         y,
-                        m,d,
-                        h,mi,
-                        isRead,UserbookGlobla.lts.get(mposition).bid);
+                        m, d,
+                        h, mi,
+                        isRead, bid);
+
+        MessageOperation.addMsg task = new MessageOperation().new addMsg(mess,
+                username,
+                UserbookGlobla.lts.get(mposition).username,
+                y,
+                m, d,
+                h, mi,
+                isRead, bid, new Function<JSONObject, Void>() {
+            @Override
+            public Void apply(JSONObject json) {
+                if(json == null) {
+                    Message msg = new Message();
+                    msg.what = 0;
+                    handler.sendMessage(msg);
+                } else {
+                    try {
+                        if(json.getString(Config.KEY_SUCCESS) != null){
+                            Message msg = new Message();
+                            msg.what = 1;
+                            handler.sendMessage(msg);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                return null;
+            }
+        });
+        MainActivity.executorService.submit(task);
         //UserbookGlobla.lts.get(mposition).messages.add(message);
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -348,4 +412,22 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
             if (adapter.update()!=null)
         adapter.update().update(mposition);
     }
+
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    Toast.makeText(getApplicationContext(), "验证失败", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    break;
+                case -1:
+                    Toast.makeText(getApplicationContext(), Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();
+                    break;
+
+
+            }
+        }
+    };
 }

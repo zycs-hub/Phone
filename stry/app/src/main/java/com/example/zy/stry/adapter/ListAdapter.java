@@ -1,20 +1,16 @@
 package com.example.zy.stry.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.zy.stry.BookDetailActivity;
 import com.example.zy.stry.R;
-import com.example.zy.stry.entity.SellEntity;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.example.zy.stry.entity.SellBook;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -22,10 +18,10 @@ import java.util.List;
  */
 public class ListAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<SellEntity.SellBook> mData;
+    private ArrayList<SellBook> mData;
 
 
-    public ListAdapter(Context context,ArrayList<SellEntity.SellBook> data) {
+    public ListAdapter(Context context,ArrayList<SellBook> data) {
         super();
         mContext=context;
         mData = data;

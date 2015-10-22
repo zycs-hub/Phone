@@ -6,6 +6,7 @@ import com.example.zy.stry.lib.Function;
 import com.example.zy.stry.lib.NetWorkChecker;
 
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     static SharedPreferences settings;
     static SharedPreferences.Editor prefEditor;
 
-    static DatabaseHandler db;
+    public static DatabaseHandler db;
     static FragmentManager fmg;
     public static Calendar c = Calendar.getInstance();
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private NetWorkChecker netWorkChecker = null;
-    private User user = null;
+
 
     public static final int MAIN_ACTIVITY = 100;
     public static boolean hvNetwork = false;
@@ -97,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefEditor = settings.edit();
 
-//        SQLiteDatabase job=db.getWritableDatabase();
-//        db.onUpgrade(job,0,1);
+        SQLiteDatabase job=db.getWritableDatabase();
+        db.onUpgrade(job,0,1);
 
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 
