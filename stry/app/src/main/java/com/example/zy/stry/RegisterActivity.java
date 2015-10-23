@@ -85,7 +85,6 @@ public class RegisterActivity extends AppCompatActivity {
                         try {
                             if (json == null) {
                                 msg.what = 0;
-                                handler.sendMessage(msg);
                             } else {
 
                                 if (json.getString(Config.KEY_SUCCESS) != null) {
@@ -100,14 +99,16 @@ public class RegisterActivity extends AppCompatActivity {
                                     MainActivity.prefEditor.putString("username", username);
                                     MainActivity.prefEditor.apply();
                                     msg.what = 1;
-                                    handler.sendMessage(msg);
+                                    //handler.sendMessage(msg);
                                 } else {
-                                    msg.what = -1;
-                                    handler.sendMessage(msg);
+                                    //handler.sendMessage(msg);
                                 }
                             }
+                            handler.sendMessage(msg);
 
                         } catch (Exception e) {
+                            msg.what = -1;
+                            handler.sendMessage(msg);
                             System.out.println("Exception : " + e.getMessage());
                         }
                         return null;
@@ -133,6 +134,9 @@ public class RegisterActivity extends AppCompatActivity {
                     break;
                 case -1:
                     Toast.makeText(RegisterActivity.this, Config.LOGIN_INFO_ERROR, Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    Toast.makeText(getApplicationContext(), "错误", Toast.LENGTH_SHORT).show();
                     break;
 
 

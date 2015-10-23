@@ -252,16 +252,11 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
         // Do work to refresh the list here.
-        if (ifcopy) {
-            mData = copyData;
-            copyData=new ArrayList<>();
-            ifcopy=false;
-        }else
             new GetData().execute();
-        mAdapter = new ShopAdapter(getActivity());
-        actualListView.setAdapter(mAdapter);
-//        mAdapter.notifyDataSetChanged();
-//        mPullRefreshListView.onRefreshComplete();
+//        mAdapter = new ShopAdapter(getActivity());
+//        actualListView.setAdapter(mAdapter);
+////        mAdapter.notifyDataSetChanged();
+//        refreshView.onRefreshComplete();
 
     }
 
@@ -270,6 +265,14 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
         @Override
         protected String[] doInBackground(Void... params) {
+            if (ifcopy) {
+                mData.clear();
+                mData.addAll(copyData);
+                copyData=new ArrayList<>();
+                ifcopy=false;
+                final int len = mStrings.size();
+                return (String[])mStrings.toArray(new String[len]);
+            }
             // Simulates a background job.
             try {
                 Thread.sleep(4000);

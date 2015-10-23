@@ -122,6 +122,8 @@ public class Login extends Fragment implements View.OnClickListener {
                                         handler.sendMessage(msg);
                                     }
                                 } catch (JSONException e1) {
+                                    msg.what = -1;
+                                    handler.sendMessage(msg);
                                     e1.printStackTrace();
                                 }
                             }
