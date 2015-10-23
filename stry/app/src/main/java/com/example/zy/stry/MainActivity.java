@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         prefEditor = settings.edit();
 
-        SQLiteDatabase job=db.getWritableDatabase();
-        db.onUpgrade(job,0,1);
+        //SQLiteDatabase job=db.getWritableDatabase();
+        //db.onUpgrade(job,0,1);
 
         toast = Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT);
 

@@ -127,7 +127,7 @@ public class BoughtListActivity extends AppCompatActivity {
 //            ／└-(＿＿＿_／
 
             String book ;//mAdapter.getBook(position);
-            book = SoldGlobal.lts.get(position).getBook();
+            book = SoldGlobal.lts.get(position).bookname;
             //book = book_for_sell.get(position).getBook();
             Intent intent1 = new Intent(getApplicationContext(), MyCenterBookDetailActivity.class);
             intent1.putExtra("book", book);
@@ -199,11 +199,10 @@ public class BoughtListActivity extends AppCompatActivity {
             // - replace the contents of the view with that element
             BookEntity book = SoldGlobal.lts.get(position);
             //BookEntity book = book_for_sell.get(position);
-            holder.tvTitle.setText(book.getBook());
-            if (book.getBook()!=null)
-                holder.tvTitle.setText(book.getBook());
-            else
+            if (book.bookname!=null)
                 holder.tvTitle.setText(book.bookname);
+            else
+                holder.tvTitle.setText(book.coursename);
             if (book.image!=null)
                 Glide.with(holder.ivBook.getContext())
                         .load(book.image)

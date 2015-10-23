@@ -55,7 +55,7 @@ public class My_DB extends SQLiteOpenHelper {
         Cursor cr=db.rawQuery(QUERY_USER_ALL,null);
         while(cr.moveToNext()){
             use =new BookEntity();
-            use.setBook(cr.getString(0));
+            use.bookname=(cr.getString(0));
             use.setSelected(cr.getInt(1));
             use.isTaking(cr.getInt(2));
             It.add(use);
@@ -71,7 +71,7 @@ public class My_DB extends SQLiteOpenHelper {
         if(be!=null)
             for(BookEntity se :be){
                 ContentValues cv =new ContentValues();
-                cv.put("book",se.getBook());
+                cv.put("book",se.bookname);
                 cv.put("isSelected" ,se.isSelected());
                 cv.put("isTaking" ,se.isTaking());
                 param=db.insert(MY_DB_TABLE_1_NAME,null,cv);

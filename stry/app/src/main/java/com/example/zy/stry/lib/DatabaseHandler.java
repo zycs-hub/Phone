@@ -336,7 +336,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         if(be!=null)
             for(BookEntity se :be){
                 ContentValues cv =new ContentValues();
-                cv.put("book",se.getBook());
+                cv.put("book",se.coursename);
                 cv.put("isSelected" ,se.isSelected());
                 cv.put("isTaking" ,se.isTaking());
                 cv.put("courseid", se.courseid);
@@ -358,7 +358,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         if (cr.moveToFirst()) {
             do {
                 use = new BookEntity();
-                use.setBook(cr.getString(0));
+                use.coursename=(cr.getString(0));
                 use.setSelected(cr.getInt(1));
                 use.isTaking(cr.getInt(2));
                 use.courseid(cr.getInt(3));
@@ -460,7 +460,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         if (cr.moveToFirst()) {
             do {
                 use = new BookEntity();
-                use.setBook(cr.getString(2));
+                use.bookname=(cr.getString(2));
                 use.courseid(cr.getInt(3));
                 use.bid = cr.getInt(12);
 //                String tmpQuery = "SELECT  * FROM course WHERE courseid =?";
@@ -489,7 +489,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         if (cr.moveToFirst()) {
             do {
                 use = new BookEntity();
-                use.setBook(cr.getString(2));
+                use.bookname=(cr.getString(2));
                 use.courseid(cr.getInt(3));
                 use.bid = cr.getInt(12);
 //                String tmpQuery = "SELECT  * FROM course WHERE courseid =?";
@@ -521,7 +521,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         if (cr.moveToFirst()) {
             do {
                 use = new BookEntity();
-                use.setBook(cr.getString(2));
+                use.bookname=(cr.getString(2));
                 use.courseid(cr.getInt(3));
                 use.bid = cr.getInt(12);
 //                String tmpQuery = "SELECT  * FROM course WHERE courseid =?";

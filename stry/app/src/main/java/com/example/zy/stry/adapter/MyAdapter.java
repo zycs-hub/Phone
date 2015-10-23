@@ -48,7 +48,7 @@ public class MyAdapter extends BaseAdapter{
     public View getView(int arg0,View arg1,ViewGroup arg2){
         arg1=inflater.inflate(R.layout.main_page_list_value,null);
         TextView main_page_1_class=(TextView)arg1.findViewById(R.id.main_page_1_class);
-        main_page_1_class.setText(ssa.get(arg0).getBook());
+        main_page_1_class.setText(ssa.get(arg0).coursename);
         updateBackground(arg0, main_page_1_class );
         return arg1;
     }

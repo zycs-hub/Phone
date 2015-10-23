@@ -70,7 +70,9 @@ public class SelectFromT extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                Intent intent =new Intent(SelectFromT.this,MainActivity.class);
+                startActivity(intent);
+                //onBackPressed();
                 finish();
             }
         });
@@ -138,7 +140,7 @@ public class SelectFromT extends AppCompatActivity {
                 int lastid = db.getLastSellID();
                 int n = ma.getCount();
                 for (int i = 0; i < n; i++) {
-                    String na = BookGlobla.lts.get(i).getBook();
+                    String na = BookGlobla.lts.get(i).coursename;
                     String courseid = Integer.toString(BookGlobla.lts.get(i).courseid);
                     if (page_list.isItemChecked(i)) {
                         books_data += courseid + ',' + na;

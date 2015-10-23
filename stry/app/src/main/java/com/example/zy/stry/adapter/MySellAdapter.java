@@ -46,7 +46,7 @@ public class MySellAdapter extends BaseAdapter{
         TextView buy_page_class=(TextView)arg1.findViewById(R.id.buy_page_class);
         // RadioButton main_choose=(RadioButton)arg1.findViewById(R.id.main_choose);
         //if (ssa.get(arg0).isSelected()==1)
-            buy_page_class.setText(ssa.get(arg0).getBook());
+            buy_page_class.setText(ssa.get(arg0).bookname);
         return arg1;
     }
 }

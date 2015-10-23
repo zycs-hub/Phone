@@ -10,7 +10,6 @@ import java.util.List;
 public class BookEntity implements Serializable {
 
     public static final String TABLE_NAME = "courses";
-    private String book = null;
     //课是否在上
     private int isTaking = 0;
     //是否有书可以卖
@@ -55,12 +54,6 @@ public class BookEntity implements Serializable {
         buyer = "";
     }
 
-    public String getBook(){
-        return book;
-    }
-    public void setBook(String book){
-        this.book=book;
-    }
     public int isTaking(){
         return isTaking;
     }

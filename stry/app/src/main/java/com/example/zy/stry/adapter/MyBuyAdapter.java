@@ -45,7 +45,7 @@ public class MyBuyAdapter extends BaseAdapter{
         arg1=inflater.inflate(R.layout.activity_buy_page_value,null);
         TextView buy_page_class=(TextView)arg1.findViewById(R.id.buy_page_class);
         // RadioButton main_choose=(RadioButton)arg1.findViewById(R.id.main_choose);
-        buy_page_class.setText(ssa.get(arg0).getBook());
+        buy_page_class.setText(ssa.get(arg0).bookname);
         return arg1;
     }
 }

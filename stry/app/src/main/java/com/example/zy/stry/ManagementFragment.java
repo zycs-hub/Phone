@@ -156,33 +156,6 @@ public class ManagementFragment extends Fragment {
                     UserbookGlobla.lts=lt;
                     //book_for_sell.add(book);
                     //}
-            if (flag==1){
-                flag++;
-                DatabaseHandler db;
-                List<BookEntity> lts;
-                db = new DatabaseHandler(getActivity());
-                lts = db.getCoursesAll();
-                for (int i = 0, len = UserbookGlobla.lts.size(); i < len; i++)
-                    for (int j = 0, leng = lts.size(); j < leng; j++)
-                        if (UserbookGlobla.lts.get(i).courseid == lts.get(j).courseid) {
-                            UserbookGlobla.lts.get(i).image=lts.get(j).image;
-                            UserbookGlobla.lts.get(i).author=lts.get(j).author;
-                            UserbookGlobla.lts.get(i).publisher=lts.get(j).publisher;
-                            UserbookGlobla.lts.get(i).pages=lts.get(j).pages;
-                            lts.remove(j);
-                            --leng;
-                            --j;
-//            if (lt==null){
-//                Intent intent = new Intent(getActivity(), LogForT.class);
-//                startActivity(intent);
-            }
-            if (lt!=null)
-                UserbookGlobla.lts=lt;
-
-//            for (BookEntity book : lt){
-//                    UserbookGlobla.lts=lt;
-//                    //book_for_sell.add(book);
-//                }
 //            if (flag==1){
 //                flag++;
 //                DatabaseHandler db;
@@ -199,10 +172,37 @@ public class ManagementFragment extends Fragment {
 //                            lts.remove(j);
 //                            --leng;
 //                            --j;
+////            if (lt==null){
+////                Intent intent = new Intent(getActivity(), LogForT.class);
+////                startActivity(intent);
+//            }
+//            if (lt!=null)
+//                UserbookGlobla.lts=lt;
 //
-//                            break;
-//                        }
-            }
+////            for (BookEntity book : lt){
+////                    UserbookGlobla.lts=lt;
+////                    //book_for_sell.add(book);
+////                }
+////            if (flag==1){
+////                flag++;
+////                DatabaseHandler db;
+////                List<BookEntity> lts;
+////                db = new DatabaseHandler(getActivity());
+////                lts = db.getCoursesAll();
+////                for (int i = 0, len = UserbookGlobla.lts.size(); i < len; i++)
+////                    for (int j = 0, leng = lts.size(); j < leng; j++)
+////                        if (UserbookGlobla.lts.get(i).courseid == lts.get(j).courseid) {
+////                            UserbookGlobla.lts.get(i).image=lts.get(j).image;
+////                            UserbookGlobla.lts.get(i).author=lts.get(j).author;
+////                            UserbookGlobla.lts.get(i).publisher=lts.get(j).publisher;
+////                            UserbookGlobla.lts.get(i).pages=lts.get(j).pages;
+////                            lts.remove(j);
+////                            --leng;
+////                            --j;
+////
+////                            break;
+////                        }
+//            }
             lt=null;
         }
 
@@ -465,7 +465,7 @@ public class ManagementFragment extends Fragment {
 //            ／└-(＿＿＿_／
 
             String book ;//mAdapter.getBook(position);
-            book = UserbookGlobla.lts.get(position).getBook();
+            book = UserbookGlobla.lts.get(position).bookname;
             //book = book_for_sell.get(position).getBook();
             Intent intent1 = new Intent(getActivity(), MyCenterBookDetailActivity.class);
             intent1.putExtra("book", book);
@@ -567,9 +567,9 @@ public class ManagementFragment extends Fragment {
             // - replace the contents of the view with that element
             BookEntity book = UserbookGlobla.lts.get(position);
             //BookEntity book = book_for_sell.get(position);
-            holder.tvTitle.setText(book.getBook());
-            if (book.getBook()!=null)
-                holder.tvTitle.setText(book.getBook());
+            holder.tvTitle.setText(book.bookname);
+            if (book.bookname!=null)
+                holder.tvTitle.setText(book.coursename);
             else
                 holder.tvTitle.setText(book.bookname);
             if (book.image!=null)

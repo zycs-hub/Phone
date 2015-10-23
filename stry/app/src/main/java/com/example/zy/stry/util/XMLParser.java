@@ -53,7 +53,6 @@ public class XMLParser {
                     case 2 :
                         se.bookname=course;
                         se.coursename=course;
-                        se.setBook(course);
                         ++ca;
                         break;
                     case 3 :
@@ -128,7 +127,8 @@ public class XMLParser {
                         ++ca;
                         break;
                     case 2 :
-                        se.setBook(course);
+                        se.bookname=(course);
+                        se.coursename=course;
                         ++ca;
                         break;
                     case 3 :
