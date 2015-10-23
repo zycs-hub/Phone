@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.example.zy.stry.entity.MessageEntity;
 import com.example.zy.stry.entity.Sell;
 import com.example.zy.stry.fragment.MCDeMessFragment;
 import com.example.zy.stry.fragment.MCDetailFragment;
@@ -352,6 +353,15 @@ public class MyCenterBookDetailActivity extends AppCompatActivity {
                         Sell.SellEntity.KEY_ID, Integer.toString(sellid));
                 break;
         }
+        MessageEntity messageEntity =new MessageEntity();
+        messageEntity.year=y;
+        messageEntity.moon=m;
+        messageEntity.day=d;
+        messageEntity.hour=h;
+        messageEntity.min=mi;
+        messageEntity.message=mess;
+        messageEntity.data=Integer.toString(h)+":"+Integer.toString(mi);
+        UserbookGlobla.lts.get(mposition).messageEntities.add(0,messageEntity);
 
 
         DatabaseHandler db = MainActivity.db;
