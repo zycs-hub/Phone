@@ -228,7 +228,6 @@ public class ChooseActivity extends AppCompatActivity  {
                                     final String publisher = book.getPublisher();
                                     final String price = book.getPrice();
                                     final String pages = book.getPages();
-                                    final String sellid = Integer.toString(UserbookGlobla.lts.get(UBposition)._id);
 
                                     final String tmp = "image," + img + "\nauthor," + author + "\npress," + publisher + "\norigprice," + price + "\npages," + pages;
 
@@ -243,6 +242,8 @@ public class ChooseActivity extends AppCompatActivity  {
                                         SelfDefineActivity.mbook.pages = pages;
                                         return;
                                     }
+                                    final String sellid = Integer.toString(UserbookGlobla.lts.get(UBposition)._id);
+
 
                                     DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                                     SQLiteDatabase job = db.getReadableDatabase();

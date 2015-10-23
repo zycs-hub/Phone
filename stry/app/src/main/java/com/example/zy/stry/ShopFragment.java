@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.zy.stry.entity.Book;
+import com.example.zy.stry.entity.BookEntity;
 import com.example.zy.stry.entity.SellBook;
 import com.example.zy.stry.lib.BookOperarion;
 import com.example.zy.stry.lib.DatabaseHandler;
@@ -48,11 +50,15 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     private LinkedList<String> mListItems;
     private ShopAdapter  mAdapter;
     private FragmentActivity listener;
-    private ArrayList<SellBook> tmp = new ArrayList<>();
-    private ArrayList<SellBook> mData = new ArrayList<>();
+    private List<SellBook> tmp = new ArrayList<>();
+    private List<SellBook> mData = new ArrayList<>();
+    private List<SellBook> copyData = new ArrayList<>();
     private List mStrings;
     private PullToRefreshListView mPullRefreshListView;
     DatabaseHandler db;
+    ListView actualListView;
+    String username;
+    SharedPreferences shared_preferences;
 
     private static String KEY_SUCCESS = "success";
     public static String KEY_USERNAME = "username";
@@ -121,13 +127,16 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
 
         // You can also just use mPullRefreshListFragment.getListView()
-        ListView actualListView = mPullRefreshListView.getRefreshableView();
+         actualListView = mPullRefreshListView.getRefreshableView();
 
         registerForContextMenu(actualListView);
 
         mListItems = new LinkedList<String>();
 
 
+
+        shared_preferences = getActivity().getSharedPreferences("MyPrefs", getActivity().MODE_PRIVATE);
+        username = shared_preferences.getString("username", null);
         //如果连网就更新否则直接查询本地
         Toast.makeText(getActivity(), "加载中...", Toast.LENGTH_LONG).show();
         if(MainActivity.hvNetwork) {
@@ -136,7 +145,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             tmp =  db.getShopData();
             mStrings.removeAll(mStrings);
             for(int i = 0; i < tmp.size(); i++) {
-                if(tmp.get(i).is_selling == 1 && tmp.get(i).is_sold == 0) {
+                if(tmp.get(i).is_selling == 1 && tmp.get(i).is_sold == 0&&!tmp.get(i).username.equals(username)) {
                     mStrings.add(tmp.get(i).bookname);
                     mData.add(tmp.get(i));
                     mListItems.addAll(mStrings);
@@ -198,6 +207,23 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("搜索商品...");
         searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Toast.makeText(getActivity(), "onQueryTextSubmit", Toast.LENGTH_SHORT).show();
+                DatabaseHandler db = new DatabaseHandler(getActivity());
+                copyData=mData;
+                mData = db.search(s);
+                mAdapter = new ShopAdapter(getActivity());
+                actualListView.setAdapter(mAdapter);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                //Toast.makeText(getActivity(), "onQueryTextChange", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 //
 
         super.onCreateOptionsMenu(menu,inflater);
@@ -215,6 +241,13 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+        if (copyData.size()>0) {
+            mData = copyData;
+            copyData=new ArrayList<>();
+            mAdapter = new ShopAdapter(getActivity());
+            actualListView.setAdapter(mAdapter);
+            return;
+        }
         String label = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(),
                 DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
 
@@ -267,7 +300,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
                                 data.price, data.press, data.is_selling, data.is_sold, data.add_time,
                                 data.update_time, data.is_del, data.bid, data.buyer, data.originprice,
                                 data.author, data.pages, data.image);
-                        if(data.is_selling == 1 && data.is_sold == 0) {
+                        if(data.is_selling == 1 && data.is_sold == 0&&!data.username.equals(username)) {
                             mData.add(data);
                             mStrings.add(data.bookname);
                         }
@@ -363,11 +396,12 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             }
 
 
-//            if (item.image!=null)
-//                Glide.with(viewHolder.s_image.getContext())
-//                    .load(item.image)
-//                    .fitCenter()
-//                    .into(viewHolder.s_image);
+            if (item.image!=null)
+                Glide.with(viewHolder.s_image.getContext())
+                    .load(item.image)
+                    .fitCenter()
+                    .into(viewHolder.s_image);
+            else viewHolder.s_image.setImageDrawable(null);
             if (item.bookname==null){
                 viewHolder.s_title.setText("课程名："+item.coursename);
                 viewHolder.s_course.setVisibility(View.GONE);
@@ -407,6 +441,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             }
         }
     }
+
 
 
 
