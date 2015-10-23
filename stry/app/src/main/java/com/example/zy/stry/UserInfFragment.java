@@ -38,7 +38,7 @@ public class UserInfFragment extends Fragment {
         major = shared_preferences.getString("major", null);
         student_ID = shared_preferences.getString("student_ID", null);
         TextView textView = (TextView)rootView.findViewById(R.id.userinfor);
-        textView.setText("姓名："+name+"\n"+"学号："+student_ID+"\n"+" 学部/学院："+faculty+"\n"+ "专业："+major);
+        textView.setText("姓名："+name+"\n"+"学号："+student_ID+"\n"+"学部/学院："+faculty+"\n"+ "专业："+major);
         return rootView;
     }
 

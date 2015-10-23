@@ -59,6 +59,7 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
     ListView actualListView;
     String username;
     SharedPreferences shared_preferences;
+    private boolean ifcopy=false;
 
     private static String KEY_SUCCESS = "success";
     public static String KEY_USERNAME = "username";
@@ -212,7 +213,10 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
             public boolean onQueryTextSubmit(String s) {
                 Toast.makeText(getActivity(), "onQueryTextSubmit", Toast.LENGTH_SHORT).show();
                 DatabaseHandler db = new DatabaseHandler(getActivity());
-                copyData=mData;
+                if (!ifcopy) {
+                    copyData = mData;
+                    ifcopy=true;
+                }
                 mData = db.search(s);
                 mAdapter = new ShopAdapter(getActivity());
                 actualListView.setAdapter(mAdapter);
@@ -241,13 +245,6 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        if (copyData.size()>0) {
-            mData = copyData;
-            copyData=new ArrayList<>();
-            mAdapter = new ShopAdapter(getActivity());
-            actualListView.setAdapter(mAdapter);
-            return;
-        }
         String label = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(),
                 DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
 
@@ -255,8 +252,14 @@ public class ShopFragment extends Fragment implements PullToRefreshBase.OnRefres
         refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
         // Do work to refresh the list here.
-
-        new GetData().execute();
+        if (ifcopy) {
+            mData = copyData;
+            copyData=new ArrayList<>();
+            ifcopy=false;
+        }else
+            new GetData().execute();
+        mAdapter = new ShopAdapter(getActivity());
+        actualListView.setAdapter(mAdapter);
 //        mAdapter.notifyDataSetChanged();
 //        mPullRefreshListView.onRefreshComplete();
 
